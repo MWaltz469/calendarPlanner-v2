@@ -653,88 +653,49 @@ body {
   color: #145f58;
 }
 
+.month-btn.month-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
 .week-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.3rem;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 0.5rem;
 }
 
 .week-card {
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: #fff;
   min-width: 0;
   overflow: hidden;
-}
-
-.wc-summary {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  width: 100%;
-  border: none;
-  background: transparent;
-  padding: 0.45rem 0.5rem;
-  font: inherit;
   text-align: left;
-  cursor: pointer;
-  min-height: 42px;
-}
-
-.wc-week {
-  font-family: "Sora", sans-serif;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--ink-soft);
-  width: 2.5rem;
-  flex-shrink: 0;
-}
-
-.wc-range {
-  flex: 1;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--ink);
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.wc-expand {
-  border: none;
-  border-left: 1px solid var(--border);
-  background: var(--surface-muted);
-  color: var(--ink-soft);
-  font-size: 0.8rem;
-  padding: 0 0.55rem;
-  cursor: pointer;
-  min-height: 42px;
-  flex-shrink: 0;
-  align-self: stretch;
-}
-
-.wc-expand:hover {
-  background: color-mix(in srgb, var(--accent) 10%, var(--surface-muted));
-}
-
-.wc-detail {
-  padding: 0.45rem 0.5rem;
-  border-top: 1px solid var(--border);
+  padding: 0.52rem;
   display: grid;
-  gap: 0.3rem;
-}
-
-.wc-detail[hidden] {
-  display: none;
+  align-content: start;
+  gap: 0.32rem;
+  cursor: pointer;
+  font: inherit;
 }
 
 .week-card .week-title {
-  display: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  color: #4f6980;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
 }
 
 .week-card .range {
-  display: none;
+  font-weight: 700;
+  font-size: 0.84rem;
+  color: #18364d;
+  line-height: 1.2;
 }
 
 .week-card .window-flow {
@@ -851,7 +812,7 @@ body {
 
 .week-card[data-status="available"] {
   border-color: #86efac;
-  background: linear-gradient(90deg, var(--available-soft), #fff);
+  background: linear-gradient(165deg, #fff, var(--available-soft));
 }
 
 .week-card[data-status="available"] .status-pill {
@@ -862,7 +823,7 @@ body {
 
 .week-card[data-status="maybe"] {
   border-color: #fcd34d;
-  background: linear-gradient(90deg, var(--maybe-soft), #fff);
+  background: linear-gradient(165deg, #fff, var(--maybe-soft));
 }
 
 .week-card[data-status="maybe"] .status-pill {
@@ -1748,6 +1709,12 @@ body {
   color: #c3ece8;
 }
 
+:root[data-theme="dark"] .month-btn.month-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
 :root[data-theme="dark"] .btn {
   background: #1a2b3b;
   border-color: #34506a;
@@ -1832,6 +1799,9 @@ body {
 }
 
 @media (min-width: 560px) {
+  .week-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 640px) {

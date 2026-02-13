@@ -89,6 +89,7 @@
       startDay: DEFAULT_WINDOW_START_DAY,
       days: DEFAULT_WINDOW_DAYS
     },
+    selectedMonth: null,
     realtimeChannel: null,
     realtimeTimer: null,
     syncing: false,
@@ -994,30 +995,55 @@
     renderAll();
   }
 
-  function renderMonthBar() {
+  function getMonthsWithWeeks() {
     const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const monthFirstWeek = new Map();
+    const months = [];
+    const seen = new Set();
     state.weeks.forEach((week, index) => {
-      const month = week.start.getMonth();
-      if (!monthFirstWeek.has(month)) {
-        monthFirstWeek.set(month, index);
+      const m = week.start.getMonth();
+      if (!seen.has(m)) {
+        seen.add(m);
+        months.push({ monthIndex: m, name: MONTH_NAMES[m], firstWeekIndex: index });
       }
     });
+    return months;
+  }
 
+  function getWeeksForMonth(monthIndex) {
+    return state.weeks
+      .map((week, index) => ({ week, index }))
+      .filter(({ week }) => week.start.getMonth() === monthIndex);
+  }
+
+  function renderMonthBar() {
+    const months = getMonthsWithWeeks();
     els.monthBar.innerHTML = "";
-    MONTH_NAMES.forEach((name, monthIndex) => {
-      const weekIndex = monthFirstWeek.get(monthIndex);
-      if (weekIndex === undefined) return;
+
+    if (state.selectedMonth === undefined || state.selectedMonth === null) {
+      const now = new Date();
+      const currentMonth = now.getFullYear() === YEAR ? now.getMonth() : 0;
+      const hasMonth = months.some((m) => m.monthIndex === currentMonth);
+      state.selectedMonth = hasMonth ? currentMonth : months[0].monthIndex;
+    }
+
+    months.forEach((m) => {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "month-btn";
-      btn.textContent = name;
-      btn.setAttribute("aria-label", `Jump to ${name}`);
+      if (m.monthIndex === state.selectedMonth) btn.classList.add("month-active");
+
+      const monthWeeks = getWeeksForMonth(m.monthIndex);
+      const selectedCount = monthWeeks.filter(({ index }) =>
+        state.selections[index] && state.selections[index].status !== "unselected"
+      ).length;
+
+      btn.textContent = selectedCount > 0 ? `${m.name} (${selectedCount})` : m.name;
+      btn.setAttribute("aria-label", `Show ${m.name} weeks`);
       btn.addEventListener("click", () => {
-        const card = els.weekGrid.children[weekIndex];
-        if (card) {
-          card.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+        state.selectedMonth = m.monthIndex;
+        renderMonthBar();
+        renderWeekCards();
+        updateWeekCards();
       });
       els.monthBar.appendChild(btn);
     });
@@ -1025,8 +1051,13 @@
 
   function renderWeekCards() {
     els.weekGrid.innerHTML = "";
-    state.weeks.forEach((week, index) => {
-      const card = document.createElement("div");
+    const monthWeeks = state.selectedMonth !== null && state.selectedMonth !== undefined
+      ? getWeeksForMonth(state.selectedMonth)
+      : state.weeks.map((week, index) => ({ week, index }));
+
+    monthWeeks.forEach(({ week, index }) => {
+      const card = document.createElement("button");
+      card.type = "button";
       card.className = "week-card";
       card.dataset.index = String(index);
       card.setAttribute("role", "listitem");
@@ -1043,32 +1074,20 @@
       const dayCountClass = `days-${week.dayTokens.length}`;
 
       card.innerHTML = `
-        <button type="button" class="wc-summary" aria-label="Toggle status for week ${week.weekNumber}">
-          <span class="wc-week">W${String(week.weekNumber).padStart(2, "0")}</span>
-          <span class="wc-range">${week.rangeText}</span>
-          <span class="status-pill">Unselected</span>
-          <span class="rank-pill" hidden>#1</span>
-        </button>
-        <button type="button" class="wc-expand" aria-label="Expand week ${week.weekNumber} details" title="Show details">&#9662;</button>
-        <div class="wc-detail" hidden>
-          <div class="window-flow">
-            <span class="flow-point start">From ${week.startDisplay}</span>
-            <span class="flow-arrow" aria-hidden="true">&rarr;</span>
-            <span class="flow-point end">To ${week.endDisplay}</span>
-          </div>
-          <div class="weekday-range">${week.weekdayRangeText} &middot; ${week.days} days</div>
-          <div class="day-strip ${dayCountClass}" aria-hidden="true">${stripMarkup}</div>
+        <div class="week-title"><span>Week ${week.weekNumber}</span><span>W${week.weekNumber}</span></div>
+        <div class="window-flow">
+          <span class="flow-point start">From ${week.startDisplay}</span>
+          <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="flow-point end">To ${week.endDisplay}</span>
         </div>
+        <div class="range">${week.rangeText}</div>
+        <div class="weekday-range">${week.weekdayRangeText} &middot; ${week.days} days</div>
+        <div class="day-strip ${dayCountClass}" aria-hidden="true">${stripMarkup}</div>
+        <span class="status-pill">Unselected</span>
+        <span class="rank-pill" hidden>#1</span>
       `;
 
-      card.querySelector(".wc-summary").addEventListener("click", () => toggleWeekStatus(index));
-      card.querySelector(".wc-expand").addEventListener("click", () => {
-        const detail = card.querySelector(".wc-detail");
-        const btn = card.querySelector(".wc-expand");
-        detail.hidden = !detail.hidden;
-        btn.textContent = detail.hidden ? "\u25BE" : "\u25B4";
-        card.classList.toggle("expanded", !detail.hidden);
-      });
+      card.addEventListener("click", () => toggleWeekStatus(index));
       card.addEventListener("contextmenu", (event) => showWeekContextMenu(event, index));
       card.addEventListener("keydown", (event) => {
         if (event.key >= "1" && event.key <= "5") {
@@ -1087,8 +1106,10 @@
 
   function updateWeekCards() {
     const cards = els.weekGrid.querySelectorAll(".week-card");
-    cards.forEach((card, index) => {
+    cards.forEach((card) => {
+      const index = Number(card.dataset.index);
       const selection = state.selections[index];
+      if (!selection) return;
       const status = selection.status;
       card.dataset.status = status;
 
@@ -1105,13 +1126,11 @@
         rankPill.hidden = true;
       }
 
-      const summary = card.querySelector(".wc-summary");
-      if (summary) {
-        summary.setAttribute(
-          "aria-label",
-          `Week ${index + 1}. ${state.weeks[index].rangeText}. Status ${statusLabel}${selection.rank ? `. Rank ${selection.rank}` : ""}. Click to cycle status.`
-        );
-      }
+      card.setAttribute(
+        "aria-label",
+        `Week ${index + 1}. ${state.weeks[index].rangeText}. Status ${statusLabel}${selection.rank ? `. Rank ${selection.rank}` : ""}. Click to cycle.`
+      );
+      card.setAttribute("aria-pressed", String(status !== "unselected"));
     });
   }
 
@@ -1909,6 +1928,8 @@
     renderStepper();
     renderPanels();
     renderCounts();
+    renderMonthBar();
+    renderWeekCards();
     updateWeekCards();
     updateRankRows();
     renderReviewChecklist();
