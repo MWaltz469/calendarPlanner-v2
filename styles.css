@@ -1085,11 +1085,11 @@ body {
 }
 
 .results-locked {
-  border: 1px dashed #c7d3dc;
+  border: 1px dashed var(--border);
   border-radius: var(--radius-md);
-  background: #f8fbfd;
-  color: #5b7387;
-  padding: 0.72rem;
+  background: var(--surface-muted);
+  color: var(--ink-soft);
+  padding: var(--sp-3);
   font-size: 0.86rem;
 }
 
@@ -1137,7 +1137,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 0.7rem;
-  color: #4f6980;
+  color: var(--ink-soft);
   font-weight: 700;
 }
 
@@ -1156,34 +1156,39 @@ body {
 
 .heatmap {
   display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: var(--sp-1);
 }
 
 .heat-month-label {
   grid-column: 1 / -1;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   color: var(--ink-soft);
-  padding: 0.2rem 0 0;
+  padding: var(--sp-1) 0 0;
 }
 
 .heat-cell {
-  border: none;
+  border: 2px solid transparent;
   border-radius: var(--radius-sm);
-  min-height: 36px;
+  min-height: 44px;
   background: var(--surface-muted);
   color: var(--ink);
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 800;
   cursor: pointer;
+  display: grid;
+  place-items: center;
+  line-height: 1.1;
+  text-align: center;
+  padding: 2px;
 }
 
 .heat-cell.active {
   border-color: var(--accent);
-  box-shadow: inset 0 0 0 1px var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 40%, transparent);
 }
 
 .participant-list {
@@ -1317,15 +1322,16 @@ body {
 }
 
 .lb-bar {
-  height: 6px;
+  height: 8px;
   border-radius: 999px;
-  background: #ecf2f7;
+  background: var(--surface-muted);
   overflow: hidden;
 }
 
 .lb-bar span {
   display: block;
   height: 100%;
+  border-radius: 999px;
   background: linear-gradient(90deg, #34d399, #0f766e);
 }
 
@@ -1333,9 +1339,9 @@ body {
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--surface-muted);
-  padding: 0.55rem;
+  padding: var(--sp-3);
   font-size: 0.82rem;
-  color: #2b4b62;
+  color: var(--ink);
   min-height: 78px;
   display: grid;
   gap: 0.4rem;
@@ -2013,6 +2019,14 @@ body {
   color: var(--warn-text);
 }
 
+:root[data-theme="dark"] .lb-bar {
+  background: var(--surface);
+}
+
+:root[data-theme="dark"] .lb-bar span {
+  background: linear-gradient(90deg, #34d399, #2dd4bf);
+}
+
 :root[data-theme="dark"] .hero p,
 :root[data-theme="dark"] .step-copy,
 :root[data-theme="dark"] .hint,
@@ -2163,12 +2177,8 @@ body {
     top: 0.72rem;
   }
 
-  .overlay-counts {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
   .heatmap {
-    grid-template-columns: repeat(10, minmax(0, 1fr));
+    grid-template-columns: repeat(8, minmax(0, 1fr));
   }
 }
 

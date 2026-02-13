@@ -1686,10 +1686,6 @@
     if (!els.selectionOverlay) return;
     const onStep2 = state.currentStep === 2;
     els.selectionOverlay.hidden = !onStep2;
-    if (onStep2) {
-      els.overlayPrevStep.textContent = "\u2190 Join Trip";
-      els.overlayNextStep.textContent = "Rank Top 5 \u2192";
-    }
   }
 
   function renderResultsGate() {
@@ -1838,7 +1834,7 @@
         const intensity = entry.availableCount / maxAvailable;
         const alpha = 0.12 + intensity * 0.7;
         button.style.background = `rgba(22, 163, 74, ${alpha.toFixed(2)})`;
-        button.textContent = `W${entry.weekNumber}`;
+        button.innerHTML = `<span>W${entry.weekNumber}</span>${entry.availableCount ? `<span style="opacity:0.7">${entry.availableCount}</span>` : ""}`;
         button.title = week ? `${week.rangeText} — ${entry.availableCount} avail, ${entry.maybeCount} maybe` : "";
         button.setAttribute(
           "aria-label",
