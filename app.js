@@ -859,7 +859,10 @@
     els.joinButton.textContent = "Connecting...";
     els.joinButton.classList.add("loading");
 
-    const localSelections = state.selections.slice().map((s) => ({ ...s }));
+    const isSameIdentity = state.tripCode === tripCode && state.participantName === participantName;
+    const localSelections = isSameIdentity
+      ? state.selections.slice().map((s) => ({ ...s }))
+      : createEmptySelections();
     cleanupRealtime();
     state.tripCode = tripCode;
     state.participantName = participantName;
