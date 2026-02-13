@@ -1677,7 +1677,11 @@
     const maxAvailable = Math.max(1, ...aggregates.map((item) => item.availableCount));
 
     const topWeekData = topWeek ? state.weeks[topWeek.weekNumber - 1] : null;
-    const totalPeople = state.participants.length || 1;
+    const participants = state.participants.length
+      ? state.participants
+      : [{ id: "local", name: state.participantName || "You", submitted_at: state.hasSavedOnce ? new Date().toISOString() : null }];
+    const totalPeople = participants.length;
+    const submittedCount = participants.filter((p) => p.submitted_at).length;
     const topAvailPct = topWeek && totalPeople > 0
       ? Math.round((topWeek.availableCount / totalPeople) * 100)
       : 0;
@@ -1686,7 +1690,7 @@
       { label: "Participants", value: String(totalPeople) },
       { label: "Best Week", value: topWeek ? `W${topWeek.weekNumber}` : "-", sub: topWeekData ? topWeekData.rangeText : "" },
       { label: "Best Overlap", value: topWeek ? `${topWeek.availableCount} of ${totalPeople}` : "-", sub: topAvailPct ? `${topAvailPct}% available` : "" },
-      { label: "Submissions", value: `${participants.filter((p) => p.submitted_at).length} of ${totalPeople}` }
+      { label: "Submissions", value: `${submittedCount} of ${totalPeople}` }
     ];
 
     els.scoreChips.innerHTML = "";
@@ -1742,10 +1746,6 @@
       });
 
     els.participantList.innerHTML = "";
-    const participants = state.participants.length
-      ? state.participants
-      : [{ id: "local", name: state.participantName || "You", submitted_at: state.hasSavedOnce ? new Date().toISOString() : null }];
-
     participants.forEach((participant) => {
       const li = document.createElement("li");
       const done = Boolean(participant.submitted_at);
