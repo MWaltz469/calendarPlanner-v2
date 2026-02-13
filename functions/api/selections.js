@@ -57,7 +57,14 @@ export async function onRequestPost(context) {
       return json({ ok: true });
     }
 
-    const statements = selections.map((selection) =>
+    const clearRanks = db
+      .prepare(
+        `UPDATE selections SET rank = NULL, updated_at = ?
+         WHERE participant_id = ? AND rank IS NOT NULL`
+      )
+      .bind(now, participantId);
+
+    const upserts = selections.map((selection) =>
       db
         .prepare(
           `INSERT INTO selections (
@@ -80,7 +87,7 @@ export async function onRequestPost(context) {
         )
     );
 
-    await db.batch(statements);
+    await db.batch([clearRanks, ...upserts]);
     return json({ ok: true });
   } catch (error) {
     return handleError(error);
