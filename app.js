@@ -303,8 +303,8 @@
     els.clearButton.addEventListener("click", clearSelections);
     els.overlayPrevStep.addEventListener("click", () => goToStep(state.currentStep - 1));
     els.overlayScrollTop.addEventListener("click", () => {
-      const panel = els.panels[state.currentStep];
-      if (panel) panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      const target = els.step2CountRow || els.panels[state.currentStep];
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
     });
     els.overlayNextStep.addEventListener("click", () => goToStep(state.currentStep + 1));
     els.skipToReviewBtn.addEventListener("click", () => goToStep(4));
