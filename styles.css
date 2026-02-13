@@ -1665,16 +1665,6 @@ body {
   font-size: 0.78rem;
 }
 
-@media (min-width: 560px) {
-  .landing-paths {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .landing-join-direct {
-    grid-column: 1 / -1;
-  }
-}
-
 /* --- About page --- */
 
 .about-card {
