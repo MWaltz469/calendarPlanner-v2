@@ -1808,47 +1808,62 @@
 
     els.heatmap.innerHTML = "";
     const MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    let lastMonth = -1;
 
+    const monthGroups = new Map();
     aggregates
       .slice()
       .sort((a, b) => a.weekNumber - b.weekNumber)
       .forEach((entry) => {
         const week = state.weeks[entry.weekNumber - 1];
-        const month = week ? week.start.getMonth() : -1;
-        if (month !== lastMonth) {
-          lastMonth = month;
-          const label = document.createElement("div");
-          label.className = "heat-month-label";
-          label.textContent = MONTH_LABELS[month] || "";
-          els.heatmap.appendChild(label);
-        }
+        if (!week) return;
+        const monthIdx = week.start.getMonth();
+        if (!monthGroups.has(monthIdx)) monthGroups.set(monthIdx, []);
+        monthGroups.get(monthIdx).push(entry);
+      });
 
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "heat-cell";
-        if (state.selectedDetailWeek === entry.weekNumber) {
-          button.classList.add("active");
-        }
+    for (const [monthIdx, entries] of monthGroups) {
+      const row = document.createElement("div");
+      row.className = "hm-row";
+
+      const label = document.createElement("span");
+      label.className = "hm-label";
+      label.textContent = MONTH_LABELS[monthIdx] || "";
+      row.appendChild(label);
+
+      const cells = document.createElement("div");
+      cells.className = "hm-cells";
+
+      entries.forEach((entry) => {
+        const week = state.weeks[entry.weekNumber - 1];
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "hm-cell";
+        if (state.selectedDetailWeek === entry.weekNumber) btn.classList.add("active");
 
         const intensity = entry.availableCount / maxAvailable;
-        const alpha = 0.12 + intensity * 0.7;
-        button.style.background = `rgba(22, 163, 74, ${alpha.toFixed(2)})`;
-        button.innerHTML = `<span>W${entry.weekNumber}</span>${entry.availableCount ? `<span style="opacity:0.7">${entry.availableCount}</span>` : ""}`;
-        button.title = week ? `${week.rangeText} — ${entry.availableCount} avail, ${entry.maybeCount} maybe` : "";
-        button.setAttribute(
+        const alpha = 0.08 + intensity * 0.72;
+        btn.style.background = `rgba(22, 163, 74, ${alpha.toFixed(2)})`;
+
+        const day = week.start.getDate();
+        btn.innerHTML = `<span class="hm-day">${day}</span>${entry.availableCount ? `<span class="hm-count">${entry.availableCount}</span>` : ""}`;
+        btn.title = `${week.rangeText} \u2014 ${entry.availableCount} avail, ${entry.maybeCount} maybe`;
+        btn.setAttribute(
           "aria-label",
-          `Week ${entry.weekNumber}${week ? `, ${week.rangeText}` : ""}, ${entry.availableCount} available, ${entry.maybeCount} maybe`
+          `${MONTH_LABELS[monthIdx]} ${day}, Week ${entry.weekNumber}. ${entry.availableCount} available, ${entry.maybeCount} maybe`
         );
 
-        button.addEventListener("click", () => {
+        btn.addEventListener("click", () => {
           state.selectedDetailWeek = entry.weekNumber;
           persistSession();
           renderResults();
         });
 
-        els.heatmap.appendChild(button);
+        cells.appendChild(btn);
       });
+
+      row.appendChild(cells);
+      els.heatmap.appendChild(row);
+    }
 
     els.participantList.innerHTML = "";
     participants.forEach((participant) => {
@@ -1878,14 +1893,14 @@
         <div class="lb-header">
           <span class="lb-rank">#${index + 1}</span>
           <div class="lb-info">
-            <span class="lb-title">Week ${entry.weekNumber}</span>
-            <span class="lb-dates">${week ? week.rangeText : ""}</span>
+            <span class="lb-dates">${week ? `${week.startDisplay} \u2192 ${week.endDisplay}` : ""}</span>
+            <span class="lb-meta">Week ${entry.weekNumber} \u00B7 ${week ? week.days : ""} days</span>
           </div>
         </div>
         <div class="lb-stats">
-          ${entry.availableCount ? `<span class="lb-stat available">${entry.availableCount} available</span>` : ""}
+          ${entry.availableCount ? `<span class="lb-stat available">${entry.availableCount} of ${totalPeople} available</span>` : ""}
           ${entry.maybeCount ? `<span class="lb-stat maybe">${entry.maybeCount} maybe</span>` : ""}
-          ${availPct ? `<span class="lb-stat pct">${availPct}%</span>` : ""}
+          ${availPct ? `<span class="lb-stat pct">${availPct}% overlap</span>` : ""}
         </div>
         <div class="lb-bar"><span style="width:${width.toFixed(1)}%"></span></div>
       `;
