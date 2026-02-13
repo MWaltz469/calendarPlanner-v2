@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 Trip Week Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css?v=20260213g" />
+  <script defer src="./config.js?v=20260213g"></script>
+  <script defer src="./cloud-client.js?v=20260213g"></script>
+  <script defer src="./app.js?v=20260213g"></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero card">
+      <div class="hero-top">
+        <h1>2026 Trip Week Planner</h1>
+        <div class="hero-controls">
+          <span id="connectionBadge" class="badge" role="status" aria-live="polite">Cloud status pending</span>
+          <label class="theme-picker">
+            <span>Theme</span>
+            <select id="themeSelect" aria-label="Theme mode">
+              <option value="system">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <p>Follow the guided steps so your organizer gets complete, consistent availability in one pass.</p>
+    </header>
+
+    <section class="wizard card" aria-label="Availability wizard">
+      <ol id="stepper" class="stepper" aria-label="Setup progress">
+        <li>
+          <button class="stepper-btn" data-step="1" type="button" aria-current="step">
+            <span>1</span>
+            <span>Join Trip</span>
+          </button>
+        </li>
+        <li>
+          <button class="stepper-btn" data-step="2" type="button">
+            <span>2</span>
+            <span>Pick Weeks</span>
+          </button>
+        </li>
+        <li>
+          <button class="stepper-btn" data-step="3" type="button">
+            <span>3</span>
+            <span>Rank Top 5</span>
+          </button>
+        </li>
+        <li>
+          <button class="stepper-btn" data-step="4" type="button">
+            <span>4</span>
+            <span>Review &amp; Save</span>
+          </button>
+        </li>
+      </ol>
+
+      <section id="step-1" class="step-panel" aria-labelledby="step1-heading">
+        <h2 id="step1-heading">Step 1: Join your trip</h2>
+        <p class="step-copy">Start with your trip code and name. For new trip codes, choose a week start day and trip window length.</p>
+
+        <div class="form-grid">
+          <label class="field">
+            <span>Trip code</span>
+            <input id="tripCodeInput" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" />
+          </label>
+          <label class="field">
+            <span>Your name</span>
+            <input id="nameInput" type="text" maxlength="64" placeholder="Alex Smith" autocomplete="name" />
+          </label>
+        </div>
+
+        <div class="form-grid">
+          <label class="field">
+            <span>Window start day (new trips)</span>
+            <select id="windowStartInput" autocomplete="off">
+              <option value="sat">Saturday start</option>
+              <option value="sun">Sunday start</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Window length (new trips)</span>
+            <select id="windowDaysInput" autocomplete="off">
+              <option value="6">6 days</option>
+              <option value="7" selected>7 days</option>
+              <option value="8">8 days</option>
+              <option value="9">9 days</option>
+            </select>
+          </label>
+        </div>
+        <p id="windowConfigState" class="hint">These settings apply only when creating a new trip code.</p>
+
+        <div class="inline-actions">
+          <button id="joinButton" class="btn primary" type="button">Join Trip</button>
+          <span id="joinState" class="hint" aria-live="polite">Waiting for trip details.</span>
+        </div>
+      </section>
+
+      <section id="step-2" class="step-panel" aria-labelledby="step2-heading" hidden>
+        <h2 id="step2-heading">Step 2: Pick your available weeks</h2>
+        <p class="step-copy">Click a week card to cycle status: <strong>Unselected -&gt; Available -&gt; Maybe</strong>.</p>
+
+        <div id="step2CountRow" class="count-row" aria-label="Selection counts">
+          <article class="count-card">
+            <span>Available</span>
+            <strong id="availableCount">0</strong>
+          </article>
+          <article class="count-card">
+            <span>Maybe</span>
+            <strong id="maybeCount">0</strong>
+          </article>
+          <article class="count-card">
+            <span>Ranked</span>
+            <strong id="rankedCount">0 / 5</strong>
+          </article>
+        </div>
+
+        <div class="legend">
+          <span><i class="dot neutral" aria-hidden="true"></i>Unselected</span>
+          <span><i class="dot available" aria-hidden="true"></i>Available</span>
+          <span><i class="dot maybe" aria-hidden="true"></i>Maybe</span>
+        </div>
+
+        <aside id="selectionOverlay" class="selection-overlay" aria-live="polite" hidden>
+          <div class="overlay-item selected">
+            <span>Selected</span>
+            <strong id="overlaySelectedCount">0</strong>
+          </div>
+          <div class="overlay-item available">
+            <span>Available</span>
+            <strong id="overlayAvailableCount">0</strong>
+          </div>
+          <div class="overlay-item maybe">
+            <span>Maybe</span>
+            <strong id="overlayMaybeCount">0</strong>
+          </div>
+          <div class="overlay-item unselected">
+            <span>Unselected</span>
+            <strong id="overlayUnselectedCount">0</strong>
+          </div>
+        </aside>
+
+        <div id="weekGrid" class="week-grid" role="list" aria-label="52 weeks"></div>
+      </section>
+
+      <section id="step-3" class="step-panel" aria-labelledby="step3-heading" hidden>
+        <h2 id="step3-heading">Step 3: Rank your top 5 preferred weeks</h2>
+        <p class="step-copy">Only available weeks can be ranked. Leave any slot empty if you are unsure.</p>
+
+        <div id="rankRows" class="rank-rows" aria-label="Rank assignments"></div>
+        <p id="rankNote" class="hint" aria-live="polite"></p>
+      </section>
+
+      <section id="step-4" class="step-panel" aria-labelledby="step4-heading" hidden>
+        <h2 id="step4-heading">Step 4: Review and submit</h2>
+        <p class="step-copy">You can submit now or go back to refine. Results unlock after your first successful save.</p>
+
+        <article class="review-checklist" aria-label="Readiness checklist">
+          <h3>Readiness checklist</h3>
+          <ul id="reviewList"></ul>
+        </article>
+
+        <div class="inline-actions wrap">
+          <button id="submitButton" class="btn primary" type="button">Submit Availability</button>
+          <button id="exportButton" class="btn" type="button">Export Summary</button>
+          <button id="clearButton" class="btn danger" type="button">Clear My Selections</button>
+        </div>
+
+        <span id="saveState" class="hint" aria-live="polite">Not saved yet.</span>
+
+        <article id="resultsLocked" class="results-locked" aria-live="polite">
+          Results will appear here after your first successful save.
+        </article>
+
+        <section id="resultsSection" class="results" hidden>
+          <div class="results-grid">
+            <article class="results-card">
+              <h3>Score Snapshot</h3>
+              <div id="scoreChips" class="score-chips"></div>
+
+              <h3>Heatmap</h3>
+              <div id="heatmap" class="heatmap" role="listbox" aria-label="Group overlap heatmap"></div>
+            </article>
+
+            <article class="results-card">
+              <h3>Participant Status</h3>
+              <ul id="participantList" class="participant-list"></ul>
+
+              <h3>Leaderboard</h3>
+              <div id="leaderboard" class="leaderboard"></div>
+
+              <h3>Week Detail</h3>
+              <div id="weekDetail" class="week-detail">Select a week from the heatmap.</div>
+            </article>
+          </div>
+        </section>
+      </section>
+
+    </section>
+  </main>
+
+  <div id="toastArea" class="toast-area" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

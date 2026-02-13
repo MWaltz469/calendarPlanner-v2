@@ -1,0 +1,20 @@
+{
+  "name": "trip-week-planner",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "cf:dev": "wrangler pages dev .",
+    "cf:deploy": "wrangler pages deploy . --project-name trip-week-planner",
+    "d1:migrate": "wrangler d1 migrations apply trip-week-planner --remote",
+    "d1:migrate:local": "wrangler d1 migrations apply trip-week-planner --local",
+    "deploy:cloud": "node ./scripts/deploy-cloudflare.mjs",
+    "deploy:cloud:yes": "node ./scripts/deploy-cloudflare.mjs --yes",
+    "deploy:oneclick": "node ./scripts/deploy-cloudflare.mjs --yes",
+    "destroy:cloud": "node ./scripts/deploy-cloudflare.mjs --destroy",
+    "destroy:cloud:yes": "node ./scripts/deploy-cloudflare.mjs --destroy --yes --force"
+  },
+  "devDependencies": {
+    "wrangler": "^4.50.0"
+  }
+}

@@ -1,0 +1,12 @@
+name = "trip-week-planner"
+compatibility_date = "2026-02-13"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "trip-week-planner"
+database_id = "c3459988-7704-4a96-b4da-905868af0fda"
+migrations_dir = "cloudflare/migrations"
+
+[vars]
+APP_NAME = "trip-week-planner"
