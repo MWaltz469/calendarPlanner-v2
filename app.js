@@ -612,8 +612,8 @@
 
     els.tripCodeInput.value = urlTripCode || normalizeTripCode((profile && profile.tripCode) || "");
     els.nameInput.value = sanitizeName((profile && profile.participantName) || "");
-    els.windowStartInput.value = normalizeWindowStartDay(profile.windowStartDay || DEFAULT_WINDOW_START_DAY);
-    els.windowDaysInput.value = String(normalizeWindowDays(profile.windowDays || DEFAULT_WINDOW_DAYS));
+    els.windowStartInput.value = normalizeWindowStartDay((profile && profile.windowStartDay) || DEFAULT_WINDOW_START_DAY);
+    els.windowDaysInput.value = String(normalizeWindowDays((profile && profile.windowDays) || DEFAULT_WINDOW_DAYS));
     applyWindowConfig(
       {
         startDay: els.windowStartInput.value,
