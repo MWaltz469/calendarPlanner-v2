@@ -1381,6 +1381,16 @@ body {
   margin-top: 0.5rem;
 }
 
+.admin-stats-bar {
+  margin-bottom: 0.5rem;
+}
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+
 .admin-section-header {
   display: flex;
   align-items: center;
@@ -1394,6 +1404,23 @@ body {
   margin: 0;
   font-family: "Sora", sans-serif;
   font-size: clamp(1rem, 2vw, 1.3rem);
+}
+
+.admin-header-actions {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.admin-create-form {
+  padding: 0.7rem;
+  margin-bottom: 0.6rem;
+  background: var(--surface-muted);
+}
+
+.admin-create-form h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
 }
 
 .admin-trips,
@@ -1425,10 +1452,23 @@ body {
   gap: 0.15rem;
 }
 
+.admin-trip-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
 .admin-trip-code {
   font-family: "Sora", sans-serif;
   font-size: 1rem;
   color: var(--ink);
+}
+
+.admin-trip-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-soft);
 }
 
 .admin-trip-meta {
@@ -1476,6 +1516,15 @@ body {
 
 .admin-trip-info {
   margin-bottom: 0.5rem;
+}
+
+.admin-results {
+  margin-bottom: 0.5rem;
+}
+
+.admin-leaderboard {
+  display: grid;
+  gap: 0.38rem;
 }
 
 :root[data-theme="dark"] body {

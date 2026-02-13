@@ -7,8 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles.css?v=20260213j" />
-  <script defer src="./admin.js?v=20260213j"></script>
+  <link rel="stylesheet" href="./styles.css?v=20260213k" />
+  <script defer src="./admin.js?v=20260213k"></script>
 </head>
 <body>
   <main class="app-shell">
@@ -23,6 +23,7 @@
       <p>Manage trips, participants, and submissions.</p>
     </header>
 
+    <!-- Login -->
     <section id="loginSection" class="card admin-login-card">
       <h2>Sign in</h2>
       <p class="step-copy">Enter the admin password to continue.</p>
@@ -36,20 +37,70 @@
       </div>
     </section>
 
+    <!-- Dashboard -->
     <section id="dashboardSection" class="card" hidden>
+      <div id="statsBar" class="admin-stats-bar"></div>
+
       <div class="admin-section-header">
         <h2>All Trips</h2>
-        <button id="refreshBtn" class="btn" type="button">Refresh</button>
+        <div class="admin-header-actions">
+          <button id="createTripBtn" class="btn primary" type="button">+ Create Trip</button>
+          <button id="refreshBtn" class="btn" type="button">Refresh</button>
+        </div>
       </div>
+
+      <!-- Create Trip Form -->
+      <div id="createTripForm" class="admin-create-form card" hidden>
+        <h3>Create a new trip</h3>
+        <div class="form-grid">
+          <label class="field">
+            <span>Trip code</span>
+            <input id="newTripCode" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" />
+          </label>
+          <label class="field">
+            <span>Trip name (optional)</span>
+            <input id="newTripName" type="text" maxlength="120" placeholder="Beach House August" autocomplete="off" />
+          </label>
+        </div>
+        <div class="form-grid">
+          <label class="field">
+            <span>Window start day</span>
+            <select id="newTripStartDay">
+              <option value="sat">Saturday</option>
+              <option value="sun">Sunday</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Window length</span>
+            <select id="newTripDays">
+              <option value="6">6 days</option>
+              <option value="7" selected>7 days</option>
+              <option value="8">8 days</option>
+              <option value="9">9 days</option>
+            </select>
+          </label>
+        </div>
+        <div class="inline-actions">
+          <button id="createTripSubmit" class="btn primary" type="button">Create</button>
+          <button id="createTripCancel" class="btn" type="button">Cancel</button>
+        </div>
+      </div>
+
       <div id="tripsContainer" class="admin-trips"></div>
     </section>
 
+    <!-- Trip Detail -->
     <section id="tripDetailSection" class="card" hidden>
       <div class="admin-section-header">
         <button id="backToTripsBtn" class="btn" type="button">&larr; All Trips</button>
         <h2 id="tripDetailTitle">Trip Detail</h2>
       </div>
       <div id="tripDetailInfo" class="admin-trip-info"></div>
+      <div id="tripActions" class="inline-actions wrap"></div>
+
+      <h3>Group Results</h3>
+      <div id="adminResultsContainer" class="admin-results"></div>
+
       <h3>Participants</h3>
       <div id="participantsContainer" class="admin-participants"></div>
     </section>

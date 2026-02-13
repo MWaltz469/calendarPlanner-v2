@@ -45,12 +45,20 @@ export async function onRequestPost(context) {
     const now = nowIso();
 
     const participant = await db
-      .prepare(`SELECT id FROM participants WHERE id = ? LIMIT 1`)
+      .prepare(
+        `SELECT p.id, t.locked FROM participants p
+         JOIN trips t ON t.id = p.trip_id
+         WHERE p.id = ? LIMIT 1`
+      )
       .bind(participantId)
       .first();
 
     if (!participant) {
       throw new HttpError("Participant not found.", 404);
+    }
+
+    if (participant.locked) {
+      throw new HttpError("This trip is locked. Selections cannot be changed.", 403);
     }
 
     if (!selections.length) {

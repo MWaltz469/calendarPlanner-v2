@@ -33,7 +33,7 @@ export async function onRequestPost(context) {
 
     let trip = await db
       .prepare(
-        `SELECT id, name, share_code, trip_year, week_format, trip_length, timezone
+        `SELECT id, name, share_code, trip_year, week_format, trip_length, timezone, locked
          FROM trips
          WHERE share_code = ?
          LIMIT 1`
@@ -97,6 +97,10 @@ export async function onRequestPost(context) {
       )
       .bind(trip.id, name)
       .first();
+
+    if (!participant && trip.locked) {
+      throw new HttpError("This trip is locked. New participants cannot join.", 403);
+    }
 
     if (!participant) {
       try {
