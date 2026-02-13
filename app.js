@@ -1647,26 +1647,45 @@
     const maxScore = Math.max(1, ...aggregates.map((item) => item.score));
     const maxAvailable = Math.max(1, ...aggregates.map((item) => item.availableCount));
 
+    const topWeekData = topWeek ? state.weeks[topWeek.weekNumber - 1] : null;
+    const totalPeople = state.participants.length || 1;
+    const topAvailPct = topWeek && totalPeople > 0
+      ? Math.round((topWeek.availableCount / totalPeople) * 100)
+      : 0;
+
     const scoreCards = [
-      { label: "Participants", value: state.participants.length || 1 },
-      { label: "Top Week", value: topWeek ? `W${topWeek.weekNumber}` : "-" },
-      { label: "Best Score", value: topWeek ? topWeek.score : 0 },
-      { label: "Peak Available", value: topWeek ? topWeek.availableCount : 0 }
+      { label: "Participants", value: String(totalPeople) },
+      { label: "Best Week", value: topWeek ? `W${topWeek.weekNumber}` : "-", sub: topWeekData ? topWeekData.rangeText : "" },
+      { label: "Best Overlap", value: topWeek ? `${topWeek.availableCount} of ${totalPeople}` : "-", sub: topAvailPct ? `${topAvailPct}% available` : "" },
+      { label: "Submissions", value: `${participants.filter((p) => p.submitted_at).length} of ${totalPeople}` }
     ];
 
     els.scoreChips.innerHTML = "";
     scoreCards.forEach((card) => {
       const item = document.createElement("article");
       item.className = "score-chip";
-      item.innerHTML = `<span>${card.label}</span><strong>${card.value}</strong>`;
+      item.innerHTML = `<span>${card.label}</span><strong>${card.value}</strong>${card.sub ? `<span class="score-chip-sub">${card.sub}</span>` : ""}`;
       els.scoreChips.appendChild(item);
     });
 
     els.heatmap.innerHTML = "";
+    const MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    let lastMonth = -1;
+
     aggregates
       .slice()
       .sort((a, b) => a.weekNumber - b.weekNumber)
       .forEach((entry) => {
+        const week = state.weeks[entry.weekNumber - 1];
+        const month = week ? week.start.getMonth() : -1;
+        if (month !== lastMonth) {
+          lastMonth = month;
+          const label = document.createElement("div");
+          label.className = "heat-month-label";
+          label.textContent = MONTH_LABELS[month] || "";
+          els.heatmap.appendChild(label);
+        }
+
         const button = document.createElement("button");
         button.type = "button";
         button.className = "heat-cell";
@@ -1678,9 +1697,10 @@
         const alpha = 0.12 + intensity * 0.7;
         button.style.background = `rgba(22, 163, 74, ${alpha.toFixed(2)})`;
         button.textContent = `W${entry.weekNumber}`;
+        button.title = week ? `${week.rangeText} — ${entry.availableCount} avail, ${entry.maybeCount} maybe` : "";
         button.setAttribute(
           "aria-label",
-          `Week ${entry.weekNumber}, ${entry.availableCount} available, ${entry.maybeCount} maybe, score ${entry.score}`
+          `Week ${entry.weekNumber}${week ? `, ${week.rangeText}` : ""}, ${entry.availableCount} available, ${entry.maybeCount} maybe`
         );
 
         button.addEventListener("click", () => {
@@ -1711,16 +1731,35 @@
 
     els.leaderboard.innerHTML = "";
     aggregates.slice(0, 10).forEach((entry, index) => {
-      const row = document.createElement("div");
+      const week = state.weeks[entry.weekNumber - 1];
+      const row = document.createElement("button");
+      row.type = "button";
       row.className = "lb-row";
+      if (index === 0 && entry.score > 0) row.classList.add("lb-top-pick");
+      if (state.selectedDetailWeek === entry.weekNumber) row.classList.add("lb-active");
       const width = (entry.score / maxScore) * 100;
+      const totalPeople = (state.participants.length || 1);
+      const availPct = totalPeople > 0 ? Math.round((entry.availableCount / totalPeople) * 100) : 0;
       row.innerHTML = `
-        <div class="lb-top">
-          <span>#${index + 1} Week ${entry.weekNumber}</span>
-          <span>${entry.availableCount} avail / ${entry.maybeCount} maybe / ${entry.score} score</span>
+        <div class="lb-header">
+          <span class="lb-rank">#${index + 1}</span>
+          <div class="lb-info">
+            <span class="lb-title">Week ${entry.weekNumber}</span>
+            <span class="lb-dates">${week ? week.rangeText : ""}</span>
+          </div>
+        </div>
+        <div class="lb-stats">
+          <span class="lb-stat available">${entry.availableCount} available</span>
+          <span class="lb-stat maybe">${entry.maybeCount} maybe</span>
+          <span class="lb-stat pct">${availPct}% of group</span>
         </div>
         <div class="lb-bar"><span style="width:${width.toFixed(1)}%"></span></div>
       `;
+      row.addEventListener("click", () => {
+        state.selectedDetailWeek = entry.weekNumber;
+        persistSession();
+        renderResults();
+      });
       els.leaderboard.appendChild(row);
     });
 
@@ -1734,7 +1773,7 @@
   function renderWeekDetail(aggregates) {
     const target = aggregates.find((entry) => entry.weekNumber === state.selectedDetailWeek);
     if (!target) {
-      els.weekDetail.textContent = "Select a week from the heatmap.";
+      els.weekDetail.innerHTML = `<span class="wd-empty">Click a week in the heatmap or leaderboard to see who's available.</span>`;
       return;
     }
 
@@ -1749,16 +1788,35 @@
         return a.name.localeCompare(b.name);
       });
 
-    const lines = sortedPeople.length
-      ? `<ul>${sortedPeople
-          .map((person) => `<li>${escapeHtml(person.name)}: ${person.status}${person.rank ? ` (#${person.rank})` : ""}</li>`)
-          .join("")}</ul>`
-      : "<p>No participant details yet.</p>";
+    const statusBadge = (status) => {
+      const cls = status === "available" ? "wd-badge-available" : status === "maybe" ? "wd-badge-maybe" : "wd-badge-unselected";
+      const label = status.charAt(0).toUpperCase() + status.slice(1);
+      return `<span class="wd-badge ${cls}">${label}</span>`;
+    };
+
+    const peopleRows = sortedPeople.length
+      ? sortedPeople
+          .map((person) =>
+            `<div class="wd-person">` +
+              `<span class="wd-person-name">${escapeHtml(person.name)}</span>` +
+              `${statusBadge(person.status)}` +
+              `${person.rank ? `<span class="wd-person-rank">#${person.rank}</span>` : ""}` +
+            `</div>`
+          )
+          .join("")
+      : `<p class="wd-empty">No participant details yet.</p>`;
 
     els.weekDetail.innerHTML = `
-      <strong>Week ${target.weekNumber} (${week.rangeText})</strong><br />
-      <span>${target.availableCount} available, ${target.maybeCount} maybe, ${target.unselectedCount} unselected</span>
-      ${lines}
+      <div class="wd-header">
+        <strong>Week ${target.weekNumber}</strong>
+        <span class="wd-dates">${week ? week.rangeText : ""}</span>
+      </div>
+      <div class="wd-summary">
+        <span class="lb-stat available">${target.availableCount} available</span>
+        <span class="lb-stat maybe">${target.maybeCount} maybe</span>
+        <span class="lb-stat">${target.unselectedCount} unselected</span>
+      </div>
+      <div class="wd-people">${peopleRows}</div>
     `;
   }
 
