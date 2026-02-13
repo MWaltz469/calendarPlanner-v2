@@ -827,6 +827,7 @@
       return;
     }
 
+    const prev = state.currentStep;
     state.currentStep = next;
     if (state.backend.isEnabled() && state.participantId) {
       state.backend.updateParticipantProgress(state.participantId, state.currentStep).catch(() => {
@@ -836,7 +837,9 @@
 
     persistSession();
     renderAll();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (next < prev) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
 
   async function handleJoinTrip() {
