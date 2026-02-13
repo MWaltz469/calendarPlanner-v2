@@ -655,10 +655,14 @@
 
     if (state.tripSettingsLocked) {
       els.windowConfigDetails.open = false;
-      els.windowConfigState.textContent = `Trip window is locked: ${getWindowConfigSummary(state.windowConfig)}.`;
+      els.windowConfigDetails.querySelector(".window-config-toggle").textContent =
+        `Trip window locked: ${getWindowConfigSummary(state.windowConfig)}`;
+      els.windowConfigState.textContent = "These settings were set by the trip creator and cannot be changed.";
       return;
     }
 
+    els.windowConfigDetails.querySelector(".window-config-toggle").textContent =
+      "Trip window settings (only for new trip codes)";
     els.windowConfigState.textContent = "These only apply when creating a brand new trip code. Existing trips keep their saved settings.";
   }
 
@@ -922,16 +926,28 @@
       setupRealtime();
       await state.backend.updateParticipantProgress(state.participantId, state.currentStep);
 
+      const configSummary = getWindowConfigSummary(resolvedWindowConfig);
+      const configChanged =
+        requestedWindowConfig.startDay !== resolvedWindowConfig.startDay ||
+        requestedWindowConfig.days !== resolvedWindowConfig.days;
+
       let joinMessage = tripResult.created
-        ? "Trip created. Live collaboration connected."
-        : "Joined existing trip. Live collaboration connected.";
+        ? `Trip created (${configSummary}). Live collaboration connected.`
+        : `Joined existing trip (${configSummary}). Live collaboration connected.`;
       if (!hasRemoteData && localSelections.some((s) => s.status === "available" || s.status === "maybe")) {
         joinMessage += " Your previous selections were restored.";
       }
       setJoinState(joinMessage, true);
       setSaveState("saved");
       setSyncState("live_ready");
-      showToast(tripResult.created ? "Trip created and cloud voting is live." : "Connected to cloud voting.", "good");
+
+      if (tripResult.created) {
+        showToast(`Trip created — ${configSummary}.`, "good");
+      } else if (configChanged) {
+        showToast(`Joined trip. Window adjusted to match trip: ${configSummary}.`, "good");
+      } else {
+        showToast("Connected to cloud voting.", "good");
+      }
     } catch (error) {
       console.error(error);
       cleanupRealtime();
