@@ -837,8 +837,9 @@
 
     persistSession();
     renderAll();
-    if (next < prev) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    const targetPanel = els.panels[next];
+    if (targetPanel) {
+      targetPanel.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }
 
