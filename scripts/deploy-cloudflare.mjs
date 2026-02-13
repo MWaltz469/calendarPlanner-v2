@@ -166,15 +166,29 @@ async function main() {
       cwd: paths.root
     });
 
-    runWrangler(["pages", "deploy", ".", "--project-name", projectName, "--branch", branchName], {
+    const deployResult = runWrangler(["pages", "deploy", ".", "--project-name", projectName, "--branch", branchName], {
       env: runEnv,
-      cwd: paths.root
+      cwd: paths.root,
+      capture: true
     });
 
-    console.log("\n[deploy] Done.");
-    console.log(`[deploy] Project: ${projectName}`);
-    console.log(`[deploy] Branch: ${branchName}`);
-    console.log(`[deploy] D1 DB : ${dbName} (${dbId})`);
+    const deployOutput = `${deployResult.stdout}\n${deployResult.stderr}`;
+    const liveUrl = extractLiveUrl(deployOutput, projectName);
+
+    console.log(deployOutput.trim());
+    console.log("\n" + "=".repeat(50));
+    console.log("[deploy] Deployment complete!");
+    console.log("=".repeat(50));
+    console.log(`  Project : ${projectName}`);
+    console.log(`  Branch  : ${branchName}`);
+    console.log(`  Database: ${dbName} (${dbId})`);
+    if (liveUrl) {
+      console.log(`  Live URL: ${liveUrl}`);
+    }
+    console.log("=".repeat(50));
+    if (liveUrl) {
+      console.log(`\nShare this link with your group:\n\n  ${liveUrl}\n`);
+    }
   } finally {
     rl?.close();
   }
@@ -856,6 +870,14 @@ function usesUnsupportedYes(output) {
 
 function usesUnsupportedJson(output) {
   return /unknown argument.*json|unknown option.*json|unexpected argument.*json/i.test(output || "");
+}
+
+function extractLiveUrl(output, projectName) {
+  if (!output) return "";
+  const urlMatch = output.match(/https:\/\/[^\s]+\.pages\.dev/i);
+  if (urlMatch) return urlMatch[0];
+  if (projectName) return `https://${projectName}.pages.dev`;
+  return "";
 }
 
 function parseD1ListForDatabaseId(output, dbName) {
