@@ -206,7 +206,6 @@ body {
   padding: 0.9rem;
   display: grid;
   gap: 1rem;
-  min-height: calc(100vh - 10rem);
 }
 
 .stepper {
