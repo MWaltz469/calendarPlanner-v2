@@ -168,6 +168,88 @@
     updateValidation();
     renderAll();
     void probeCloudHealth();
+    void attemptAutoRejoin();
+  }
+
+  async function attemptAutoRejoin() {
+    const tripCode = normalizeTripCode(els.tripCodeInput.value);
+    const participantName = sanitizeName(els.nameInput.value);
+    if (!tripCode || !participantName || !state.backend.isEnabled()) return;
+
+    state.tripCode = tripCode;
+    state.participantName = participantName;
+    const key = sessionKey();
+    if (!key) return;
+
+    let session = null;
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw) session = JSON.parse(raw);
+    } catch {
+      return;
+    }
+
+    if (!session || !session.isJoined || !session.tripId || !session.participantId) return;
+
+    setJoinState("Reconnecting...", true);
+    els.joinButton.disabled = true;
+    els.joinButton.textContent = "Reconnecting...";
+    els.joinButton.classList.add("loading");
+
+    try {
+      await state.backend.healthCheck();
+
+      const tripResult = await state.backend.joinTrip({
+        shareCode: tripCode,
+        name: participantName,
+        year: YEAR,
+        startDay: session.windowStartDay || state.windowConfig.startDay,
+        days: session.windowDays || state.windowConfig.days
+      });
+
+      const trip = tripResult.trip;
+      const resolvedWindowConfig = parseTripWindowConfig(trip.week_format, trip.trip_length);
+
+      state.tripSettingsLocked = true;
+      applyWindowConfig(resolvedWindowConfig, { preserveSelections: true });
+      state.tripId = trip.id;
+      state.participantId = tripResult.participant.id;
+      state.isJoined = true;
+      state.hasSavedOnce = Boolean(tripResult.participant.submitted_at);
+      state.currentStep = Math.max(2, clampStep(tripResult.participant.last_active_step || session.currentStep || 2));
+
+      state.selections = createEmptySelections();
+      const remoteSelections = Array.isArray(tripResult.selections) ? tripResult.selections : [];
+      remoteSelections.forEach((item) => {
+        const index = Number(item.week_number) - 1;
+        if (index < 0 || index >= state.selections.length) return;
+        state.selections[index] = {
+          weekNumber: index + 1,
+          status: STATUS_SEQUENCE.includes(item.status) ? item.status : "unselected",
+          rank: item.rank && item.rank >= 1 && item.rank <= MAX_RANK ? item.rank : null
+        };
+      });
+
+      enforceRankConsistency();
+      await refreshGroupData();
+      setupRealtime();
+
+      setSyncState("live_ready");
+      setSaveState("saved");
+      setJoinState(`Welcome back, ${participantName}. Live collaboration reconnected.`, true);
+      showToast("Session restored.", "good");
+    } catch {
+      setJoinState("Could not reconnect. Click Join Trip to retry.", false);
+      setSyncState("cloud_unavailable");
+    } finally {
+      els.joinButton.disabled = false;
+      els.joinButton.textContent = "Join Trip";
+      els.joinButton.classList.remove("loading");
+    }
+
+    updateValidation();
+    persistSession();
+    renderAll();
   }
 
   function bindEvents() {
@@ -745,6 +827,8 @@
     els.joinButton.disabled = true;
     els.joinButton.textContent = "Connecting...";
     els.joinButton.classList.add("loading");
+
+    const localSelections = state.selections.slice().map((s) => ({ ...s }));
     cleanupRealtime();
     state.tripCode = tripCode;
     state.participantName = participantName;
@@ -784,25 +868,40 @@
       state.selections = createEmptySelections();
 
       const remoteSelections = Array.isArray(tripResult.selections) ? tripResult.selections : [];
-      remoteSelections.forEach((item) => {
-        const index = Number(item.week_number) - 1;
-        if (index < 0 || index >= state.selections.length) return;
-        state.selections[index] = {
-          weekNumber: index + 1,
-          status: STATUS_SEQUENCE.includes(item.status) ? item.status : "unselected",
-          rank: item.rank && item.rank >= 1 && item.rank <= MAX_RANK ? item.rank : null
-        };
-      });
+      const hasRemoteData = remoteSelections.some((item) =>
+        item.status === "available" || item.status === "maybe"
+      );
+
+      if (hasRemoteData) {
+        remoteSelections.forEach((item) => {
+          const index = Number(item.week_number) - 1;
+          if (index < 0 || index >= state.selections.length) return;
+          state.selections[index] = {
+            weekNumber: index + 1,
+            status: STATUS_SEQUENCE.includes(item.status) ? item.status : "unselected",
+            rank: item.rank && item.rank >= 1 && item.rank <= MAX_RANK ? item.rank : null
+          };
+        });
+      } else {
+        const hasLocalData = localSelections.some((s) => s.status === "available" || s.status === "maybe");
+        if (hasLocalData) {
+          state.selections = normalizeSelections(localSelections);
+          state.backend.upsertSelections(state.participantId, state.selections).catch(() => {});
+        }
+      }
 
       enforceRankConsistency();
       await refreshGroupData();
       setupRealtime();
       await state.backend.updateParticipantProgress(state.participantId, state.currentStep);
 
-      setJoinState(
-        tripResult.created ? "Trip created. Live collaboration connected." : "Joined existing trip. Live collaboration connected.",
-        true
-      );
+      let joinMessage = tripResult.created
+        ? "Trip created. Live collaboration connected."
+        : "Joined existing trip. Live collaboration connected.";
+      if (!hasRemoteData && localSelections.some((s) => s.status === "available" || s.status === "maybe")) {
+        joinMessage += " Your previous selections were restored.";
+      }
+      setJoinState(joinMessage, true);
       setSaveState("saved");
       setSyncState("live_ready");
       showToast(tripResult.created ? "Trip created and cloud voting is live." : "Connected to cloud voting.", "good");
@@ -1038,11 +1137,25 @@
       availableWeeks.forEach((week) => {
         const option = document.createElement("option");
         option.value = String(week.weekNumber);
-        option.textContent = `W${String(week.weekNumber).padStart(2, "0")} - ${week.rangeText}`;
+        const sel = state.selections[week.weekNumber - 1];
+        const assignedRank = sel && sel.rank;
+        const isThisRank = assignedRank === rank;
+        const isOtherRank = assignedRank && !isThisRank;
+        let label = `W${String(week.weekNumber).padStart(2, "0")} - ${week.rangeText}`;
+        if (isThisRank) {
+          label = `\u2713 ${label}`;
+        } else if (isOtherRank) {
+          label = `${label}  (#${assignedRank})`;
+        }
+        option.textContent = label;
+        if (isOtherRank) {
+          option.style.color = "#9ca3af";
+        }
         select.appendChild(option);
       });
 
       select.value = currentWeek ? String(currentWeek) : "";
+      select.classList.toggle("rank-filled", Boolean(currentWeek));
     });
 
     const missing = state.validation.missingRanks;
