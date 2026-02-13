@@ -478,9 +478,27 @@ body {
   box-shadow: 0 12px 24px rgba(15, 31, 46, 0.14);
   padding: 0.42rem;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.34rem;
   backdrop-filter: blur(8px);
+}
+
+.overlay-counts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.34rem;
+}
+
+.selection-overlay .month-bar {
+  border-top: 1px solid color-mix(in srgb, var(--accent) 15%, var(--border));
+  padding-top: 0.34rem;
+  margin: 0;
+  justify-content: center;
+}
+
+.selection-overlay .month-btn {
+  min-height: 28px;
+  padding: 0.2rem 0.48rem;
+  font-size: 0.68rem;
 }
 
 .overlay-item {
@@ -1267,8 +1285,11 @@ body {
   }
 
   .selection-overlay {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
     top: 0.72rem;
+  }
+
+  .overlay-counts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .heatmap {

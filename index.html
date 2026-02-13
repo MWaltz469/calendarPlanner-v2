@@ -128,24 +128,26 @@
         <p class="hint keyboard-hint">Tip: Right-click a card to set status directly. Focus a card and press 1&ndash;5 to rank, Delete to clear rank.</p>
 
         <aside id="selectionOverlay" class="selection-overlay" aria-live="polite" hidden>
-          <div class="overlay-item selected">
-            <span>Selected</span>
-            <strong id="overlaySelectedCount">0</strong>
+          <div class="overlay-counts">
+            <div class="overlay-item selected">
+              <span>Selected</span>
+              <strong id="overlaySelectedCount">0</strong>
+            </div>
+            <div class="overlay-item available">
+              <span>Available</span>
+              <strong id="overlayAvailableCount">0</strong>
+            </div>
+            <div class="overlay-item maybe">
+              <span>Maybe</span>
+              <strong id="overlayMaybeCount">0</strong>
+            </div>
+            <div class="overlay-item unselected">
+              <span>Unselected</span>
+              <strong id="overlayUnselectedCount">0</strong>
+            </div>
           </div>
-          <div class="overlay-item available">
-            <span>Available</span>
-            <strong id="overlayAvailableCount">0</strong>
-          </div>
-          <div class="overlay-item maybe">
-            <span>Maybe</span>
-            <strong id="overlayMaybeCount">0</strong>
-          </div>
-          <div class="overlay-item unselected">
-            <span>Unselected</span>
-            <strong id="overlayUnselectedCount">0</strong>
-          </div>
+          <nav id="overlayMonthBar" class="month-bar" aria-label="Jump to month"></nav>
         </aside>
-
         <nav id="monthBar" class="month-bar" aria-label="Jump to month"></nav>
         <div id="weekGrid" class="week-grid" role="list" aria-label="52 weeks"></div>
       </section>

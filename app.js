@@ -126,6 +126,7 @@
     overlayMaybeCount: document.getElementById("overlayMaybeCount"),
     overlayUnselectedCount: document.getElementById("overlayUnselectedCount"),
     monthBar: document.getElementById("monthBar"),
+    overlayMonthBar: document.getElementById("overlayMonthBar"),
     weekGrid: document.getElementById("weekGrid"),
     rankRows: document.getElementById("rankRows"),
     rankNote: document.getElementById("rankNote"),
@@ -834,7 +835,6 @@
   }
 
   function renderMonthBar() {
-    els.monthBar.innerHTML = "";
     const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const monthFirstWeek = new Map();
     state.weeks.forEach((week, index) => {
@@ -844,21 +844,25 @@
       }
     });
 
-    MONTH_NAMES.forEach((name, monthIndex) => {
-      const weekIndex = monthFirstWeek.get(monthIndex);
-      if (weekIndex === undefined) return;
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "month-btn";
-      btn.textContent = name;
-      btn.setAttribute("aria-label", `Jump to ${name}`);
-      btn.addEventListener("click", () => {
-        const card = els.weekGrid.children[weekIndex];
-        if (card) {
-          card.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+    const targets = [els.monthBar, els.overlayMonthBar].filter(Boolean);
+    targets.forEach((bar) => {
+      bar.innerHTML = "";
+      MONTH_NAMES.forEach((name, monthIndex) => {
+        const weekIndex = monthFirstWeek.get(monthIndex);
+        if (weekIndex === undefined) return;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "month-btn";
+        btn.textContent = name;
+        btn.setAttribute("aria-label", `Jump to ${name}`);
+        btn.addEventListener("click", () => {
+          const card = els.weekGrid.children[weekIndex];
+          if (card) {
+            card.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+        bar.appendChild(btn);
       });
-      els.monthBar.appendChild(btn);
     });
   }
 
