@@ -63,7 +63,7 @@ async function main() {
       wranglerValues.projectName ||
       "trip-week-planner";
     const defaultBranch =
-      args.branch || runEnv.CF_PAGES_BRANCH || deployConfig.branch || "main";
+      args.branch || runEnv.CF_PAGES_BRANCH || deployConfig.branch || "master";
 
     const defaultDbName =
       args.dbName ||
