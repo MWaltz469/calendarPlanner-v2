@@ -670,6 +670,8 @@
   }
 
   function renderWindowConfigControls() {
+    if (!els.windowStartInput || !els.windowDaysInput) return;
+
     const startValue = normalizeWindowStartDay(state.windowConfig.startDay);
     const daysValue = normalizeWindowDays(state.windowConfig.days);
     els.windowStartInput.value = startValue;
@@ -677,17 +679,17 @@
     els.windowStartInput.disabled = state.tripSettingsLocked;
     els.windowDaysInput.disabled = state.tripSettingsLocked;
 
+    const toggle = els.windowConfigDetails ? els.windowConfigDetails.querySelector(".window-config-toggle") : null;
+
     if (state.tripSettingsLocked) {
-      els.windowConfigDetails.open = false;
-      els.windowConfigDetails.querySelector(".window-config-toggle").textContent =
-        `Trip window locked: ${getWindowConfigSummary(state.windowConfig)}`;
-      els.windowConfigState.textContent = "These settings were set by the trip creator and cannot be changed.";
+      if (els.windowConfigDetails) els.windowConfigDetails.open = false;
+      if (toggle) toggle.textContent = `Trip window locked: ${getWindowConfigSummary(state.windowConfig)}`;
+      if (els.windowConfigState) els.windowConfigState.textContent = "These settings were set by the trip creator and cannot be changed.";
       return;
     }
 
-    els.windowConfigDetails.querySelector(".window-config-toggle").textContent =
-      "Trip window settings (only for new trip codes)";
-    els.windowConfigState.textContent = "These only apply when creating a brand new trip code. Existing trips keep their saved settings.";
+    if (toggle) toggle.textContent = "Trip window settings (only for new trip codes)";
+    if (els.windowConfigState) els.windowConfigState.textContent = "These only apply when creating a brand new trip code. Existing trips keep their saved settings.";
   }
 
   function migrateLegacySelectionsIfPresent() {
