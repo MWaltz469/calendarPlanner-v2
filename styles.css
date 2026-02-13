@@ -677,6 +677,9 @@ body {
   gap: 0.32rem;
   cursor: pointer;
   font: inherit;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .week-card .week-title {

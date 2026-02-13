@@ -1090,14 +1090,20 @@
       card.addEventListener("click", () => toggleWeekStatus(index));
       card.addEventListener("contextmenu", (event) => showWeekContextMenu(event, index));
       let longPressTimer = null;
+      let longPressFired = false;
       card.addEventListener("touchstart", (event) => {
+        longPressFired = false;
         longPressTimer = setTimeout(() => {
           longPressTimer = null;
+          longPressFired = true;
           const touch = event.touches[0];
           showWeekContextMenu({ preventDefault: () => {}, clientX: touch.clientX, clientY: touch.clientY }, index);
         }, 500);
       }, { passive: true });
-      card.addEventListener("touchend", () => { if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; } });
+      card.addEventListener("touchend", (event) => {
+        if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
+        if (longPressFired) { event.preventDefault(); longPressFired = false; }
+      });
       card.addEventListener("touchmove", () => { if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; } });
       card.addEventListener("keydown", (event) => {
         if (event.key >= "1" && event.key <= "5") {
