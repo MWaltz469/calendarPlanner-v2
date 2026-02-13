@@ -402,6 +402,15 @@ body {
   letter-spacing: 0.05em;
 }
 
+.field-hint {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-transform: none;
+  letter-spacing: normal;
+  font-style: italic;
+}
+
 .field input,
 .field select,
 .rank-select {

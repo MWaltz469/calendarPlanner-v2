@@ -1948,8 +1948,8 @@
 
     const statusBadge = (status) => {
       const cls = status === "available" ? "wd-badge-available" : status === "maybe" ? "wd-badge-maybe" : "wd-badge-unselected";
-      const label = status.charAt(0).toUpperCase() + status.slice(1);
-      return `<span class="wd-badge ${cls}">${label}</span>`;
+      const labels = { available: "Available", maybe: "Maybe", unselected: "Unavailable" };
+      return `<span class="wd-badge ${cls}">${labels[status] || "Unavailable"}</span>`;
     };
 
     const peopleRows = sortedPeople.length
@@ -1972,7 +1972,7 @@
       <div class="wd-summary">
         <span class="lb-stat available">${target.availableCount} available</span>
         <span class="lb-stat maybe">${target.maybeCount} maybe</span>
-        <span class="lb-stat">${target.unselectedCount} unselected</span>
+        <span class="lb-stat">${target.unselectedCount} unavailable</span>
       </div>
       <div class="wd-people">${peopleRows}</div>
     `;

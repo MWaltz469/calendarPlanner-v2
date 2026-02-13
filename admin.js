@@ -272,15 +272,16 @@
     // Actions
     els.tripActions.innerHTML = "";
     const actions = [
-      { label: locked ? "Unlock Trip" : "Lock Trip", cls: locked ? "btn" : "btn", handler: () => toggleLock(trip.id, !locked) },
-      { label: "Edit Name", cls: "btn", handler: () => editTripName(trip.id, trip.name) },
-      { label: "Clone Trip", cls: "btn", handler: () => cloneTrip(trip.id, trip.share_code) },
-      { label: "Export CSV", cls: "btn", handler: () => exportCsv(trip, participants, selections) },
-      { label: "Delete Trip", cls: "btn danger", handler: () => { deleteTrip(trip.id, trip.share_code); showView("dashboard"); loadTrips(); } }
+      { label: locked ? "Unlock Trip" : "Lock Trip", cls: locked ? "btn" : "btn", title: locked ? "Allow new participants to join and existing ones to change selections" : "Freeze this trip — blocks new joins and selection changes", handler: () => toggleLock(trip.id, !locked) },
+      { label: "Edit Name", cls: "btn", title: "Change the display name for this trip (code stays the same)", handler: () => editTripName(trip.id, trip.name) },
+      { label: "Clone Trip", cls: "btn", title: "Create a new trip with a different code but the same settings", handler: () => cloneTrip(trip.id, trip.share_code) },
+      { label: "Export CSV", cls: "btn", title: "Download all participant selections as a spreadsheet", handler: () => exportCsv(trip, participants, selections) },
+      { label: "Delete Trip", cls: "btn danger", title: "Permanently delete this trip and all participant data", handler: () => { deleteTrip(trip.id, trip.share_code); showView("dashboard"); loadTrips(); } }
     ];
     actions.forEach((a) => {
       const btn = document.createElement("button");
       btn.type = "button"; btn.className = a.cls; btn.textContent = a.label;
+      if (a.title) btn.title = a.title;
       btn.addEventListener("click", a.handler);
       els.tripActions.appendChild(btn);
     });
@@ -396,9 +397,9 @@
           </div>
         </div>
         <div class="admin-participant-actions">
-          ${hasSelections ? `<button class="btn view-sel-btn" type="button">View Selections</button>` : ""}
-          ${submitted ? `<button class="btn reset-btn" type="button">Reset Submission</button>` : ""}
-          <button class="btn danger remove-btn" type="button">Remove</button>
+          ${hasSelections ? `<button class="btn view-sel-btn" type="button" title="View this person's week selections and rankings">View Selections</button>` : ""}
+          ${submitted ? `<button class="btn reset-btn" type="button" title="Clear their submission status so they can revise — keeps their selections intact">Reset Submission</button>` : ""}
+          <button class="btn danger remove-btn" type="button" title="Permanently remove this participant and all their data from the trip">Remove</button>
         </div>
       `;
 
