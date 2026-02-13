@@ -3,15 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Coordinate group availability for your next trip. Everyone picks their weeks, the app finds the best overlap." />
   <title>Trip Week Planner</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles.css?v=20260213y" />
+  <link rel="stylesheet" href="./styles.css?v=20260213z" />
+  <script src="./theme-init.js?v=20260213z"></script>
 </head>
 <body>
   <main class="app-shell landing-shell">
     <header class="hero card landing-hero">
+      <div class="hero-top" style="justify-content:flex-end;">
+        <label class="theme-picker">
+          <span>Theme</span>
+          <select id="themeSelect" aria-label="Theme mode">
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+      </div>
       <h1>Trip Week Planner</h1>
       <p>Coordinate group availability for your next trip. Everyone picks their weeks, the app finds the best overlap.</p>
     </header>
@@ -29,8 +42,8 @@
         <h2>Have a trip code?</h2>
         <p>Jump straight in — enter your code and we'll take you there.</p>
         <div class="landing-join-form">
-          <input id="landingTripCode" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" class="landing-input" />
-          <button id="landingGoBtn" class="btn primary" type="button">Go</button>
+          <input id="landingTripCode" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" class="landing-input" aria-label="Trip code" />
+          <button id="landingGoBtn" class="btn primary" type="button" aria-label="Go to trip">Go</button>
         </div>
       </div>
 
@@ -43,7 +56,7 @@
     </section>
 
     <footer class="landing-footer">
-      <p>Free and open source. Runs on Cloudflare Pages + D1.</p>
+      <p>Free and open source. Runs on Cloudflare Pages + D1. <a href="./about.html">About this project</a></p>
     </footer>
   </main>
 
