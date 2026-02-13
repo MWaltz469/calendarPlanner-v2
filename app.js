@@ -225,16 +225,23 @@
     els.joinButton.textContent = "Reconnecting...";
     els.joinButton.classList.add("loading");
 
-    try {
-      await state.backend.healthCheck();
+    const rejoinTimeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Connection timed out")), 10000)
+    );
 
-      const tripResult = await state.backend.joinTrip({
-        shareCode: tripCode,
-        name: participantName,
-        year: YEAR,
-        startDay: session.windowStartDay || state.windowConfig.startDay,
-        days: session.windowDays || state.windowConfig.days
-      });
+    try {
+      await Promise.race([state.backend.healthCheck(), rejoinTimeout]);
+
+      const tripResult = await Promise.race([
+        state.backend.joinTrip({
+          shareCode: tripCode,
+          name: participantName,
+          year: YEAR,
+          startDay: session.windowStartDay || state.windowConfig.startDay,
+          days: session.windowDays || state.windowConfig.days
+        }),
+        rejoinTimeout
+      ]);
 
       const trip = tripResult.trip;
       const resolvedWindowConfig = parseTripWindowConfig(trip.week_format, trip.trip_length);
@@ -269,7 +276,14 @@
       showToast("Session restored.", "good");
     } catch (error) {
       const detail = error && error.message ? `: ${error.message}` : "";
-      setJoinState(`Could not reconnect${detail}. Click Join Trip to retry.`, false);
+      const isNotFound = detail.toLowerCase().includes("not found");
+      if (isNotFound) {
+        // Trip no longer exists — clear stale session so we don't retry
+        try { localStorage.removeItem(key); } catch {}
+        setJoinState(`Trip code "${tripCode}" no longer exists. Enter a valid code.`, false);
+      } else {
+        setJoinState(`Could not reconnect${detail}. Click Join Trip to retry.`, false);
+      }
       setSyncState("cloud_unavailable");
       setSaveState("idle");
     } finally {
