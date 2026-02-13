@@ -269,22 +269,30 @@
       </div>
     `;
 
-    // Actions
+    // Actions with visible descriptions
     els.tripActions.innerHTML = "";
     const actions = [
-      { label: locked ? "Unlock Trip" : "Lock Trip", cls: locked ? "btn" : "btn", title: locked ? "Allow new participants to join and existing ones to change selections" : "Freeze this trip — blocks new joins and selection changes", handler: () => toggleLock(trip.id, !locked) },
-      { label: "Edit Name", cls: "btn", title: "Change the display name for this trip (code stays the same)", handler: () => editTripName(trip.id, trip.name) },
-      { label: "Clone Trip", cls: "btn", title: "Create a new trip with a different code but the same settings", handler: () => cloneTrip(trip.id, trip.share_code) },
-      { label: "Export CSV", cls: "btn", title: "Download all participant selections as a spreadsheet", handler: () => exportCsv(trip, participants, selections) },
-      { label: "Delete Trip", cls: "btn danger", title: "Permanently delete this trip and all participant data", handler: () => { deleteTrip(trip.id, trip.share_code); showView("dashboard"); loadTrips(); } }
+      { label: locked ? "Unlock Trip" : "Lock Trip", cls: locked ? "btn" : "btn", hint: locked ? "Allow new joins and selection changes" : "Freeze joins and selection changes", handler: () => toggleLock(trip.id, !locked) },
+      { label: "Edit Name", cls: "btn", hint: "Change the display name (code stays the same)", handler: () => editTripName(trip.id, trip.name) },
+      { label: "Clone Trip", cls: "btn", hint: "Copy settings to a new trip code", handler: () => cloneTrip(trip.id, trip.share_code) },
+      { label: "Export CSV", cls: "btn", hint: "Download selections as a spreadsheet", handler: () => exportCsv(trip, participants, selections) },
+      { label: "Delete Trip", cls: "btn danger", hint: "Permanently remove trip and all data", handler: () => { deleteTrip(trip.id, trip.share_code); showView("dashboard"); loadTrips(); } }
     ];
+    const actionsGrid = document.createElement("div");
+    actionsGrid.className = "admin-actions-grid";
     actions.forEach((a) => {
+      const wrap = document.createElement("div");
+      wrap.className = "admin-action-item";
       const btn = document.createElement("button");
       btn.type = "button"; btn.className = a.cls; btn.textContent = a.label;
-      if (a.title) btn.title = a.title;
       btn.addEventListener("click", a.handler);
-      els.tripActions.appendChild(btn);
+      const hint = document.createElement("span");
+      hint.className = "admin-action-hint";
+      hint.textContent = a.hint;
+      wrap.append(btn, hint);
+      actionsGrid.appendChild(wrap);
     });
+    els.tripActions.appendChild(actionsGrid);
 
     // Aggregated results
     renderAdminResults(trip, participants, selections);
@@ -293,46 +301,130 @@
     renderParticipants(trip, participants, selections);
   }
 
-  // --- Admin Results (leaderboard) ---
+  // --- Week date helper ---
+
+  function buildWeekDates(year, weekFormat, tripLength) {
+    const dayMap = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
+    const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const match = String(weekFormat || "").match(/^(\w+)_start$/);
+    const startDayKey = match ? match[1] : "sat";
+    const targetDay = dayMap[startDayKey] !== undefined ? dayMap[startDayKey] : 6;
+    const days = Number(tripLength) || 7;
+
+    const date = new Date(year, 0, 1);
+    while (date.getDay() !== targetDay) date.setDate(date.getDate() + 1);
+
+    const weeks = {};
+    for (let i = 0; i < 52; i++) {
+      const start = new Date(date);
+      start.setDate(date.getDate() + i * 7);
+      const end = new Date(start);
+      end.setDate(start.getDate() + days - 1);
+      const fmtOpts = { month: "short", day: "numeric" };
+      weeks[i + 1] = {
+        startDisplay: `${dayLabels[start.getDay()]}, ${start.toLocaleDateString(undefined, fmtOpts)}`,
+        endDisplay: `${dayLabels[end.getDay()]}, ${end.toLocaleDateString(undefined, fmtOpts)}`,
+        rangeText: `${start.toLocaleDateString(undefined, fmtOpts)} \u2013 ${end.toLocaleDateString(undefined, { ...fmtOpts, year: "numeric" })}`,
+        days
+      };
+    }
+    return weeks;
+  }
+
+  // --- Admin Results (narrative + leaderboard) ---
 
   function renderAdminResults(trip, participants, selections) {
     if (!participants.length) {
-      els.adminResultsContainer.innerHTML = `<p class="hint">No participants yet.</p>`;
+      els.adminResultsContainer.innerHTML = `<p class="hint">No participants yet. Share the trip code <strong>${escapeHtml(trip.share_code)}</strong> with your group to get started.</p>`;
       return;
     }
 
     const weekAggs = computeWeekAggregates(participants, selections);
     const top5 = weekAggs.slice(0, 5);
     const totalPeople = participants.length;
+    const submittedCount = participants.filter((p) => p.submitted_at).length;
+    const weekDates = buildWeekDates(trip.trip_year, trip.week_format, trip.trip_length);
 
     if (!top5.length || top5[0].score === 0) {
-      els.adminResultsContainer.innerHTML = `<p class="hint">No selections yet.</p>`;
+      const pending = participants.filter((p) => !p.submitted_at).map((p) => escapeHtml(p.name));
+      els.adminResultsContainer.innerHTML = `<p class="hint">No selections yet. ${pending.length ? `Waiting on: ${pending.join(", ")}.` : ""}</p>`;
       return;
     }
 
+    // --- Narrative summary ---
+    const best = top5[0];
+    const bestWeek = weekDates[best.weekNumber];
+    const bestPct = totalPeople > 0 ? Math.round((best.availableCount / totalPeople) * 100) : 0;
+
+    // Build per-person status for the best week
+    const bestSelections = selections.filter((s) => s.week_number === best.weekNumber);
+    const availableNames = [];
+    const maybeNames = [];
+    const unavailableNames = [];
+    participants.forEach((p) => {
+      const sel = bestSelections.find((s) => s.participant_id === p.id);
+      const status = sel ? sel.status : "unselected";
+      if (status === "available") availableNames.push(escapeHtml(p.name));
+      else if (status === "maybe") maybeNames.push(escapeHtml(p.name));
+      else unavailableNames.push(escapeHtml(p.name));
+    });
+
+    const notSubmitted = participants.filter((p) => !p.submitted_at).map((p) => escapeHtml(p.name));
+
+    let narrative = `<div class="admin-narrative">`;
+    narrative += `<p class="admin-narrative-lead">`;
+    if (bestPct === 100) {
+      narrative += `Everyone is available for <strong>${bestWeek ? bestWeek.rangeText : `Week ${best.weekNumber}`}</strong>. You're good to book.`;
+    } else if (best.availableCount > 1) {
+      narrative += `The best overlap is <strong>${bestWeek ? bestWeek.rangeText : `Week ${best.weekNumber}`}</strong> with <strong>${best.availableCount} of ${totalPeople}</strong> available (${bestPct}%).`;
+    } else {
+      narrative += `No strong consensus yet. The top window is <strong>${bestWeek ? bestWeek.rangeText : `Week ${best.weekNumber}`}</strong> with ${best.availableCount} available.`;
+    }
+    narrative += `</p>`;
+
+    // Who's in, maybe, out
+    const parts = [];
+    if (availableNames.length) parts.push(`<span class="wd-badge wd-badge-available">${availableNames.join(", ")}</span> ${availableNames.length === 1 ? "is" : "are"} available`);
+    if (maybeNames.length) parts.push(`<span class="wd-badge wd-badge-maybe">${maybeNames.join(", ")}</span> ${maybeNames.length === 1 ? "is" : "are"} tentative`);
+    if (unavailableNames.length) parts.push(`<span class="wd-badge wd-badge-unselected">${unavailableNames.join(", ")}</span> ${unavailableNames.length === 1 ? "is" : "are"} unavailable`);
+    if (parts.length) {
+      narrative += `<p class="admin-narrative-detail">${parts.join(". ")}.</p>`;
+    }
+
+    if (notSubmitted.length) {
+      narrative += `<p class="admin-narrative-pending">Still waiting on: <strong>${notSubmitted.join(", ")}</strong> (${submittedCount} of ${totalPeople} submitted).</p>`;
+    } else {
+      narrative += `<p class="admin-narrative-pending">All ${totalPeople} participants have submitted.</p>`;
+    }
+    narrative += `</div>`;
+
+    // --- Leaderboard with dates ---
     const maxScore = Math.max(1, top5[0].score);
-    let html = `<div class="admin-leaderboard">`;
+    let leaderboard = `<div class="admin-leaderboard">`;
     top5.forEach((w, i) => {
+      const week = weekDates[w.weekNumber];
       const pct = totalPeople > 0 ? Math.round((w.availableCount / totalPeople) * 100) : 0;
       const barW = (w.score / maxScore) * 100;
-      html += `
+      leaderboard += `
         <div class="lb-row${i === 0 ? " lb-top-pick" : ""}">
           <div class="lb-header">
             <span class="lb-rank">#${i + 1}</span>
             <div class="lb-info">
-              <span class="lb-title">Week ${w.weekNumber}</span>
+              <span class="lb-dates">${week ? `${week.startDisplay} \u2192 ${week.endDisplay}` : `Week ${w.weekNumber}`}</span>
+              <span class="lb-meta">Week ${w.weekNumber} \u00B7 ${week ? week.days : ""} days</span>
             </div>
           </div>
           <div class="lb-stats">
-            <span class="lb-stat available">${w.availableCount} available</span>
-            <span class="lb-stat maybe">${w.maybeCount} maybe</span>
-            <span class="lb-stat pct">${pct}% of group</span>
+            ${w.availableCount ? `<span class="lb-stat available">${w.availableCount} of ${totalPeople} available</span>` : ""}
+            ${w.maybeCount ? `<span class="lb-stat maybe">${w.maybeCount} maybe</span>` : ""}
+            ${pct ? `<span class="lb-stat pct">${pct}% overlap</span>` : ""}
           </div>
           <div class="lb-bar"><span style="width:${barW.toFixed(1)}%"></span></div>
         </div>`;
     });
-    html += `</div>`;
-    els.adminResultsContainer.innerHTML = html;
+    leaderboard += `</div>`;
+
+    els.adminResultsContainer.innerHTML = narrative + leaderboard;
   }
 
   function computeWeekAggregates(participants, selections) {
