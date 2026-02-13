@@ -542,6 +542,20 @@ body {
   font-size: 0.68rem;
 }
 
+.overlay-nav {
+  display: flex;
+  gap: 0.35rem;
+  border-top: 1px solid color-mix(in srgb, var(--accent) 15%, var(--border));
+  padding-top: 0.34rem;
+}
+
+.overlay-nav-btn {
+  flex: 1;
+  min-height: 36px;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.5rem;
+}
+
 .overlay-item {
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -882,6 +896,32 @@ body {
   padding: 0.45rem 0.55rem;
   font-size: 0.84rem;
   color: #2e4b62;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.checklist-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  background: #e5e7eb;
+  color: #6b7280;
+}
+
+.review-checklist li.ok .checklist-icon {
+  background: #16a34a;
+  color: #fff;
+}
+
+.review-checklist li.warn .checklist-icon {
+  background: #f59e0b;
+  color: #fff;
 }
 
 .review-checklist li.ok {

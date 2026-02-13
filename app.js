@@ -127,6 +127,9 @@
     overlayMaybeCount: document.getElementById("overlayMaybeCount"),
     overlayUnselectedCount: document.getElementById("overlayUnselectedCount"),
     monthBar: document.getElementById("monthBar"),
+    overlayPrevStep: document.getElementById("overlayPrevStep"),
+    overlayNextStep: document.getElementById("overlayNextStep"),
+    skipToReviewBtn: document.getElementById("skipToReviewBtn"),
     weekGrid: document.getElementById("weekGrid"),
     rankRows: document.getElementById("rankRows"),
     rankNote: document.getElementById("rankNote"),
@@ -297,6 +300,9 @@
     els.submitButton.addEventListener("click", () => saveAvailability(true));
     els.exportButton.addEventListener("click", exportSummary);
     els.clearButton.addEventListener("click", clearSelections);
+    els.overlayPrevStep.addEventListener("click", () => goToStep(state.currentStep - 1));
+    els.overlayNextStep.addEventListener("click", () => goToStep(state.currentStep + 1));
+    els.skipToReviewBtn.addEventListener("click", () => goToStep(4));
 
     els.weekContextMenu.querySelectorAll("button").forEach((btn) => {
       btn.addEventListener("click", () => handleContextMenuSelection(btn.dataset.status));
@@ -1339,7 +1345,8 @@
     list.forEach((item) => {
       const li = document.createElement("li");
       li.className = item.className;
-      li.textContent = item.text;
+      const icon = item.className === "ok" ? "\u2713" : "\u25CB";
+      li.innerHTML = `<span class="checklist-icon">${icon}</span><span>${escapeHtml(item.text)}</span>`;
       els.reviewList.appendChild(li);
     });
   }
@@ -1599,7 +1606,12 @@
 
   function syncSelectionOverlayVisibility() {
     if (!els.selectionOverlay) return;
-    els.selectionOverlay.hidden = state.currentStep !== 2;
+    const onStep2 = state.currentStep === 2;
+    els.selectionOverlay.hidden = !onStep2;
+    if (onStep2) {
+      els.overlayPrevStep.textContent = "\u2190 Join Trip";
+      els.overlayNextStep.textContent = "Rank Top 5 \u2192";
+    }
   }
 
   function renderResultsGate() {

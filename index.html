@@ -7,10 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles.css?v=20260213k" />
-  <script defer src="./config.js?v=20260213k"></script>
-  <script defer src="./cloud-client.js?v=20260213k"></script>
-  <script defer src="./app.js?v=20260213k"></script>
+  <link rel="stylesheet" href="./styles.css?v=20260213m" />
+  <script defer src="./config.js?v=20260213m"></script>
+  <script defer src="./cloud-client.js?v=20260213m"></script>
+  <script defer src="./app.js?v=20260213m"></script>
 </head>
 <body>
   <main class="app-shell">
@@ -150,16 +150,24 @@
             </div>
           </div>
           <nav id="monthBar" class="month-bar" aria-label="Jump to month"></nav>
+          <div class="overlay-nav">
+            <button id="overlayPrevStep" class="btn overlay-nav-btn" type="button">&larr; Back</button>
+            <button id="overlayNextStep" class="btn primary overlay-nav-btn" type="button">Next Step &rarr;</button>
+          </div>
         </aside>
         <div id="weekGrid" class="week-grid" role="list" aria-label="52 weeks"></div>
       </section>
 
       <section id="step-3" class="step-panel" aria-labelledby="step3-heading" hidden>
         <h2 id="step3-heading">Step 3: Rank your top 5 preferred weeks</h2>
-        <p class="step-copy">Only available weeks can be ranked. Leave any slot empty if you are unsure.</p>
+        <p class="step-copy">This step is <strong>optional</strong>. Ranking helps the organizer see your strongest preferences, but you can skip it if you have no preference.</p>
 
         <div id="rankRows" class="rank-rows" aria-label="Rank assignments"></div>
         <p id="rankNote" class="hint" aria-live="polite"></p>
+        <div class="inline-actions">
+          <button id="skipToReviewBtn" class="btn primary" type="button">Continue to Review &rarr;</button>
+          <span class="hint">You can always come back to rank later.</span>
+        </div>
       </section>
 
       <section id="step-4" class="step-panel" aria-labelledby="step4-heading" hidden>
