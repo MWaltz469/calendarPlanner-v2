@@ -1846,10 +1846,10 @@
         if (hasAvailable) {
           const intensity = entry.availableCount / maxAvailable;
           const pct = Math.round(18 + intensity * 57);
-          btn.style.background = `color-mix(in srgb, #16a34a ${pct}%, var(--surface-muted))`;
+          btn.style.background = `color-mix(in srgb, var(--available) ${pct}%, var(--surface-muted))`;
           if (intensity > 0.5) btn.classList.add("hm-hot");
         } else if (hasMaybeOnly) {
-          btn.style.background = `color-mix(in srgb, #d97706 15%, var(--surface-muted))`;
+          btn.style.background = `color-mix(in srgb, var(--maybe) 15%, var(--surface-muted))`;
         }
 
         const day = week.start.getDate();
