@@ -126,7 +126,6 @@
     overlayMaybeCount: document.getElementById("overlayMaybeCount"),
     overlayUnselectedCount: document.getElementById("overlayUnselectedCount"),
     monthBar: document.getElementById("monthBar"),
-    overlayMonthBar: document.getElementById("overlayMonthBar"),
     weekGrid: document.getElementById("weekGrid"),
     rankRows: document.getElementById("rankRows"),
     rankNote: document.getElementById("rankNote"),
@@ -844,25 +843,22 @@
       }
     });
 
-    const targets = [els.monthBar, els.overlayMonthBar].filter(Boolean);
-    targets.forEach((bar) => {
-      bar.innerHTML = "";
-      MONTH_NAMES.forEach((name, monthIndex) => {
-        const weekIndex = monthFirstWeek.get(monthIndex);
-        if (weekIndex === undefined) return;
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "month-btn";
-        btn.textContent = name;
-        btn.setAttribute("aria-label", `Jump to ${name}`);
-        btn.addEventListener("click", () => {
-          const card = els.weekGrid.children[weekIndex];
-          if (card) {
-            card.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
-        });
-        bar.appendChild(btn);
+    els.monthBar.innerHTML = "";
+    MONTH_NAMES.forEach((name, monthIndex) => {
+      const weekIndex = monthFirstWeek.get(monthIndex);
+      if (weekIndex === undefined) return;
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "month-btn";
+      btn.textContent = name;
+      btn.setAttribute("aria-label", `Jump to ${name}`);
+      btn.addEventListener("click", () => {
+        const card = els.weekGrid.children[weekIndex];
+        if (card) {
+          card.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       });
+      els.monthBar.appendChild(btn);
     });
   }
 
@@ -1442,19 +1438,7 @@
 
   function syncSelectionOverlayVisibility() {
     if (!els.selectionOverlay) return;
-    if (state.currentStep !== 2) {
-      els.selectionOverlay.hidden = true;
-      return;
-    }
-
-    if (!els.step2CountRow) {
-      els.selectionOverlay.hidden = false;
-      return;
-    }
-
-    const countRect = els.step2CountRow.getBoundingClientRect();
-    const shouldShow = countRect.bottom <= 92;
-    els.selectionOverlay.hidden = !shouldShow;
+    els.selectionOverlay.hidden = state.currentStep !== 2;
   }
 
   function renderResultsGate() {
