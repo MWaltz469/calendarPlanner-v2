@@ -1868,7 +1868,7 @@
     });
 
     els.leaderboard.innerHTML = "";
-    aggregates.slice(0, 10).forEach((entry, index) => {
+    aggregates.slice(0, 5).forEach((entry, index) => {
       const week = state.weeks[entry.weekNumber - 1];
       const row = document.createElement("button");
       row.type = "button";
