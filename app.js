@@ -1840,12 +1840,21 @@
         btn.className = "hm-cell";
         if (state.selectedDetailWeek === entry.weekNumber) btn.classList.add("active");
 
-        const intensity = entry.availableCount / maxAvailable;
-        const alpha = 0.08 + intensity * 0.72;
-        btn.style.background = `rgba(22, 163, 74, ${alpha.toFixed(2)})`;
+        const hasAvailable = entry.availableCount > 0;
+        const hasMaybeOnly = !hasAvailable && entry.maybeCount > 0;
+
+        if (hasAvailable) {
+          const intensity = entry.availableCount / maxAvailable;
+          const pct = Math.round(18 + intensity * 57);
+          btn.style.background = `color-mix(in srgb, #16a34a ${pct}%, var(--surface-muted))`;
+          if (intensity > 0.5) btn.classList.add("hm-hot");
+        } else if (hasMaybeOnly) {
+          btn.style.background = `color-mix(in srgb, #d97706 15%, var(--surface-muted))`;
+        }
 
         const day = week.start.getDate();
-        btn.innerHTML = `<span class="hm-day">${day}</span>${entry.availableCount ? `<span class="hm-count">${entry.availableCount}</span>` : ""}`;
+        const countLabel = entry.availableCount ? entry.availableCount : (entry.maybeCount ? `${entry.maybeCount}?` : "");
+        btn.innerHTML = `<span class="hm-day">${day}</span>${countLabel ? `<span class="hm-count">${countLabel}</span>` : ""}`;
         btn.title = `${week.rangeText} \u2014 ${entry.availableCount} avail, ${entry.maybeCount} maybe`;
         btn.setAttribute(
           "aria-label",
