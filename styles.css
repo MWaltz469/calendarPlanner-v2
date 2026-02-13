@@ -924,6 +924,28 @@ body {
   color: #fff;
 }
 
+.review-checklist li.info {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+  color: #1e40af;
+}
+
+.review-checklist li.info .checklist-icon {
+  background: #3b82f6;
+  color: #fff;
+}
+
+:root[data-theme="dark"] .review-checklist li.info {
+  border-color: #1e3a5f;
+  background: #172554;
+  color: #93c5fd;
+}
+
+:root[data-theme="dark"] .review-checklist li.info .checklist-icon {
+  background: #2563eb;
+  color: #fff;
+}
+
 .review-checklist li.ok {
   border-color: #bbf7d0;
   background: #ecfdf5;

@@ -128,6 +128,7 @@
     overlayUnselectedCount: document.getElementById("overlayUnselectedCount"),
     monthBar: document.getElementById("monthBar"),
     overlayPrevStep: document.getElementById("overlayPrevStep"),
+    overlayScrollTop: document.getElementById("overlayScrollTop"),
     overlayNextStep: document.getElementById("overlayNextStep"),
     skipToReviewBtn: document.getElementById("skipToReviewBtn"),
     weekGrid: document.getElementById("weekGrid"),
@@ -301,6 +302,10 @@
     els.exportButton.addEventListener("click", exportSummary);
     els.clearButton.addEventListener("click", clearSelections);
     els.overlayPrevStep.addEventListener("click", () => goToStep(state.currentStep - 1));
+    els.overlayScrollTop.addEventListener("click", () => {
+      const panel = els.panels[state.currentStep];
+      if (panel) panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
     els.overlayNextStep.addEventListener("click", () => goToStep(state.currentStep + 1));
     els.skipToReviewBtn.addEventListener("click", () => goToStep(4));
 
@@ -1320,10 +1325,10 @@
         text: `Trip window: ${getWindowConfigSummary(state.windowConfig)}.`
       },
       {
-        className: state.validation.missingRanks.length ? "warn" : "ok",
-        text: state.validation.missingRanks.length
-          ? `Optional ranks still open: ${state.validation.missingRanks.map((item) => `#${item}`).join(", ")}.`
-          : "Top 5 ranks completed."
+        className: state.validation.missingRanks.length === 0 ? "ok" : "info",
+        text: state.validation.missingRanks.length === 0
+          ? "Top 5 ranks completed."
+          : `Ranking is optional \u2014 ${MAX_RANK - state.validation.missingRanks.length} of ${MAX_RANK} slots filled.`
       },
       {
         className: state.hasSavedOnce ? "ok" : "warn",
@@ -1345,8 +1350,8 @@
     list.forEach((item) => {
       const li = document.createElement("li");
       li.className = item.className;
-      const icon = item.className === "ok" ? "\u2713" : "\u25CB";
-      li.innerHTML = `<span class="checklist-icon">${icon}</span><span>${escapeHtml(item.text)}</span>`;
+      const icon = item.className === "ok" ? "\u2713" : item.className === "info" ? "\u2014" : "\u25CB";
+      li.innerHTML = `<span class="checklist-icon">${icon}</span><span>${item.text}</span>`;
       els.reviewList.appendChild(li);
     });
   }
