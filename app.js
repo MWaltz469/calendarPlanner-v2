@@ -125,10 +125,7 @@
     rankedCount: document.getElementById("rankedCount"),
     step2CountRow: document.getElementById("step2CountRow"),
     selectionOverlay: document.getElementById("selectionOverlay"),
-    overlaySelectedCount: document.getElementById("overlaySelectedCount"),
-    overlayAvailableCount: document.getElementById("overlayAvailableCount"),
-    overlayMaybeCount: document.getElementById("overlayMaybeCount"),
-    overlayUnselectedCount: document.getElementById("overlayUnselectedCount"),
+    overlaySummary: document.getElementById("overlaySummary"),
     monthBar: document.getElementById("monthBar"),
     overlayPrevStep: document.getElementById("overlayPrevStep"),
     overlayScrollTop: document.getElementById("overlayScrollTop"),
@@ -1058,8 +1055,7 @@
       : state.weeks.map((week, index) => ({ week, index }));
 
     monthWeeks.forEach(({ week, index }) => {
-      const card = document.createElement("button");
-      card.type = "button";
+      const card = document.createElement("div");
       card.className = "week-card";
       card.dataset.index = String(index);
       card.setAttribute("role", "listitem");
@@ -1076,20 +1072,28 @@
       const dayCountClass = `days-${week.dayTokens.length}`;
 
       card.innerHTML = `
-        <div class="week-title"><span>Week ${week.weekNumber}</span><span>W${week.weekNumber}</span></div>
-        <div class="window-flow">
-          <span class="flow-point start">From ${week.startDisplay}</span>
-          <span class="flow-arrow" aria-hidden="true">&rarr;</span>
-          <span class="flow-point end">To ${week.endDisplay}</span>
+        <button type="button" class="wc-row">
+          <div class="wc-main">
+            <span class="wc-headline">W${week.weekNumber} <span class="wc-date">${week.rangeText}</span></span>
+            <span class="wc-sub">${week.weekdayRangeText} &middot; ${week.days} days</span>
+          </div>
+          <div class="wc-badges">
+            <span class="status-pill">Unselected</span>
+            <span class="rank-pill" hidden>#1</span>
+          </div>
+        </button>
+        <div class="wc-detail" hidden>
+          <div class="window-flow">
+            <span class="flow-point start">From ${week.startDisplay}</span>
+            <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+            <span class="flow-point end">To ${week.endDisplay}</span>
+          </div>
+          <div class="day-strip ${dayCountClass}" aria-hidden="true">${stripMarkup}</div>
         </div>
-        <div class="range">${week.rangeText}</div>
-        <div class="weekday-range">${week.weekdayRangeText} &middot; ${week.days} days</div>
-        <div class="day-strip ${dayCountClass}" aria-hidden="true">${stripMarkup}</div>
-        <span class="status-pill">Unselected</span>
-        <span class="rank-pill" hidden>#1</span>
       `;
 
-      card.addEventListener("click", () => toggleWeekStatus(index));
+      const row = card.querySelector(".wc-row");
+      row.addEventListener("click", () => toggleWeekStatus(index));
       card.addEventListener("contextmenu", (event) => showWeekContextMenu(event, index));
       let longPressTimer = null;
       let longPressFired = false;
@@ -1667,17 +1671,13 @@
     els.availableCount.textContent = String(metrics.available);
     els.maybeCount.textContent = String(metrics.maybe);
     els.rankedCount.textContent = `${state.validation.rankedCount || 0} / ${MAX_RANK}`;
-    if (els.overlaySelectedCount) {
-      els.overlaySelectedCount.textContent = String(metrics.selected);
-    }
-    if (els.overlayAvailableCount) {
-      els.overlayAvailableCount.textContent = String(metrics.available);
-    }
-    if (els.overlayMaybeCount) {
-      els.overlayMaybeCount.textContent = String(metrics.maybe);
-    }
-    if (els.overlayUnselectedCount) {
-      els.overlayUnselectedCount.textContent = String(metrics.unselected);
+
+    if (els.overlaySummary) {
+      const parts = [];
+      if (metrics.available) parts.push(`${metrics.available} avail`);
+      if (metrics.maybe) parts.push(`${metrics.maybe} maybe`);
+      parts.push(`${metrics.unselected} left`);
+      els.overlaySummary.textContent = parts.join(" \u00B7 ");
     }
     syncSelectionOverlayVisibility();
   }
@@ -1887,9 +1887,9 @@
           </div>
         </div>
         <div class="lb-stats">
-          <span class="lb-stat available">${entry.availableCount} available</span>
-          <span class="lb-stat maybe">${entry.maybeCount} maybe</span>
-          <span class="lb-stat pct">${availPct}% of group</span>
+          ${entry.availableCount ? `<span class="lb-stat available">${entry.availableCount} available</span>` : ""}
+          ${entry.maybeCount ? `<span class="lb-stat maybe">${entry.maybeCount} maybe</span>` : ""}
+          ${availPct ? `<span class="lb-stat pct">${availPct}%</span>` : ""}
         </div>
         <div class="lb-bar"><span style="width:${width.toFixed(1)}%"></span></div>
       `;

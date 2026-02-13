@@ -9,10 +9,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=20260214d" />
-  <script defer src="/config.js?v=20260214d"></script>
-  <script defer src="/cloud-client.js?v=20260214d"></script>
-  <script defer src="/app.js?v=20260214d"></script>
+  <link rel="stylesheet" href="/styles.css?v=20260214e" />
+  <script defer src="/config.js?v=20260214e"></script>
+  <script defer src="/cloud-client.js?v=20260214e"></script>
+  <script defer src="/app.js?v=20260214e"></script>
 </head>
 <body>
   <main class="app-shell">
@@ -122,30 +122,15 @@
         <p class="hint keyboard-hint">Tip: Long-press or right-click a card to set status directly. On desktop, focus a card and press 1&ndash;5 to rank, Delete to clear rank.</p>
 
         <aside id="selectionOverlay" class="selection-overlay" aria-live="polite" hidden>
-          <div class="overlay-counts">
-            <div class="overlay-item selected">
-              <span>Selected</span>
-              <strong id="overlaySelectedCount">0</strong>
-            </div>
-            <div class="overlay-item available">
-              <span>Available</span>
-              <strong id="overlayAvailableCount">0</strong>
-            </div>
-            <div class="overlay-item maybe">
-              <span>Maybe</span>
-              <strong id="overlayMaybeCount">0</strong>
-            </div>
-            <div class="overlay-item unselected">
-              <span>Unselected</span>
-              <strong id="overlayUnselectedCount">0</strong>
+          <div class="ov-row ov-summary-row">
+            <span id="overlaySummary" class="ov-summary">0 selected</span>
+            <div class="ov-nav-compact">
+              <button id="overlayPrevStep" class="ov-nav-btn" type="button">&larr;</button>
+              <button id="overlayScrollTop" class="ov-nav-btn" type="button">&uarr;</button>
+              <button id="overlayNextStep" class="ov-nav-btn ov-nav-primary" type="button">&rarr;</button>
             </div>
           </div>
           <nav id="monthBar" class="month-bar" aria-label="Jump to month"></nav>
-          <div class="overlay-nav">
-            <button id="overlayPrevStep" class="btn overlay-nav-btn" type="button">&larr; Step 1</button>
-            <button id="overlayScrollTop" class="btn overlay-nav-btn" type="button">&uarr; Counts</button>
-            <button id="overlayNextStep" class="btn primary overlay-nav-btn" type="button">Step 3 &rarr;</button>
-          </div>
         </aside>
         <div id="weekGrid" class="week-grid" role="list" aria-label="52 weeks"></div>
       </section>
