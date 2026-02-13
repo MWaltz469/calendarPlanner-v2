@@ -167,8 +167,29 @@
     renderRankRows();
     updateValidation();
     renderAll();
-    void probeCloudHealth();
-    void attemptAutoRejoin();
+
+    const willAutoRejoin = hasResumableSession();
+    if (willAutoRejoin) {
+      void attemptAutoRejoin();
+    } else {
+      void probeCloudHealth();
+    }
+  }
+
+  function hasResumableSession() {
+    const tripCode = normalizeTripCode(els.tripCodeInput.value);
+    const name = sanitizeName(els.nameInput.value);
+    if (!tripCode || !name || !state.backend.isEnabled()) return false;
+
+    const key = `${STORAGE_PREFIX}:session:${YEAR}:${tripCode}:${name}`;
+    try {
+      const raw = localStorage.getItem(key);
+      if (!raw) return false;
+      const session = JSON.parse(raw);
+      return Boolean(session && session.isJoined && session.tripId && session.participantId);
+    } catch {
+      return false;
+    }
   }
 
   async function attemptAutoRejoin() {
@@ -241,6 +262,7 @@
     } catch {
       setJoinState("Could not reconnect. Click Join Trip to retry.", false);
       setSyncState("cloud_unavailable");
+      setSaveState("idle");
     } finally {
       els.joinButton.disabled = false;
       els.joinButton.textContent = "Join Trip";
