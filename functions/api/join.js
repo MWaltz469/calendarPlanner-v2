@@ -65,7 +65,11 @@ export async function onRequestPost(context) {
           .run();
 
         created = true;
-      } catch {
+      } catch (insertError) {
+        const msg = String(insertError && insertError.message || "").toLowerCase();
+        if (!msg.includes("unique") && !msg.includes("constraint")) {
+          throw insertError;
+        }
         // Another request may have created the same share code concurrently.
       }
 
@@ -104,7 +108,11 @@ export async function onRequestPost(context) {
           )
           .bind(newId(), trip.id, name, now, now)
           .run();
-      } catch {
+      } catch (insertError) {
+        const msg = String(insertError && insertError.message || "").toLowerCase();
+        if (!msg.includes("unique") && !msg.includes("constraint")) {
+          throw insertError;
+        }
         // Another request may have created the same participant concurrently.
       }
 

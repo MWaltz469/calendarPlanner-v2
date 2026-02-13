@@ -2,6 +2,8 @@
   "use strict";
 
   const POLL_INTERVAL_MS = 8000;
+  const POLL_MAX_INTERVAL_MS = 60000;
+  const POLL_BACKOFF_FACTOR = 2;
 
   class PlannerBackend {
     constructor(config) {
@@ -81,7 +83,9 @@
         timer: null,
         visibilityListener: null,
         active: true,
-        inFlight: false
+        inFlight: false,
+        currentInterval: POLL_INTERVAL_MS,
+        consecutiveFailures: 0
       };
 
       const runTick = async () => {
@@ -92,11 +96,26 @@
         channel.inFlight = true;
         try {
           await onChange();
+          channel.consecutiveFailures = 0;
+          channel.currentInterval = POLL_INTERVAL_MS;
         } catch {
-          // Caller handles sync-state errors.
+          channel.consecutiveFailures += 1;
+          channel.currentInterval = Math.min(
+            POLL_MAX_INTERVAL_MS,
+            POLL_INTERVAL_MS * Math.pow(POLL_BACKOFF_FACTOR, channel.consecutiveFailures)
+          );
         } finally {
           channel.inFlight = false;
+          reschedule();
         }
+      };
+
+      const reschedule = () => {
+        stopTimer();
+        if (!channel.active || global.document.hidden) {
+          return;
+        }
+        channel.timer = global.setTimeout(runTick, channel.currentInterval);
       };
 
       const startTimer = () => {
@@ -104,7 +123,7 @@
           return;
         }
 
-        channel.timer = global.setInterval(runTick, POLL_INTERVAL_MS);
+        channel.timer = global.setTimeout(runTick, channel.currentInterval);
       };
 
       const stopTimer = () => {
@@ -112,7 +131,7 @@
           return;
         }
 
-        global.clearInterval(channel.timer);
+        global.clearTimeout(channel.timer);
         channel.timer = null;
       };
 
@@ -122,8 +141,9 @@
           return;
         }
 
+        channel.consecutiveFailures = 0;
+        channel.currentInterval = POLL_INTERVAL_MS;
         void runTick();
-        startTimer();
       };
 
       global.document.addEventListener("visibilitychange", channel.visibilityListener);
@@ -138,7 +158,7 @@
 
       channel.active = false;
       if (channel.timer) {
-        global.clearInterval(channel.timer);
+        global.clearTimeout(channel.timer);
       }
 
       if (channel.visibilityListener) {

@@ -125,6 +125,7 @@
           <span><i class="dot available" aria-hidden="true"></i>Available</span>
           <span><i class="dot maybe" aria-hidden="true"></i>Maybe</span>
         </div>
+        <p class="hint keyboard-hint">Tip: Right-click a card to set status directly. Focus a card and press 1&ndash;5 to rank, Delete to clear rank.</p>
 
         <aside id="selectionOverlay" class="selection-overlay" aria-live="polite" hidden>
           <div class="overlay-item selected">
@@ -145,6 +146,7 @@
           </div>
         </aside>
 
+        <nav id="monthBar" class="month-bar" aria-label="Jump to month"></nav>
         <div id="weekGrid" class="week-grid" role="list" aria-label="52 weeks"></div>
       </section>
 
@@ -204,6 +206,11 @@
     </section>
   </main>
 
+  <div id="weekContextMenu" class="week-context-menu" hidden>
+    <button type="button" data-status="available">Available</button>
+    <button type="button" data-status="maybe">Maybe</button>
+    <button type="button" data-status="unselected">Unselected</button>
+  </div>
   <div id="toastArea" class="toast-area" aria-live="polite" aria-atomic="true"></div>
 </body>
 </html>

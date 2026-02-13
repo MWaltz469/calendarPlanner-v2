@@ -35,6 +35,20 @@
    * @property {Array<{name:string,status:string,rank:number|null}>} people
    */
 
+  function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  function safeSetItem(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch {
+      showToast("Could not save to local storage. Storage may be full.", "warn");
+    }
+  }
+
   const APP_CONFIG = window.CALENDAR_PLANNER_CONFIG || {};
   const YEAR = Number(APP_CONFIG.appYear) || 2026;
   const MAX_RANK = 5;
@@ -44,6 +58,7 @@
   const STATUS_SEQUENCE = ["unselected", "available", "maybe"];
   const SCORE_MAP = { available: 100, maybe: 25, unselected: 0 };
   const RANK_BONUS = { 1: 10, 2: 8, 3: 6, 4: 4, 5: 2 };
+  const AUTO_SAVE_DELAY_MS = 4000;
   const STORAGE_PREFIX = "calendar_planner_wizard_v1";
   const OLD_STORAGE_PREFIX = "trip_week_planner_v1";
   const THEME_STORAGE_KEY = `${STORAGE_PREFIX}:theme`;
@@ -77,6 +92,7 @@
     realtimeChannel: null,
     realtimeTimer: null,
     syncing: false,
+    autoSaveTimer: null,
     validation: {
       hasAvailable: false,
       rankedCount: 0,
@@ -109,6 +125,7 @@
     overlayAvailableCount: document.getElementById("overlayAvailableCount"),
     overlayMaybeCount: document.getElementById("overlayMaybeCount"),
     overlayUnselectedCount: document.getElementById("overlayUnselectedCount"),
+    monthBar: document.getElementById("monthBar"),
     weekGrid: document.getElementById("weekGrid"),
     rankRows: document.getElementById("rankRows"),
     rankNote: document.getElementById("rankNote"),
@@ -120,6 +137,7 @@
     participantList: document.getElementById("participantList"),
     leaderboard: document.getElementById("leaderboard"),
     weekDetail: document.getElementById("weekDetail"),
+    weekContextMenu: document.getElementById("weekContextMenu"),
     toastArea: document.getElementById("toastArea"),
     panels: {
       1: document.getElementById("step-1"),
@@ -145,6 +163,7 @@
     restoreProfile();
     bindEvents();
     renderWeekCards();
+    renderMonthBar();
     renderRankRows();
     updateValidation();
     renderAll();
@@ -156,6 +175,8 @@
     els.tripCodeInput.addEventListener("input", handleTripCodeEdit);
     els.tripCodeInput.addEventListener("change", handleTripCodeEdit);
     els.nameInput.addEventListener("change", persistProfile);
+    els.tripCodeInput.addEventListener("keydown", handleJoinFieldKeydown);
+    els.nameInput.addEventListener("keydown", handleJoinFieldKeydown);
     els.windowStartInput.addEventListener("change", handleWindowConfigInputChange);
     els.windowDaysInput.addEventListener("change", handleWindowConfigInputChange);
     els.themeSelect.addEventListener("change", handleThemeSelection);
@@ -169,6 +190,20 @@
     els.exportButton.addEventListener("click", exportSummary);
     els.clearButton.addEventListener("click", clearSelections);
 
+    els.weekContextMenu.querySelectorAll("button").forEach((btn) => {
+      btn.addEventListener("click", () => handleContextMenuSelection(btn.dataset.status));
+    });
+    document.addEventListener("click", (event) => {
+      if (!els.weekContextMenu.hidden && !els.weekContextMenu.contains(event.target)) {
+        hideWeekContextMenu();
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !els.weekContextMenu.hidden) {
+        hideWeekContextMenu();
+      }
+    });
+
     if (window.matchMedia) {
       const media = window.matchMedia("(prefers-color-scheme: dark)");
       if (media.addEventListener) {
@@ -178,7 +213,14 @@
 
     window.addEventListener("scroll", syncSelectionOverlayVisibility, { passive: true });
     window.addEventListener("resize", syncSelectionOverlayVisibility);
-    window.addEventListener("beforeunload", cleanupRealtime);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+  }
+
+  function handleJoinFieldKeydown(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleJoinTrip();
+    }
   }
 
   function handleTripCodeEdit() {
@@ -298,7 +340,7 @@
     document.documentElement.setAttribute("data-theme", resolved);
     els.themeSelect.value = state.themePreference;
     if (shouldPersist) {
-      localStorage.setItem(THEME_STORAGE_KEY, state.themePreference);
+      safeSetItem(THEME_STORAGE_KEY, state.themePreference);
     }
   }
 
@@ -396,7 +438,7 @@
   }
 
   function persistProfile() {
-    localStorage.setItem(
+    safeSetItem(
       profileKey(),
       JSON.stringify({
         tripCode: normalizeTripCode(els.tripCodeInput.value),
@@ -488,6 +530,7 @@
       state.selectedDetailWeek = null;
       if (incoming.rerenderCards !== false) {
         renderWeekCards();
+        renderMonthBar();
       }
     }
 
@@ -642,7 +685,7 @@
       windowDays: state.windowConfig.days
     };
 
-    localStorage.setItem(key, JSON.stringify(payload));
+    safeSetItem(key, JSON.stringify(payload));
   }
 
   function clampStep(step) {
@@ -669,9 +712,12 @@
 
     persistSession();
     renderAll();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   async function handleJoinTrip() {
+    if (els.joinButton.disabled) return;
+
     const tripCode = normalizeTripCode(els.tripCodeInput.value);
     const participantName = sanitizeName(els.nameInput.value);
     const requestedWindowConfig = {
@@ -696,6 +742,9 @@
       return;
     }
 
+    els.joinButton.disabled = true;
+    els.joinButton.textContent = "Connecting...";
+    els.joinButton.classList.add("loading");
     cleanupRealtime();
     state.tripCode = tripCode;
     state.participantName = participantName;
@@ -775,10 +824,42 @@
       showToast("Could not connect to cloud. Attendee voting requires cloud access.", "warn");
     }
 
+    els.joinButton.disabled = false;
+    els.joinButton.textContent = "Join Trip";
+    els.joinButton.classList.remove("loading");
     updateValidation();
     persistProfile();
     persistSession();
     renderAll();
+  }
+
+  function renderMonthBar() {
+    els.monthBar.innerHTML = "";
+    const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const monthFirstWeek = new Map();
+    state.weeks.forEach((week, index) => {
+      const month = week.start.getMonth();
+      if (!monthFirstWeek.has(month)) {
+        monthFirstWeek.set(month, index);
+      }
+    });
+
+    MONTH_NAMES.forEach((name, monthIndex) => {
+      const weekIndex = monthFirstWeek.get(monthIndex);
+      if (weekIndex === undefined) return;
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "month-btn";
+      btn.textContent = name;
+      btn.setAttribute("aria-label", `Jump to ${name}`);
+      btn.addEventListener("click", () => {
+        const card = els.weekGrid.children[weekIndex];
+        if (card) {
+          card.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+      els.monthBar.appendChild(btn);
+    });
   }
 
   function renderWeekCards() {
@@ -815,6 +896,7 @@
       `;
 
       card.addEventListener("click", () => toggleWeekStatus(index));
+      card.addEventListener("contextmenu", (event) => showWeekContextMenu(event, index));
       card.addEventListener("keydown", (event) => {
         if (event.key >= "1" && event.key <= "5") {
           event.preventDefault();
@@ -856,6 +938,47 @@
       );
       card.setAttribute("aria-pressed", String(status !== "unselected"));
     });
+  }
+
+  let contextMenuWeekIndex = null;
+
+  function showWeekContextMenu(event, index) {
+    event.preventDefault();
+    contextMenuWeekIndex = index;
+    const menu = els.weekContextMenu;
+    menu.hidden = false;
+
+    const menuRect = menu.getBoundingClientRect();
+    let x = event.clientX;
+    let y = event.clientY;
+    if (x + menuRect.width > window.innerWidth) {
+      x = window.innerWidth - menuRect.width - 8;
+    }
+    if (y + menuRect.height > window.innerHeight) {
+      y = window.innerHeight - menuRect.height - 8;
+    }
+    menu.style.left = `${Math.max(4, x)}px`;
+    menu.style.top = `${Math.max(4, y)}px`;
+  }
+
+  function hideWeekContextMenu() {
+    els.weekContextMenu.hidden = true;
+    contextMenuWeekIndex = null;
+  }
+
+  function handleContextMenuSelection(status) {
+    if (contextMenuWeekIndex === null) return;
+    const index = contextMenuWeekIndex;
+    hideWeekContextMenu();
+    state.selections[index].status = status;
+    if (status !== "available") {
+      state.selections[index].rank = null;
+    }
+    enforceRankConsistency();
+    updateValidation();
+    setSaveState("dirty");
+    persistSession();
+    renderAll();
   }
 
   function toggleWeekStatus(index) {
@@ -1061,13 +1184,45 @@
     });
   }
 
+  function scheduleAutoSave() {
+    cancelAutoSave();
+    if (!state.isJoined || !state.backend.isEnabled() || !state.participantId) return;
+    state.autoSaveTimer = setTimeout(async () => {
+      state.autoSaveTimer = null;
+      if (state.saveState !== "dirty") return;
+      setSaveState("saving");
+      try {
+        await state.backend.upsertSelections(state.participantId, state.selections);
+        await state.backend.updateParticipantProgress(state.participantId, state.currentStep);
+        setSaveState("saved");
+        setSyncState("live_ready");
+        persistSession();
+      } catch {
+        setSaveState("dirty");
+      }
+    }, AUTO_SAVE_DELAY_MS);
+  }
+
+  function cancelAutoSave() {
+    if (state.autoSaveTimer) {
+      clearTimeout(state.autoSaveTimer);
+      state.autoSaveTimer = null;
+    }
+  }
+
   async function saveAvailability(isFinalSubmit) {
+    if (els.submitButton.disabled) return;
+
     if (!state.isJoined) {
       showToast("Join trip first.", "warn");
       goToStep(1);
       return;
     }
 
+    cancelAutoSave();
+    els.submitButton.disabled = true;
+    els.submitButton.textContent = "Saving...";
+    els.submitButton.classList.add("loading");
     setSaveState("saving");
     persistSession();
 
@@ -1098,6 +1253,10 @@
       setSaveState("error");
       setSyncState("cloud_unavailable");
       showToast("Cloud save failed. Please retry once connection is restored.", "warn");
+    } finally {
+      els.submitButton.disabled = false;
+      els.submitButton.textContent = "Submit Availability";
+      els.submitButton.classList.remove("loading");
     }
   }
 
@@ -1142,7 +1301,15 @@
     });
   }
 
+  function handleBeforeUnload(event) {
+    cleanupRealtime();
+    if (state.saveState === "dirty") {
+      event.preventDefault();
+    }
+  }
+
   function cleanupRealtime() {
+    cancelAutoSave();
     if (state.realtimeTimer) {
       clearTimeout(state.realtimeTimer);
       state.realtimeTimer = null;
@@ -1159,7 +1326,8 @@
 
   function setJoinState(message, positive) {
     els.joinState.textContent = message;
-    els.joinState.style.color = positive ? "#166534" : "#4f6980";
+    els.joinState.classList.remove("hint--positive", "hint--error", "hint--muted");
+    els.joinState.classList.add(positive ? "hint--positive" : "hint--muted");
   }
 
   function setSaveState(mode) {
@@ -1172,12 +1340,16 @@
       error: "Save failed."
     };
     els.saveState.textContent = text[mode] || text.idle;
+    els.saveState.classList.remove("hint--positive", "hint--error", "hint--muted");
     if (mode === "saved") {
-      els.saveState.style.color = "#166534";
+      els.saveState.classList.add("hint--positive");
     } else if (mode === "error") {
-      els.saveState.style.color = "#991b1b";
+      els.saveState.classList.add("hint--error");
     } else {
-      els.saveState.style.color = "#4f6980";
+      els.saveState.classList.add("hint--muted");
+    }
+    if (mode === "dirty") {
+      scheduleAutoSave();
     }
   }
 
@@ -1428,7 +1600,11 @@
       const li = document.createElement("li");
       const done = Boolean(participant.submitted_at);
       li.className = done ? "done" : "";
-      li.innerHTML = `<span>${participant.name}</span><span>${done ? "Submitted" : "Not submitted"}</span>`;
+      const nameSpan = document.createElement("span");
+      nameSpan.textContent = participant.name;
+      const statusSpan = document.createElement("span");
+      statusSpan.textContent = done ? "Submitted" : "Not submitted";
+      li.append(nameSpan, statusSpan);
       els.participantList.appendChild(li);
     });
 
@@ -1474,7 +1650,7 @@
 
     const lines = sortedPeople.length
       ? `<ul>${sortedPeople
-          .map((person) => `<li>${person.name}: ${person.status}${person.rank ? ` (#${person.rank})` : ""}</li>`)
+          .map((person) => `<li>${escapeHtml(person.name)}: ${person.status}${person.rank ? ` (#${person.rank})` : ""}</li>`)
           .join("")}</ul>`
       : "<p>No participant details yet.</p>";
 
@@ -1498,16 +1674,31 @@
     renderResults();
   }
 
-  function clearSelections() {
+  async function clearSelections() {
     const confirmed = window.confirm("Clear all week statuses and rankings for your profile?");
     if (!confirmed) return;
 
     state.selections = createEmptySelections();
     state.selectedDetailWeek = null;
     updateValidation();
-    setSaveState("dirty");
     persistSession();
     renderAll();
+
+    if (state.isJoined && state.backend.isEnabled() && state.participantId) {
+      setSaveState("saving");
+      try {
+        await state.backend.upsertSelections(state.participantId, state.selections);
+        setSaveState("saved");
+        setSyncState("live_ready");
+        showToast("Selections cleared and synced.", "good");
+      } catch {
+        setSaveState("error");
+        showToast("Cleared locally but cloud sync failed.", "warn");
+      }
+    } else {
+      setSaveState("dirty");
+    }
+    persistSession();
   }
 
   function exportSummary() {
@@ -1572,7 +1763,7 @@
     link.href = URL.createObjectURL(blob);
     link.download = `${YEAR}_${state.tripCode}_${state.participantName.replace(/\s+/g, "_")}_availability.txt`;
     link.click();
-    URL.revokeObjectURL(link.href);
+    setTimeout(() => URL.revokeObjectURL(link.href), 200);
   }
 
   function showToast(message, tone) {
