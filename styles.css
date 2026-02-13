@@ -1426,6 +1426,112 @@ body {
   background: #92400e;
 }
 
+/* --- Landing page --- */
+
+.landing-shell {
+  max-width: 720px;
+}
+
+.landing-hero {
+  text-align: center;
+  padding: 1.5rem 1rem;
+}
+
+.landing-hero h1 {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.landing-hero p {
+  margin: 0.5rem 0 0;
+  color: var(--ink-soft);
+  font-size: 1rem;
+}
+
+.landing-paths {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.landing-card {
+  padding: 1.2rem;
+  display: grid;
+  gap: 0.4rem;
+  text-decoration: none;
+  color: var(--ink);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.landing-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+  box-shadow: 0 8px 24px rgba(15, 31, 46, 0.12);
+}
+
+.landing-card-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.landing-card h2 {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  font-size: 1.15rem;
+}
+
+.landing-card p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+}
+
+.landing-btn {
+  justify-self: start;
+  margin-top: 0.3rem;
+}
+
+.landing-join-form {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+.landing-input {
+  flex: 1;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  padding: 0.5rem 0.65rem;
+  text-transform: uppercase;
+}
+
+:root[data-theme="dark"] .landing-input {
+  background: #1a2b3b;
+  border-color: #34506a;
+  color: #e4eef7;
+}
+
+.landing-footer {
+  text-align: center;
+  padding: 0.8rem;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+}
+
+@media (min-width: 560px) {
+  .landing-paths {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .landing-join-direct {
+    grid-column: 1 / -1;
+  }
+}
+
 /* --- Admin portal --- */
 
 .admin-login-card {

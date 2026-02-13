@@ -7,8 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles.css?v=20260213m" />
-  <script defer src="./admin.js?v=20260213m"></script>
+  <link rel="stylesheet" href="./styles.css?v=20260213y" />
+  <script defer src="./admin.js?v=20260213y"></script>
 </head>
 <body>
   <main class="app-shell">
@@ -66,17 +66,28 @@
           <label class="field">
             <span>Window start day</span>
             <select id="newTripStartDay">
-              <option value="sat">Saturday</option>
+              <option value="mon">Monday</option>
+              <option value="tue">Tuesday</option>
+              <option value="wed">Wednesday</option>
+              <option value="thu">Thursday</option>
+              <option value="fri">Friday</option>
+              <option value="sat" selected>Saturday</option>
               <option value="sun">Sunday</option>
             </select>
           </label>
           <label class="field">
             <span>Window length</span>
             <select id="newTripDays">
+              <option value="2">2 days</option>
+              <option value="3">3 days</option>
+              <option value="4">4 days</option>
+              <option value="5">5 days</option>
               <option value="6">6 days</option>
               <option value="7" selected>7 days</option>
               <option value="8">8 days</option>
               <option value="9">9 days</option>
+              <option value="10">10 days</option>
+              <option value="14">14 days</option>
             </select>
           </label>
         </div>

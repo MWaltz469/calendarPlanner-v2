@@ -57,7 +57,7 @@ export async function onRequestPost(context) {
             `${year} Group Trip`,
             shareCode,
             year,
-            startDay === "sun" ? "sun_start" : "sat_start",
+            `${startDay}_start`,
             tripLength,
             timezone,
             now

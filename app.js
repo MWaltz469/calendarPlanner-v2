@@ -52,9 +52,11 @@
   const APP_CONFIG = window.CALENDAR_PLANNER_CONFIG || {};
   const YEAR = Number(APP_CONFIG.appYear) || 2026;
   const MAX_RANK = 5;
-  const WINDOW_DAYS_MIN = 6;
-  const WINDOW_DAYS_MAX = 9;
+  const WINDOW_DAYS_MIN = 2;
+  const WINDOW_DAYS_MAX = 14;
   const WEEKDAY_BY_DAY_INDEX = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const VALID_START_DAYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+  const START_DAY_LABELS = { sun: "Sunday", mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday", fri: "Friday", sat: "Saturday" };
   const STATUS_SEQUENCE = ["unselected", "available", "maybe"];
   const SCORE_MAP = { available: 100, maybe: 25, unselected: 0 };
   const RANK_BONUS = { 1: 10, 2: 8, 3: 6, 4: 4, 5: 2 };
@@ -400,7 +402,8 @@
   }
 
   function getFirstStartDay(year, startDay) {
-    const targetDay = startDay === "sun" ? 0 : 6;
+    const dayMap = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
+    const targetDay = dayMap[startDay] !== undefined ? dayMap[startDay] : 6;
     const date = new Date(year, 0, 1);
     while (date.getDay() !== targetDay) {
       date.setDate(date.getDate() + 1);
@@ -421,7 +424,8 @@
   }
 
   function normalizeWindowStartDay(value) {
-    return value === "sun" ? "sun" : "sat";
+    const v = String(value || "").toLowerCase();
+    return VALID_START_DAYS.includes(v) ? v : "sat";
   }
 
   function normalizeWindowDays(value) {
@@ -493,33 +497,23 @@
   function getWindowConfigSummary(windowConfig) {
     const startDay = normalizeWindowStartDay(windowConfig.startDay);
     const days = normalizeWindowDays(windowConfig.days);
-    return `${startDay === "sun" ? "Sunday" : "Saturday"} start, ${days}-day windows`;
+    return `${START_DAY_LABELS[startDay] || "Saturday"} start, ${days}-day windows`;
   }
 
   function parseTripWindowConfig(weekFormat, tripLength) {
     const normalized = typeof weekFormat === "string" ? weekFormat.toLowerCase() : "";
 
-    if (normalized === "sun_start") {
-      return { startDay: "sun", days: normalizeWindowDays(tripLength) };
+    const startMatch = normalized.match(/^(\w+)_start$/);
+    if (startMatch && VALID_START_DAYS.includes(startMatch[1])) {
+      return { startDay: startMatch[1], days: normalizeWindowDays(tripLength) };
     }
-    if (normalized === "sat_start") {
-      return { startDay: "sat", days: normalizeWindowDays(tripLength) };
-    }
-    if (normalized === "sun_to_sat") {
-      return { startDay: "sun", days: 7 };
-    }
-    if (normalized === "sat_to_sat") {
-      return { startDay: "sat", days: 8 };
-    }
-    if (normalized === "sat_to_sun") {
-      return { startDay: "sat", days: 9 };
-    }
-    if (normalized === "sun_to_sun") {
-      return { startDay: "sun", days: 8 };
-    }
-    if (normalized === "sat_to_fri") {
-      return { startDay: "sat", days: 7 };
-    }
+
+    // Legacy formats
+    if (normalized === "sun_to_sat") return { startDay: "sun", days: 7 };
+    if (normalized === "sat_to_sat") return { startDay: "sat", days: 8 };
+    if (normalized === "sat_to_sun") return { startDay: "sat", days: 9 };
+    if (normalized === "sun_to_sun") return { startDay: "sun", days: 8 };
+    if (normalized === "sat_to_fri") return { startDay: "sat", days: 7 };
 
     return {
       startDay: normalizeWindowStartDay(state.windowConfig.startDay),
@@ -599,10 +593,14 @@
       }
     }
 
-    if (!profile) return;
+    // Check URL params for direct trip code link
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlTripCode = normalizeTripCode(urlParams.get("trip") || "");
 
-    els.tripCodeInput.value = normalizeTripCode(profile.tripCode || "");
-    els.nameInput.value = sanitizeName(profile.participantName || "");
+    if (!profile && !urlTripCode) return;
+
+    els.tripCodeInput.value = urlTripCode || normalizeTripCode((profile && profile.tripCode) || "");
+    els.nameInput.value = sanitizeName((profile && profile.participantName) || "");
     els.windowStartInput.value = normalizeWindowStartDay(profile.windowStartDay || DEFAULT_WINDOW_START_DAY);
     els.windowDaysInput.value = String(normalizeWindowDays(profile.windowDays || DEFAULT_WINDOW_DAYS));
     applyWindowConfig(

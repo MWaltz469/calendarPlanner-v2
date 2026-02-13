@@ -45,7 +45,7 @@ export async function onRequestPost(context) {
         `INSERT INTO trips (id, name, share_code, trip_year, week_format, trip_length, timezone, created_at)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
       )
-      .bind(tripId, name, shareCode, year, startDay === "sun" ? "sun_start" : "sat_start", tripLength, "UTC", now)
+      .bind(tripId, name, shareCode, year, `${startDay}_start`, tripLength, "UTC", now)
       .run();
 
     const trip = await db

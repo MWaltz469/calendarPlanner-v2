@@ -95,7 +95,10 @@
   }
 
   function fmtConfig(wf, tl) {
-    return `${wf === "sun_start" ? "Sunday" : "Saturday"} start, ${tl}-day`;
+    const dayLabels = { sun: "Sunday", mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday", fri: "Friday", sat: "Saturday" };
+    const match = String(wf || "").match(/^(\w+)_start$/);
+    const day = match ? (dayLabels[match[1]] || match[1]) : "Saturday";
+    return `${day} start, ${tl}-day`;
   }
 
   function timeAgo(iso) {

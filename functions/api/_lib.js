@@ -1,5 +1,6 @@
-const WINDOW_DAYS_MIN = 6;
-const WINDOW_DAYS_MAX = 9;
+const WINDOW_DAYS_MIN = 2;
+const WINDOW_DAYS_MAX = 14;
+const VALID_START_DAYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 const MAX_STEP = 4;
 const STATUSES = new Set(["available", "maybe", "unselected"]);
 
@@ -60,7 +61,8 @@ export function normalizeYear(value) {
 }
 
 export function normalizeStartDay(value) {
-  return value === "sun" ? "sun" : "sat";
+  const v = String(value || "").toLowerCase();
+  return VALID_START_DAYS.includes(v) ? v : "sat";
 }
 
 export function normalizeTripLength(value) {
