@@ -1158,17 +1158,35 @@
     const menu = els.weekContextMenu;
     menu.hidden = false;
 
-    const menuRect = menu.getBoundingClientRect();
-    let x = event.clientX;
-    let y = event.clientY;
-    if (x + menuRect.width > window.innerWidth) {
-      x = window.innerWidth - menuRect.width - 8;
+    const card = els.weekGrid.querySelector(`.week-card[data-index="${index}"]`);
+    const anchor = card ? (card.querySelector(".status-pill") || card) : null;
+
+    if (anchor) {
+      const anchorRect = anchor.getBoundingClientRect();
+      const menuRect = menu.getBoundingClientRect();
+      let x = anchorRect.left;
+      let y = anchorRect.bottom + 4;
+      if (x + menuRect.width > window.innerWidth) {
+        x = window.innerWidth - menuRect.width - 8;
+      }
+      if (y + menuRect.height > window.innerHeight) {
+        y = anchorRect.top - menuRect.height - 4;
+      }
+      menu.style.left = `${Math.max(4, x)}px`;
+      menu.style.top = `${Math.max(4, y)}px`;
+    } else {
+      const menuRect = menu.getBoundingClientRect();
+      let x = event.clientX;
+      let y = event.clientY;
+      if (x + menuRect.width > window.innerWidth) {
+        x = window.innerWidth - menuRect.width - 8;
+      }
+      if (y + menuRect.height > window.innerHeight) {
+        y = window.innerHeight - menuRect.height - 8;
+      }
+      menu.style.left = `${Math.max(4, x)}px`;
+      menu.style.top = `${Math.max(4, y)}px`;
     }
-    if (y + menuRect.height > window.innerHeight) {
-      y = window.innerHeight - menuRect.height - 8;
-    }
-    menu.style.left = `${Math.max(4, x)}px`;
-    menu.style.top = `${Math.max(4, y)}px`;
   }
 
   function hideWeekContextMenu() {
