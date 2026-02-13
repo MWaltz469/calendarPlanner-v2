@@ -4,9 +4,10 @@ A free web app that helps groups coordinate trip availability. Share a trip code
 
 **How it works for your group:**
 1. The organizer deploys the app (one-click, free, ~5 minutes).
-2. The organizer picks a trip code (e.g. `SQUAD2026`) and shares it with the group.
-3. Each person opens the link, enters the trip code and their name, picks their available weeks, ranks their favorites, and submits.
-4. Everyone can see the group results -- a heatmap showing overlap, a leaderboard of the best weeks, and who has submitted.
+2. The organizer creates a trip code in the **admin portal** (e.g. `BEACH2026`), choosing the start day and trip length.
+3. The organizer shares the link with the group (e.g. `https://your-site.pages.dev/planner.html?trip=BEACH2026`).
+4. Each person opens the link, enters their name, picks their available weeks, and submits.
+5. Everyone can see the group results -- a heatmap showing overlap, a leaderboard of the best weeks, and who has submitted.
 
 No accounts, no sign-ups, no app store. Just a link.
 
@@ -98,33 +99,50 @@ When it finishes, you'll see a live URL like:
 https://trip-week-planner.pages.dev
 ```
 
-Share that link with your group. Done.
+### Step 4: Set the admin password
+
+```bash
+npx wrangler secret put ADMIN_PASSWORD --project-name trip-week-planner
+```
+
+Enter your chosen password at the prompt. This lets you access the admin portal.
 
 ---
 
-## Using the app
+## Typical workflow
 
 ### As the organizer
 
-1. Open the deployed URL.
-2. Enter a trip code (anything memorable, like `BEACH2026` or `SKIING`).
-3. Enter your name and click **Join Trip**.
-4. This creates the trip. Share the same trip code and URL with your group.
+1. Open `https://your-site.pages.dev/admin.html` and sign in with your admin password.
+2. Click **+ Create Trip** and set the trip code (e.g. `BEACH2026`), name, start day, and trip length.
+3. Share the direct link with your group: `https://your-site.pages.dev/planner.html?trip=BEACH2026`
+4. Monitor submissions in the admin portal -- see who's joined, who's submitted, and the group results.
 
 ### As a participant
 
-1. Open the link the organizer shared.
-2. Enter the trip code and your name, then click **Join Trip**.
-3. **Pick Weeks** -- click week cards to mark them as Available or Maybe. Right-click for a direct status menu.
-4. **Rank Top 5** -- use the dropdowns to rank your most preferred weeks.
-5. **Review & Save** -- click **Submit Availability** to save your picks.
+1. Open the link the organizer shared (or go to the home page and enter the trip code).
+2. Enter your name and click **Join Trip**.
+3. **Pick Weeks** -- use the month tabs to navigate, click cards to mark Available or Maybe. Long-press or right-click for a direct status menu.
+4. **Rank Top 5** (optional) -- use the dropdowns to rank your most preferred weeks.
+5. **Review & Save** -- click **Submit Availability** to save your picks and unlock group results.
 
 ### Tips
 - Your selections auto-save to the cloud a few seconds after each change.
 - Click **Submit Availability** to finalize and unlock group results.
 - The group results update in real time -- you can watch others submit.
-- Use the month buttons (Jan--Dec) above the week grid to jump to a specific month.
 - The theme picker in the top-right switches between light, dark, and system mode.
+
+---
+
+## App pages
+
+| URL | Purpose |
+|-----|---------|
+| `/` | Landing page -- choose Join a Trip, enter a code, or go to Admin |
+| `/planner.html` | The main planner (week selection, ranking, results) |
+| `/planner.html?trip=CODE` | Direct join link with trip code pre-filled |
+| `/admin.html` | Admin portal (create trips, manage participants, export data) |
+| `/about.html` | About page |
 
 ---
 
@@ -132,30 +150,17 @@ Share that link with your group. Done.
 
 A password-protected admin page for managing trips and participants.
 
-**One-time setup -- set the admin password:**
-
-```bash
-npx wrangler secret put ADMIN_PASSWORD
-```
-
-Enter your chosen password at the prompt. This is stored securely in Cloudflare and never appears in source code.
-
-For local development, create a `.dev.vars` file (git-ignored):
-
-```
-ADMIN_PASSWORD=localdevpassword
-```
-
-**Access the admin portal:**
-
-Go to `https://your-site.pages.dev/admin.html` and enter the password.
+**Access:** Go to `https://your-site.pages.dev/admin.html` and enter the admin password.
 
 **What you can do:**
-- View all trips with participant counts and submission progress
-- Click into any trip to see every participant's status, step, and join date
-- Reset a participant's submission (they'll need to re-submit)
-- Remove a participant and all their selections
-- Delete an entire trip and all its data
+- **Create trip codes** with preset start day, trip length, and name
+- **View all trips** with participant counts and submission progress
+- **Drill into any trip** to see participants, their selections, and group results
+- **Lock/unlock a trip** to freeze joins and selection changes
+- **Edit trip name** or **clone a trip** to a new code
+- **Export trip data as CSV** for sharing offline
+- **Reset a participant's submission** or **remove a participant**
+- **Delete an entire trip** and all its data
 
 ---
 
@@ -206,6 +211,12 @@ npm run cf:dev
 
 This starts a local server (typically at `http://localhost:8788`) with a local D1 database.
 
+For local admin access, create a `.dev.vars` file (git-ignored):
+
+```
+ADMIN_PASSWORD=localdevpassword
+```
+
 ---
 
 ## Configuration reference
@@ -216,12 +227,10 @@ Edit `config.js` to change app defaults:
 |---------|---------|-------------|
 | `apiBaseUrl` | `"/api"` | API path. Keep as-is for Cloudflare deploys. |
 | `appYear` | `2026` | The planning year shown in the UI. |
-| `defaultWindowStartDay` | `"sat"` | Default trip window start: `"sat"` or `"sun"`. |
-| `defaultWindowDays` | `7` | Default trip length in days (6--9). |
+| `defaultWindowStartDay` | `"sat"` | Default trip window start: any weekday (`"mon"` through `"sun"`). |
+| `defaultWindowDays` | `7` | Default trip length in days (2--14). |
 | `themePreference` | `"system"` | Default theme: `"system"`, `"light"`, or `"dark"`. |
 | `themeTransitionMs` | `220` | Theme switch animation speed in milliseconds. |
-
-These defaults only apply when creating a new trip. Existing trips keep their saved settings.
 
 ---
 
@@ -240,6 +249,9 @@ This app is designed to run entirely within the free tier:
 ---
 
 ## Troubleshooting
+
+**"Trip code not found" when joining**
+- Trip codes must be created by the organizer in the admin portal first. Ask your organizer for the correct code.
 
 **"Cloud unavailable" badge after deploy**
 - Check that your Cloudflare Pages project is listed at [dash.cloudflare.com](https://dash.cloudflare.com) under Workers & Pages.
@@ -265,9 +277,14 @@ This app is designed to run entirely within the free tier:
 | Endpoint | Method | Body / Query |
 |----------|--------|--------------|
 | `/api/health` | GET | -- |
-| `/api/join` | POST | `{shareCode, name, year, startDay, days}` |
+| `/api/join` | POST | `{shareCode, name}` |
 | `/api/selections` | GET | `?participantId=...` |
 | `/api/selections` | POST | `{participantId, selections: [{weekNumber, status, rank}]}` |
 | `/api/submit` | POST | `{participantId}` |
 | `/api/progress` | POST | `{participantId, step}` |
 | `/api/group` | GET | `?tripId=...` |
+| `/api/admin/trips` | GET | (auth required) |
+| `/api/admin/trip` | GET/PATCH/DELETE | `?tripId=...` (auth required) |
+| `/api/admin/participant` | DELETE/PATCH | `?participantId=...` (auth required) |
+| `/api/admin/create-trip` | POST | `{shareCode, name, year, startDay, days}` (auth required) |
+| `/api/admin/clone-trip` | POST | `{sourceTripId, newShareCode, name}` (auth required) |
