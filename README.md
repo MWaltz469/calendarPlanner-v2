@@ -128,6 +128,37 @@ Share that link with your group. Done.
 
 ---
 
+## Admin portal
+
+A password-protected admin page for managing trips and participants.
+
+**One-time setup -- set the admin password:**
+
+```bash
+npx wrangler secret put ADMIN_PASSWORD
+```
+
+Enter your chosen password at the prompt. This is stored securely in Cloudflare and never appears in source code.
+
+For local development, create a `.dev.vars` file (git-ignored):
+
+```
+ADMIN_PASSWORD=localdevpassword
+```
+
+**Access the admin portal:**
+
+Go to `https://your-site.pages.dev/admin.html` and enter the password.
+
+**What you can do:**
+- View all trips with participant counts and submission progress
+- Click into any trip to see every participant's status, step, and join date
+- Reset a participant's submission (they'll need to re-submit)
+- Remove a participant and all their selections
+- Delete an entire trip and all its data
+
+---
+
 ## Redeploy after changes
 
 To push updates to your live app, just run the same command again:

@@ -1362,6 +1362,122 @@ body {
   background: #92400e;
 }
 
+/* --- Admin portal --- */
+
+.admin-login-card {
+  padding: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.admin-login-card h2 {
+  margin: 0 0 0.3rem;
+  font-family: "Sora", sans-serif;
+}
+
+.admin-login-form {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.admin-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.admin-section-header h2 {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+}
+
+.admin-trips,
+.admin-participants {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.admin-trip-row,
+.admin-participant-row {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  padding: 0.55rem;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.admin-trip-row-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.admin-trip-row-info {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.admin-trip-code {
+  font-family: "Sora", sans-serif;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.admin-trip-meta {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.admin-trip-row-stats {
+  display: flex;
+  gap: 0.28rem;
+  flex-wrap: wrap;
+  align-self: center;
+}
+
+.admin-trip-row-actions,
+.admin-participant-actions {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.admin-participant-info {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.admin-participant-info strong {
+  font-size: 0.9rem;
+}
+
+.admin-participant-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.28rem;
+  align-items: center;
+}
+
+.admin-detail-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.admin-trip-info {
+  margin-bottom: 0.5rem;
+}
+
 :root[data-theme="dark"] body {
   background: linear-gradient(160deg, #0d1722, #102030);
 }

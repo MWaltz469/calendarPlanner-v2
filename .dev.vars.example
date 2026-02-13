@@ -1,0 +1,4 @@
+# Local dev secrets (used by wrangler pages dev)
+# Copy to .dev.vars and fill in your values.
+# Keep .dev.vars out of git.
+ADMIN_PASSWORD=localdevpassword

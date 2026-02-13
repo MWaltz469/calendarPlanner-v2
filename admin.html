@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Trip Week Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css?v=20260213j" />
+  <script defer src="./admin.js?v=20260213j"></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero card">
+      <div class="hero-top">
+        <h1>Admin Portal</h1>
+        <div class="hero-controls">
+          <a href="./" class="btn" style="text-decoration:none;">Back to Planner</a>
+          <button id="logoutBtn" class="btn danger" type="button" hidden>Sign Out</button>
+        </div>
+      </div>
+      <p>Manage trips, participants, and submissions.</p>
+    </header>
+
+    <section id="loginSection" class="card admin-login-card">
+      <h2>Sign in</h2>
+      <p class="step-copy">Enter the admin password to continue.</p>
+      <div class="admin-login-form">
+        <label class="field">
+          <span>Password</span>
+          <input id="passwordInput" type="password" placeholder="Admin password" autocomplete="current-password" />
+        </label>
+        <button id="loginBtn" class="btn primary" type="button">Sign In</button>
+        <span id="loginError" class="hint hint--error" hidden></span>
+      </div>
+    </section>
+
+    <section id="dashboardSection" class="card" hidden>
+      <div class="admin-section-header">
+        <h2>All Trips</h2>
+        <button id="refreshBtn" class="btn" type="button">Refresh</button>
+      </div>
+      <div id="tripsContainer" class="admin-trips"></div>
+    </section>
+
+    <section id="tripDetailSection" class="card" hidden>
+      <div class="admin-section-header">
+        <button id="backToTripsBtn" class="btn" type="button">&larr; All Trips</button>
+        <h2 id="tripDetailTitle">Trip Detail</h2>
+      </div>
+      <div id="tripDetailInfo" class="admin-trip-info"></div>
+      <h3>Participants</h3>
+      <div id="participantsContainer" class="admin-participants"></div>
+    </section>
+  </main>
+
+  <div id="toastArea" class="toast-area" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
