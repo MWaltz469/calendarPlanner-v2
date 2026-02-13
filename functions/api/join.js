@@ -6,9 +6,6 @@ import {
   newId,
   normalizeName,
   normalizeShareCode,
-  normalizeStartDay,
-  normalizeTripLength,
-  normalizeYear,
   nowIso,
   readJson
 } from "./_lib.js";
@@ -20,9 +17,6 @@ export async function onRequestPost(context) {
     const body = await readJson(request);
     const shareCode = normalizeShareCode(body.shareCode);
     const name = normalizeName(body.name);
-    const year = normalizeYear(body.year);
-    const startDay = normalizeStartDay(body.startDay);
-    const tripLength = normalizeTripLength(body.days);
 
     if (!shareCode || !name) {
       throw new HttpError("shareCode and name are required.", 400);
@@ -31,7 +25,7 @@ export async function onRequestPost(context) {
     const db = getDb(env);
     const now = nowIso();
 
-    let trip = await db
+    const trip = await db
       .prepare(
         `SELECT id, name, share_code, trip_year, week_format, trip_length, timezone, locked
          FROM trips
@@ -41,51 +35,8 @@ export async function onRequestPost(context) {
       .bind(shareCode)
       .first();
 
-    let created = false;
     if (!trip) {
-      const tripId = newId();
-      const timezone = request.cf && request.cf.timezone ? request.cf.timezone : "UTC";
-      try {
-        await db
-          .prepare(
-            `INSERT INTO trips (
-               id, name, share_code, trip_year, week_format, trip_length, timezone, created_at
-             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
-          )
-          .bind(
-            tripId,
-            `${year} Group Trip`,
-            shareCode,
-            year,
-            `${startDay}_start`,
-            tripLength,
-            timezone,
-            now
-          )
-          .run();
-
-        created = true;
-      } catch (insertError) {
-        const msg = String(insertError && insertError.message || "").toLowerCase();
-        if (!msg.includes("unique") && !msg.includes("constraint")) {
-          throw insertError;
-        }
-        // Another request may have created the same share code concurrently.
-      }
-
-      trip = await db
-        .prepare(
-          `SELECT id, name, share_code, trip_year, week_format, trip_length, timezone
-           FROM trips
-           WHERE share_code = ?
-           LIMIT 1`
-        )
-        .bind(shareCode)
-        .first();
-    }
-
-    if (!trip) {
-      throw new HttpError("Could not create or load trip.", 500);
+      throw new HttpError(`Trip code "${shareCode}" not found. Ask your organizer for the correct code.`, 404);
     }
 
     let participant = await db
@@ -149,7 +100,7 @@ export async function onRequestPost(context) {
       trip,
       participant,
       selections: selectionsResult.results || [],
-      created
+      created: false
     });
   } catch (error) {
     return handleError(error);

@@ -944,27 +944,15 @@
       await state.backend.updateParticipantProgress(state.participantId, state.currentStep);
 
       const configSummary = getWindowConfigSummary(resolvedWindowConfig);
-      const configChanged =
-        requestedWindowConfig.startDay !== resolvedWindowConfig.startDay ||
-        requestedWindowConfig.days !== resolvedWindowConfig.days;
 
-      let joinMessage = tripResult.created
-        ? `Trip created (${configSummary}). Live collaboration connected.`
-        : `Joined existing trip (${configSummary}). Live collaboration connected.`;
+      let joinMessage = `Joined trip (${configSummary}). Live collaboration connected.`;
       if (!hasRemoteData && localSelections.some((s) => s.status === "available" || s.status === "maybe")) {
         joinMessage += " Your previous selections were restored.";
       }
       setJoinState(joinMessage, true);
       setSaveState("saved");
       setSyncState("live_ready");
-
-      if (tripResult.created) {
-        showToast(`Trip created — ${configSummary}.`, "good");
-      } else if (configChanged) {
-        showToast(`Joined trip. Window adjusted to match trip: ${configSummary}.`, "good");
-      } else {
-        showToast("Connected to cloud voting.", "good");
-      }
+      showToast("Connected to cloud voting.", "good");
     } catch (error) {
       console.error(error);
       cleanupRealtime();
