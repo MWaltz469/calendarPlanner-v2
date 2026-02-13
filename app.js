@@ -110,6 +110,7 @@
     nameInput: document.getElementById("nameInput"),
     windowStartInput: document.getElementById("windowStartInput"),
     windowDaysInput: document.getElementById("windowDaysInput"),
+    windowConfigDetails: document.getElementById("windowConfigDetails"),
     windowConfigState: document.getElementById("windowConfigState"),
     joinButton: document.getElementById("joinButton"),
     submitButton: document.getElementById("submitButton"),
@@ -259,8 +260,9 @@
       setSaveState("saved");
       setJoinState(`Welcome back, ${participantName}. Live collaboration reconnected.`, true);
       showToast("Session restored.", "good");
-    } catch {
-      setJoinState("Could not reconnect. Click Join Trip to retry.", false);
+    } catch (error) {
+      const detail = error && error.message ? `: ${error.message}` : "";
+      setJoinState(`Could not reconnect${detail}. Click Join Trip to retry.`, false);
       setSyncState("cloud_unavailable");
       setSaveState("idle");
     } finally {
@@ -270,7 +272,9 @@
     }
 
     updateValidation();
-    persistSession();
+    if (state.isJoined) {
+      persistSession();
+    }
     renderAll();
   }
 
@@ -650,11 +654,12 @@
     els.windowDaysInput.disabled = state.tripSettingsLocked;
 
     if (state.tripSettingsLocked) {
+      els.windowConfigDetails.open = false;
       els.windowConfigState.textContent = `Trip window is locked: ${getWindowConfigSummary(state.windowConfig)}.`;
       return;
     }
 
-    els.windowConfigState.textContent = "These settings apply only when creating a new trip code.";
+    els.windowConfigState.textContent = "These only apply when creating a brand new trip code. Existing trips keep their saved settings.";
   }
 
   function migrateLegacySelectionsIfPresent() {
@@ -940,9 +945,10 @@
       state.selections = createEmptySelections();
       state.tripSettingsLocked = false;
       setSaveState("error");
-      setJoinState("Cloud connection failed. Check service availability and try again.", false);
+      const detail = error && error.message ? `: ${error.message}` : "";
+      setJoinState(`Cloud connection failed${detail}.`, false);
       setSyncState("cloud_unavailable");
-      showToast("Could not connect to cloud. Attendee voting requires cloud access.", "warn");
+      showToast(`Could not connect to cloud${detail}.`, "warn");
     }
 
     els.joinButton.disabled = false;
@@ -1387,7 +1393,8 @@
       console.error(error);
       setSaveState("error");
       setSyncState("cloud_unavailable");
-      showToast("Cloud save failed. Please retry once connection is restored.", "warn");
+      const detail = error && error.message ? `: ${error.message}` : "";
+      showToast(`Cloud save failed${detail}. Please retry.`, "warn");
     } finally {
       els.submitButton.disabled = false;
       els.submitButton.textContent = "Submit Availability";

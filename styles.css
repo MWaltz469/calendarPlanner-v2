@@ -340,6 +340,47 @@ body {
   outline-offset: 2px;
 }
 
+.window-config-details {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem;
+  background: var(--surface-muted);
+}
+
+.window-config-toggle {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.window-config-toggle::before {
+  content: "\25B6";
+  font-size: 0.6rem;
+  transition: transform 0.15s ease;
+}
+
+.window-config-details[open] > .window-config-toggle::before {
+  transform: rotate(90deg);
+}
+
+.window-config-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.window-config-details .form-grid {
+  margin-top: 0.5rem;
+}
+
+:root[data-theme="dark"] .window-config-details {
+  background: var(--surface-muted);
+  border-color: var(--border);
+}
+
 .inline-actions {
   display: flex;
   align-items: center;

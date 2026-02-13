@@ -7,10 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles.css?v=20260213h" />
-  <script defer src="./config.js?v=20260213h"></script>
-  <script defer src="./cloud-client.js?v=20260213h"></script>
-  <script defer src="./app.js?v=20260213h"></script>
+  <link rel="stylesheet" href="./styles.css?v=20260213j" />
+  <script defer src="./config.js?v=20260213j"></script>
+  <script defer src="./cloud-client.js?v=20260213j"></script>
+  <script defer src="./app.js?v=20260213j"></script>
 </head>
 <body>
   <main class="app-shell">
@@ -75,25 +75,28 @@
           </label>
         </div>
 
-        <div class="form-grid">
-          <label class="field">
-            <span>Window start day (new trips)</span>
-            <select id="windowStartInput" autocomplete="off">
-              <option value="sat">Saturday start</option>
-              <option value="sun">Sunday start</option>
-            </select>
-          </label>
-          <label class="field">
-            <span>Window length (new trips)</span>
-            <select id="windowDaysInput" autocomplete="off">
-              <option value="6">6 days</option>
-              <option value="7" selected>7 days</option>
-              <option value="8">8 days</option>
-              <option value="9">9 days</option>
-            </select>
-          </label>
-        </div>
-        <p id="windowConfigState" class="hint">These settings apply only when creating a new trip code.</p>
+        <details id="windowConfigDetails" class="window-config-details">
+          <summary class="window-config-toggle">Trip window settings (only for new trip codes)</summary>
+          <div class="form-grid">
+            <label class="field">
+              <span>Window start day</span>
+              <select id="windowStartInput" autocomplete="off">
+                <option value="sat">Saturday start</option>
+                <option value="sun">Sunday start</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Window length</span>
+              <select id="windowDaysInput" autocomplete="off">
+                <option value="6">6 days</option>
+                <option value="7" selected>7 days</option>
+                <option value="8">8 days</option>
+                <option value="9">9 days</option>
+              </select>
+            </label>
+          </div>
+          <p id="windowConfigState" class="hint">These only apply when creating a brand new trip code. Existing trips keep their saved settings.</p>
+        </details>
 
         <div class="inline-actions">
           <button id="joinButton" class="btn primary" type="button">Join Trip</button>
