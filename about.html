@@ -4,20 +4,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="About the Trip Week Planner — a 100% vibecoded trip coordination app." />
-  <title>About — Trip Week Planner</title>
+  <title>About — TripWeek</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=20260214p" />
-  <script src="/theme-init.js?v=20260214p"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css?v=20260214q" />
+  <script src="/theme-init.js?v=20260214q"></script>
 </head>
 <body>
-  <main class="app-shell landing-shell">
-    <header class="hero card landing-hero">
-      <h1>About This Project</h1>
-    </header>
+  <nav class="site-nav">
+    <a href="/" class="site-brand">
+      <span class="site-logo" aria-hidden="true">📅</span>
+      <span class="site-wordmark">TripWeek</span>
+    </a>
+    <div class="site-nav-right">
+      <a href="/planner.html" class="site-nav-link">Planner</a>
+      <a href="/admin.html" class="site-nav-link">Admin</a>
+      <label class="theme-toggle" aria-label="Theme mode">
+        <select id="themeSelect">
+          <option value="system">System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </label>
+    </div>
+  </nav>
 
+  <main class="app-shell landing-shell">
     <section class="card about-card">
       <img src="/assets/smart-vegeta.png" alt="Vegeta reading a book in a library, wearing a suit and glasses" class="about-meme" />
 
@@ -32,11 +46,18 @@
       <p>And yet, here we are. It works. Probably.</p>
 
       <div class="about-links">
-        <a href="https://github.com/MWaltz469" class="btn primary" target="_blank" rel="noopener">GitHub — MWaltz469</a>
+        <a href="https://github.com/MWaltz469" class="btn primary" target="_blank" rel="noopener">GitHub &mdash; MWaltz469</a>
         <a href="https://github.com/MWaltz469/calendarPlanner" class="btn" target="_blank" rel="noopener">View Source Code</a>
-        <a href="/" class="btn">Back to Home</a>
       </div>
     </section>
+
+    <footer class="site-footer">
+      <p>Free and open source. Built on Cloudflare Pages + D1.</p>
+      <div class="site-footer-links">
+        <a href="/">Home</a>
+        <a href="https://github.com/MWaltz469/calendarPlanner" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </footer>
   </main>
 
   <div id="toastArea" class="toast-area" aria-live="polite" aria-atomic="true"></div>

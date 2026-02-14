@@ -9,30 +9,34 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=20260214p" />
-  <script src="/theme-init.js?v=20260214p"></script>
-  <script defer src="/config.js?v=20260214p"></script>
-  <script defer src="/cloud-client.js?v=20260214p"></script>
-  <script defer src="/app.js?v=20260214p"></script>
+  <link rel="stylesheet" href="/styles.css?v=20260214q" />
+  <script src="/theme-init.js?v=20260214q"></script>
+  <script defer src="/config.js?v=20260214q"></script>
+  <script defer src="/cloud-client.js?v=20260214q"></script>
+  <script defer src="/app.js?v=20260214q"></script>
 </head>
 <body>
+  <nav class="site-nav">
+    <a href="/" class="site-brand">
+      <span class="site-logo" aria-hidden="true">📅</span>
+      <span class="site-wordmark">TripWeek</span>
+    </a>
+    <div class="site-nav-right">
+      <span id="connectionBadge" class="badge" role="status" aria-live="polite">Cloud status pending</span>
+      <a href="/admin.html" class="site-nav-link">Admin</a>
+      <label class="theme-toggle" aria-label="Theme mode">
+        <select id="themeSelect">
+          <option value="system">System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </label>
+    </div>
+  </nav>
+
   <main class="app-shell">
     <header class="hero card">
-      <div class="hero-top">
-        <h1>2026 Trip Week Planner</h1>
-        <div class="hero-controls">
-          <a href="/" class="btn" style="text-decoration:none;font-size:var(--text-sm);">Home</a>
-          <span id="connectionBadge" class="badge" role="status" aria-live="polite">Cloud status pending</span>
-          <label class="theme-picker">
-            <span>Theme</span>
-            <select id="themeSelect" aria-label="Theme mode">
-              <option value="system">System</option>
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-            </select>
-          </label>
-        </div>
-      </div>
+      <h2 class="hero-title">2026 Trip Week Planner</h2>
       <p>Follow the guided steps so your organizer gets complete, consistent availability in one pass.</p>
     </header>
 

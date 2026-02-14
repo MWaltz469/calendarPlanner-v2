@@ -4,83 +4,104 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Coordinate group availability for your next trip. Everyone picks their weeks, the app finds the best overlap." />
-  <title>Trip Week Planner</title>
+  <title>TripWeek — Group Trip Planner</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=20260214p" />
-  <script src="/theme-init.js?v=20260214p"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css?v=20260214q" />
+  <script src="/theme-init.js?v=20260214q"></script>
 </head>
 <body>
+  <nav class="site-nav">
+    <a href="/" class="site-brand">
+      <span class="site-logo" aria-hidden="true">📅</span>
+      <span class="site-wordmark">TripWeek</span>
+    </a>
+    <div class="site-nav-right">
+      <a href="/planner.html" class="site-nav-link">Planner</a>
+      <a href="/admin.html" class="site-nav-link">Admin</a>
+      <label class="theme-toggle" aria-label="Theme mode">
+        <select id="themeSelect">
+          <option value="system">System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </label>
+    </div>
+  </nav>
+
   <main class="app-shell landing-shell">
-    <header class="hero card landing-hero">
-      <div class="hero-top" style="justify-content:flex-end;">
-        <label class="theme-picker">
-          <span>Theme</span>
-          <select id="themeSelect" aria-label="Theme mode">
-            <option value="system">System</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
-        </label>
-      </div>
-      <h1>Trip Week Planner</h1>
-      <p>Coordinate group availability for your next trip. Everyone picks their weeks, the app finds the best overlap.</p>
+    <header class="landing-hero">
+      <span class="landing-eyebrow">Free &middot; No sign-up &middot; Real-time</span>
+      <h1>Find the week that<br>works for everyone</h1>
+      <p class="landing-sub">Share a trip code with your group. Everyone picks their available weeks. The app shows the best overlap instantly.</p>
     </header>
 
     <section class="landing-paths">
       <a href="/planner.html" class="landing-card card">
-        <div class="landing-card-icon">&#128197;</div>
-        <h2>Join a Trip</h2>
+        <div class="landing-card-top">
+          <div class="landing-card-icon">&#128197;</div>
+          <h2>Join a Trip</h2>
+        </div>
         <p>Enter your trip code and name to pick your available weeks and rank your top choices.</p>
-        <span class="btn primary landing-btn">Open Planner</span>
+        <span class="btn primary landing-btn">Open Planner &rarr;</span>
       </a>
 
       <div class="landing-card card landing-join-direct">
-        <div class="landing-card-icon">&#128279;</div>
-        <h2>Have a trip code?</h2>
-        <p>Jump straight in — enter your code and we'll take you there.</p>
+        <div class="landing-card-top">
+          <div class="landing-card-icon">&#128279;</div>
+          <h2>Quick Join</h2>
+        </div>
+        <p>Have a code? Jump straight in.</p>
         <div class="landing-join-form">
-          <input id="landingTripCode" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" class="landing-input" aria-label="Trip code" />
-          <button id="landingGoBtn" class="btn primary" type="button" aria-label="Go to trip">Go</button>
+          <input id="landingTripCode" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" class="landing-input" aria-label="Trip code" style="text-transform:uppercase;" />
+          <button id="landingGoBtn" class="btn primary" type="button" aria-label="Go to trip">Go &rarr;</button>
         </div>
       </div>
 
       <a href="/admin.html" class="landing-card card">
-        <div class="landing-card-icon">&#9881;</div>
-        <h2>Admin Portal</h2>
-        <p>Manage trips, view submissions, export data, and configure trip settings.</p>
-        <span class="btn landing-btn">Open Admin</span>
+        <div class="landing-card-top">
+          <div class="landing-card-icon">&#9881;</div>
+          <h2>Admin Portal</h2>
+        </div>
+        <p>Create trip codes, manage participants, view group results, and export data.</p>
+        <span class="btn landing-btn">Open Admin &rarr;</span>
       </a>
     </section>
 
-    <details class="card wtf-section">
-      <summary class="wtf-toggle">How does this work?</summary>
-      <div class="wtf-content">
-        <div class="wtf-step">
-          <strong>1. Organizer creates a trip code</strong>
-          <p>The person organizing the trip goes to the Admin Portal, picks a code (like <code>BEACH2026</code>), and chooses the trip window (start day, length).</p>
+    <section class="landing-how card">
+      <h2 class="landing-how-title">How it works</h2>
+      <div class="landing-how-grid">
+        <div class="landing-how-step">
+          <span class="landing-how-num">1</span>
+          <strong>Create a trip</strong>
+          <p>The organizer creates a code in the admin portal and picks the trip window.</p>
         </div>
-        <div class="wtf-step">
-          <strong>2. Everyone gets the link</strong>
-          <p>The organizer shares a link with the group. Each person enters the code and their name — no accounts needed.</p>
+        <div class="landing-how-step">
+          <span class="landing-how-num">2</span>
+          <strong>Share the link</strong>
+          <p>Everyone opens the link, enters the code and their name. No accounts needed.</p>
         </div>
-        <div class="wtf-step">
-          <strong>3. Pick your weeks</strong>
-          <p>Browse by month, tap the weeks you're available, and optionally rank your top 5 preferences.</p>
+        <div class="landing-how-step">
+          <span class="landing-how-num">3</span>
+          <strong>Pick your weeks</strong>
+          <p>Browse by month, tap available weeks, and optionally rank your top 5.</p>
         </div>
-        <div class="wtf-step">
-          <strong>4. See the results</strong>
-          <p>Once you submit, you can see everyone's overlap — a heatmap of the best weeks, a leaderboard, and who still needs to vote.</p>
+        <div class="landing-how-step">
+          <span class="landing-how-num">4</span>
+          <strong>See the overlap</strong>
+          <p>Real-time heatmap, leaderboard, and participant status. Book with confidence.</p>
         </div>
-        <p class="wtf-tldr"><strong>TL;DR:</strong> Get a code from your organizer, enter it here, pick your weeks, done.</p>
       </div>
-    </details>
+    </section>
 
-    <footer class="landing-footer">
-      <p>Free and open source. Runs on Cloudflare Pages + D1.</p>
-      <a href="/about.html" class="btn landing-about-btn" style="text-decoration:none;">About this project</a>
+    <footer class="site-footer">
+      <p>Free and open source. Built on Cloudflare Pages + D1.</p>
+      <div class="site-footer-links">
+        <a href="/about.html">About</a>
+        <a href="https://github.com/MWaltz469/calendarPlanner" target="_blank" rel="noopener">GitHub</a>
+      </div>
     </footer>
   </main>
 
