@@ -1941,10 +1941,12 @@
         );
 
         btn.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const rect = btn.getBoundingClientRect();
           state.selectedDetailWeek = entry.weekNumber;
           persistSession();
+          showHeatPopover(rect, entry, week, participants);
           renderResults();
-          showHeatPopover(event, entry, week, participants);
         });
 
         cells.appendChild(btn);
@@ -2043,9 +2045,17 @@
 
   // --- Heatmap popover ---
 
-  function showHeatPopover(event, entry, week, participants) {
+  let activeHeatDismiss = null;
+
+  function showHeatPopover(anchorRect, entry, week) {
     const popover = document.getElementById("heatPopover");
     if (!popover) return;
+
+    // Clean up previous dismiss listener
+    if (activeHeatDismiss) {
+      document.removeEventListener("click", activeHeatDismiss);
+      activeHeatDismiss = null;
+    }
 
     const availPeople = entry.people.filter((p) => p.status === "available");
     const maybePeople = entry.people.filter((p) => p.status === "maybe");
@@ -2069,25 +2079,29 @@
       ${section(`${unavailPeople.length} unavailable`, unavailPeople, "hp-unavail")}
     `;
 
+    // Position: show popover off-screen first to measure, then place
+    popover.style.left = "0px";
+    popover.style.top = "0px";
     popover.hidden = false;
-    const btn = event.currentTarget;
-    const btnRect = btn.getBoundingClientRect();
     const popRect = popover.getBoundingClientRect();
-    let x = btnRect.left + btnRect.width / 2 - popRect.width / 2;
-    let y = btnRect.bottom + 6;
+
+    let x = anchorRect.left + anchorRect.width / 2 - popRect.width / 2;
+    let y = anchorRect.bottom + 8;
     if (x + popRect.width > window.innerWidth - 8) x = window.innerWidth - popRect.width - 8;
     if (x < 8) x = 8;
-    if (y + popRect.height > window.innerHeight - 8) y = btnRect.top - popRect.height - 6;
-    popover.style.left = `${Math.max(4, x)}px`;
-    popover.style.top = `${Math.max(4, y)}px`;
+    if (y + popRect.height > window.innerHeight - 8) y = anchorRect.top - popRect.height - 8;
+    if (y < 8) y = 8;
+    popover.style.left = `${x}px`;
+    popover.style.top = `${y}px`;
 
-    const dismiss = (e) => {
-      if (!popover.contains(e.target) && e.target !== btn) {
+    activeHeatDismiss = (e) => {
+      if (!popover.contains(e.target)) {
         popover.hidden = true;
-        document.removeEventListener("click", dismiss);
+        document.removeEventListener("click", activeHeatDismiss);
+        activeHeatDismiss = null;
       }
     };
-    setTimeout(() => document.addEventListener("click", dismiss), 0);
+    setTimeout(() => document.addEventListener("click", activeHeatDismiss), 50);
   }
 
   function renderWeekDetail(aggregates) {
