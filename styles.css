@@ -117,6 +117,10 @@
   box-sizing: border-box;
 }
 
+a, button, select, input, [role="button"] {
+  touch-action: manipulation;
+}
+
 html,
 body {
   margin: 0;
@@ -1675,9 +1679,11 @@ body {
   transition: color 0.12s ease, background 0.12s ease;
 }
 
-.site-nav-link:hover {
-  color: var(--accent-text);
-  background: var(--accent-bg);
+@media (hover: hover) {
+  .site-nav-link:hover {
+    color: var(--accent-text);
+    background: var(--accent-bg);
+  }
 }
 
 .theme-toggle {
@@ -1738,9 +1744,11 @@ body {
   transition: color 0.12s ease, background 0.12s ease;
 }
 
-.site-footer-links a:hover {
-  color: var(--accent-text);
-  background: var(--accent-bg);
+@media (hover: hover) {
+  .site-footer-links a:hover {
+    color: var(--accent-text);
+    background: var(--accent-bg);
+  }
 }
 
 /* --- Landing page --- */
