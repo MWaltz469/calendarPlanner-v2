@@ -1826,16 +1826,22 @@
       els.scoreChips.appendChild(item);
     });
 
-    // --- Narrative summary ---
+    // --- Narrative summary (personalized to viewer) ---
     if (els.resultsSummary) {
       const best = topWeek;
       const bestWeekData = best ? state.weeks[best.weekNumber - 1] : null;
       const bestPct = best && totalPeople > 0 ? Math.round((best.availableCount / totalPeople) * 100) : 0;
+      const bestLabel = bestWeekData ? bestWeekData.rangeText : `Week ${best ? best.weekNumber : ""}`;
 
       if (best && best.score > 0) {
         const bestSelections = state.groupSelections.length
           ? state.groupSelections.filter((s) => s.week_number === best.weekNumber)
           : state.selections[best.weekNumber - 1] ? [{ status: state.selections[best.weekNumber - 1].status, participant_id: "local" }] : [];
+
+        // Determine viewer's status for the top week
+        const myId = state.participantId || "local";
+        const mySel = bestSelections.find((s) => s.participant_id === myId);
+        const myStatus = mySel ? mySel.status : "unselected";
 
         const availNames = [];
         const maybeNames = [];
@@ -1852,15 +1858,34 @@
         const notSubmitted = participants.filter((p) => !p.submitted_at).map((p) => escapeHtml(p.name));
 
         let html = `<div class="admin-narrative">`;
+
+        // Lead sentence — personalized
         html += `<p class="admin-narrative-lead">`;
         if (bestPct === 100 && totalPeople > 1) {
-          html += `Everyone is available for <strong>${bestWeekData ? bestWeekData.rangeText : `Week ${best.weekNumber}`}</strong>. You\u2019re good to go!`;
-        } else if (best.availableCount > 1) {
-          html += `The best overlap is <strong>${bestWeekData ? bestWeekData.rangeText : `Week ${best.weekNumber}`}</strong> with <strong>${best.availableCount} of ${totalPeople}</strong> available (${bestPct}%).`;
-        } else if (best.availableCount === 1) {
-          html += `Top window so far: <strong>${bestWeekData ? bestWeekData.rangeText : `Week ${best.weekNumber}`}</strong> with 1 person available.`;
+          html += `Everyone is available for <strong>${bestLabel}</strong>. You\u2019re all set!`;
+        } else if (myStatus === "available") {
+          const others = best.availableCount - 1;
+          if (others > 0) {
+            html += `The top week is <strong>${bestLabel}</strong> \u2014 you\u2019re free, and so ${others === 1 ? "is" : "are"} <strong>${others} other${others === 1 ? "" : "s"}</strong> (${bestPct}% overlap).`;
+          } else {
+            html += `The top week is <strong>${bestLabel}</strong> \u2014 you\u2019re the only one free so far. More votes may change this.`;
+          }
+        } else if (myStatus === "maybe") {
+          html += `The top week is <strong>${bestLabel}</strong> with <strong>${best.availableCount} of ${totalPeople}</strong> available (${bestPct}%). You marked this as tentative \u2014 confirm if you can make it.`;
         } else {
-          html += `No strong consensus yet. Waiting for more submissions.`;
+          html += `The top week is <strong>${bestLabel}</strong> with <strong>${best.availableCount} of ${totalPeople}</strong> available (${bestPct}%), but <strong>you\u2019re not free</strong> this week.`;
+          // Find the best week where the viewer IS available
+          const myBest = aggregates.find((a) => {
+            const s = state.groupSelections.length
+              ? state.groupSelections.find((gs) => gs.week_number === a.weekNumber && gs.participant_id === myId)
+              : state.selections[a.weekNumber - 1];
+            const st = s ? (s.status || s.status) : "unselected";
+            return st === "available" && a.availableCount > 0;
+          });
+          if (myBest && myBest.weekNumber !== best.weekNumber) {
+            const myBestWeek = state.weeks[myBest.weekNumber - 1];
+            html += ` Your best overlap is <strong>${myBestWeek ? myBestWeek.rangeText : `Week ${myBest.weekNumber}`}</strong> (${myBest.availableCount} available).`;
+          }
         }
         html += `</p>`;
 
@@ -2151,23 +2176,48 @@
           .join("")
       : `<p class="wd-empty">No participant details yet.</p>`;
 
-    // Build a natural language sentence about this week
-    const availNames = sortedPeople.filter((p) => p.status === "available").map((p) => escapeHtml(p.name));
+    // Build a personalized insight sentence
+    const myName = state.participantName || "";
+    const myPerson = sortedPeople.find((p) => p.name === myName);
+    const myStatus = myPerson ? myPerson.status : "unselected";
+    const myRank = myPerson ? myPerson.rank : null;
+    const otherAvail = sortedPeople.filter((p) => p.status === "available" && p.name !== myName);
     const maybeNames = sortedPeople.filter((p) => p.status === "maybe").map((p) => escapeHtml(p.name));
     const rankedHere = sortedPeople.filter((p) => p.rank);
+
     let insight = "";
-    if (availNames.length && target.people.length > 1) {
-      if (availNames.length === target.people.length) {
-        insight = "Everyone is free this week.";
+    if (target.people.length > 1) {
+      // Your status first
+      if (myStatus === "available") {
+        insight = `You\u2019re free this week.`;
+        if (otherAvail.length) {
+          insight += ` So ${otherAvail.length === 1 ? "is" : "are"} <strong>${otherAvail.map((p) => escapeHtml(p.name)).join("</strong> and <strong>")}</strong>.`;
+        } else {
+          insight += ` No one else is available yet.`;
+        }
+      } else if (myStatus === "maybe") {
+        insight = `You marked this as tentative.`;
+        if (otherAvail.length) {
+          insight += ` <strong>${otherAvail.map((p) => escapeHtml(p.name)).join("</strong> and <strong>")}</strong> ${otherAvail.length === 1 ? "is" : "are"} free.`;
+        }
       } else {
-        insight = `<strong>${availNames.join("</strong> and <strong>")}</strong> ${availNames.length === 1 ? "is" : "are"} free.`;
+        insight = `You\u2019re not available this week.`;
+        if (target.availableCount > 0) {
+          const freeNames = sortedPeople.filter((p) => p.status === "available").map((p) => escapeHtml(p.name));
+          insight += ` <strong>${freeNames.join("</strong> and <strong>")}</strong> ${freeNames.length === 1 ? "is" : "are"} free without you.`;
+        }
       }
       if (maybeNames.length) {
         insight += ` ${maybeNames.join(" and ")} might work.`;
       }
-      if (rankedHere.length) {
-        const rankBits = rankedHere.sort((a, b) => a.rank - b.rank).map((p) => `${escapeHtml(p.name)} ranked it #${p.rank}`);
-        insight += ` ${rankBits.join("; ")}.`;
+      if (myRank) {
+        const rankLabels = { 1: "your top pick", 2: "your 2nd pick", 3: "your 3rd pick", 4: "your 4th pick", 5: "your 5th pick" };
+        insight += ` This is ${rankLabels[myRank] || `your #${myRank}`}.`;
+      }
+      const otherRanked = rankedHere.filter((p) => p.name !== myName);
+      if (otherRanked.length) {
+        const bits = otherRanked.sort((a, b) => a.rank - b.rank).map((p) => `${escapeHtml(p.name)} ranked it #${p.rank}`);
+        insight += ` ${bits.join("; ")}.`;
       }
     }
 
