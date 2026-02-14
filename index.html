@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Coordinate group availability for your next trip. Everyone picks their weeks, the app finds the best overlap." />
+  <meta name="description" content="Coordinate group availability for your next trip. Everyone picks their weeks, the app finds the best overlap. Free, no sign-up, 100% vibecoded." />
   <title>TripWeek — Group Trip Planner</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=20260214r" />
-  <script src="/theme-init.js?v=20260214r"></script>
+  <link rel="stylesheet" href="/styles.css?v=20260214s" />
+  <script src="/theme-init.js?v=20260214s"></script>
 </head>
 <body>
   <nav class="site-nav">
@@ -32,72 +32,140 @@
   </nav>
 
   <main class="app-shell landing-shell">
+
+    <!-- Hero -->
     <header class="landing-hero">
-      <span class="landing-eyebrow">Free &middot; No sign-up &middot; Real-time</span>
-      <h1>Find the week that<br>works for everyone</h1>
-      <p class="landing-sub">Share a trip code with your group. Everyone picks their available weeks. The app shows the best overlap instantly.</p>
-    </header>
-
-    <section class="landing-paths">
-      <a href="/planner.html" class="landing-card card">
-        <div class="landing-card-top">
-          <div class="landing-card-icon">&#128197;</div>
-          <h2>Join a Trip</h2>
-        </div>
-        <p>Enter your trip code and name to pick your available weeks and rank your top choices.</p>
-        <span class="btn primary landing-btn">Open Planner &rarr;</span>
-      </a>
-
-      <div class="landing-card card landing-join-direct">
-        <div class="landing-card-top">
-          <div class="landing-card-icon">&#128279;</div>
-          <h2>Quick Join</h2>
-        </div>
-        <p>Have a code? Jump straight in.</p>
+      <span class="landing-eyebrow">Free &middot; No sign-up &middot; 100% Vibecoded</span>
+      <h1>Find the week that<br>works for <span class="hero-accent">everyone</span></h1>
+      <p class="landing-sub">Share a code. Pick your weeks. See the overlap. Book with confidence.<br>No accounts, no apps, no meetings about meetings.</p>
+      <div class="hero-ctas">
+        <a href="/planner.html" class="btn primary btn-lg">Start Planning &rarr;</a>
+        <a href="/admin.html" class="btn btn-lg">I&rsquo;m the Organizer</a>
+      </div>
+      <div class="hero-quick">
+        <span class="hero-quick-label">Have a code?</span>
         <div class="landing-join-form">
           <input id="landingTripCode" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" class="landing-input" aria-label="Trip code" style="text-transform:uppercase;" />
           <button id="landingGoBtn" class="btn primary" type="button" aria-label="Go to trip">Go &rarr;</button>
         </div>
       </div>
+    </header>
 
-      <a href="/admin.html" class="landing-card card">
-        <div class="landing-card-top">
-          <div class="landing-card-icon">&#9881;</div>
-          <h2>Admin Portal</h2>
-        </div>
-        <p>Create trip codes, manage participants, view group results, and export data.</p>
-        <span class="btn landing-btn">Open Admin &rarr;</span>
-      </a>
+    <!-- Stats bar -->
+    <section class="landing-stats" aria-label="Product stats">
+      <div class="landing-stat">
+        <strong>0</strong>
+        <span>meetings to plan a trip</span>
+      </div>
+      <div class="landing-stat">
+        <strong>0</strong>
+        <span>accounts required</span>
+      </div>
+      <div class="landing-stat">
+        <strong>100%</strong>
+        <span>AI-generated codebase</span>
+      </div>
+      <div class="landing-stat">
+        <strong>1</strong>
+        <span>Vegeta meme</span>
+      </div>
     </section>
 
-    <section class="landing-how card">
-      <h2 class="landing-how-title">How it works</h2>
-      <div class="landing-how-grid">
-        <div class="landing-how-step">
-          <span class="landing-how-num">1</span>
-          <strong>Create a trip</strong>
-          <p>The organizer creates a code in the admin portal and picks the trip window.</p>
+    <!-- Features -->
+    <section class="landing-features card">
+      <h2 class="landing-section-title">Everything your group chat can&rsquo;t do</h2>
+      <div class="landing-features-grid">
+        <div class="landing-feature">
+          <div class="landing-feature-icon">&#9201;</div>
+          <h3>Real-time overlap</h3>
+          <p>See who&rsquo;s available as votes come in. No more &ldquo;can everyone fill out this spreadsheet&rdquo; energy.</p>
         </div>
-        <div class="landing-how-step">
-          <span class="landing-how-num">2</span>
-          <strong>Share the link</strong>
-          <p>Everyone opens the link, enters the code and their name. No accounts needed.</p>
+        <div class="landing-feature">
+          <div class="landing-feature-icon">&#128274;</div>
+          <h3>Zero accounts</h3>
+          <p>Trip code + name. That&rsquo;s it. No OAuth, no email confirmation, no password you&rsquo;ll forget in 3 minutes.</p>
         </div>
-        <div class="landing-how-step">
-          <span class="landing-how-num">3</span>
-          <strong>Pick your weeks</strong>
-          <p>Browse by month, tap available weeks, and optionally rank your top 5.</p>
+        <div class="landing-feature">
+          <div class="landing-feature-icon">&#128736;</div>
+          <h3>Admin command center</h3>
+          <p>Create trips, monitor submissions, lock voting, export CSVs. All the control. None of the meetings.</p>
         </div>
-        <div class="landing-how-step">
-          <span class="landing-how-num">4</span>
-          <strong>See the overlap</strong>
-          <p>Real-time heatmap, leaderboard, and participant status. Book with confidence.</p>
+        <div class="landing-feature">
+          <div class="landing-feature-icon">&#127760;</div>
+          <h3>Works everywhere</h3>
+          <p>Phone, tablet, desktop, your smart fridge if it has a browser. Responsive down to 320px because we care.</p>
         </div>
       </div>
     </section>
 
+    <!-- How it works -->
+    <section class="landing-how card">
+      <h2 class="landing-section-title">How it works</h2>
+      <div class="landing-how-grid">
+        <div class="landing-how-step">
+          <span class="landing-how-num">1</span>
+          <strong>Create a trip</strong>
+          <p>The organizer picks a code, sets the trip window, and shares the link.</p>
+        </div>
+        <div class="landing-how-step">
+          <span class="landing-how-num">2</span>
+          <strong>Everyone joins</strong>
+          <p>Open the link, enter the code and your name. That&rsquo;s your whole onboarding.</p>
+        </div>
+        <div class="landing-how-step">
+          <span class="landing-how-num">3</span>
+          <strong>Pick your weeks</strong>
+          <p>Browse by month, tap available weeks, rank your top 5 if you&rsquo;re feeling decisive.</p>
+        </div>
+        <div class="landing-how-step">
+          <span class="landing-how-num">4</span>
+          <strong>Book it</strong>
+          <p>The heatmap shows the best overlap. The leaderboard ranks the top weeks. Argue less, travel more.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="landing-testimonials">
+      <h2 class="landing-section-title">What people are saying<span class="landing-asterisk">*</span></h2>
+      <div class="landing-testimonials-grid">
+        <blockquote class="landing-testimonial card">
+          <p>&ldquo;We used to argue in the group chat for three weeks about which week to travel. Now we argue for three minutes. Marginal improvement, infinite value.&rdquo;</p>
+          <footer>
+            <strong>Anonymous Group Chat Survivor</strong>
+            <span>Recovering from 47 unread messages</span>
+          </footer>
+        </blockquote>
+        <blockquote class="landing-testimonial card">
+          <p>&ldquo;I was told this was 100% vibecoded and honestly I don&rsquo;t know what that means but the heatmap is pretty and my friends stopped texting me about dates.&rdquo;</p>
+          <footer>
+            <strong>Someone&rsquo;s Mom</strong>
+            <span>Surprisingly tech-forward</span>
+          </footer>
+        </blockquote>
+        <blockquote class="landing-testimonial card">
+          <p>&ldquo;No login? No app download? No 14-day free trial of a premium tier? What&rsquo;s the catch?&rdquo;<br><em>There is no catch. The developer simply refused to learn authentication.</em></p>
+          <footer>
+            <strong>A Suspicious Product Manager</strong>
+            <span>Still looking for the pricing page</span>
+          </footer>
+        </blockquote>
+      </div>
+      <p class="landing-disclaimer">* These testimonials are entirely fictional. Like the rest of this codebase, they were vibecoded into existence.</p>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="landing-cta card">
+      <h2>Stop arguing about dates.</h2>
+      <p>It takes 30 seconds to join a trip. Less time than it took to read that last testimonial.</p>
+      <div class="hero-ctas">
+        <a href="/planner.html" class="btn primary btn-lg">Start Planning &rarr;</a>
+        <a href="/about.html" class="btn btn-lg">How is this free?</a>
+      </div>
+    </section>
+
     <footer class="site-footer">
-      <p>Free and open source. Built on Cloudflare Pages + D1.</p>
+      <p>Free and open source. Built on Cloudflare Pages + D1. Vibecoded with unreasonable optimism.</p>
       <div class="site-footer-links">
         <a href="/about.html">About</a>
         <a href="https://github.com/MWaltz469/calendarPlanner" target="_blank" rel="noopener">GitHub</a>
