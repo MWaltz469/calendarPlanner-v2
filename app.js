@@ -1618,12 +1618,12 @@
       return;
     }
 
-    els.connectionBadge.hidden = false;
     if (normalizedMode === "cloud_checking") {
-      els.connectionBadge.classList.add("checking");
-      els.connectionBadge.textContent = "Connecting...";
       return;
     }
+
+    els.connectionBadge.hidden = false;
+
 
     if (normalizedMode === "cloud_unavailable") {
       els.connectionBadge.classList.add("degraded");
