@@ -647,17 +647,30 @@ body {
 }
 
 .ov-nav-btn {
-  width: 40px;
-  height: 40px;
+  min-width: 44px;
+  height: 44px;
   border-radius: var(--radius-sm);
   border: none;
   background: var(--surface-muted);
   color: var(--ink-soft);
-  font-size: var(--text-base);
   font-weight: 700;
   cursor: pointer;
   display: inline-grid;
-  place-items: center;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-1);
+  padding: 0 var(--sp-2);
+}
+
+.ov-arrow {
+  font-size: var(--text-base);
+  line-height: 1;
+}
+
+.ov-label {
+  font-size: var(--text-xs);
+  line-height: 1;
 }
 
 .ov-nav-btn:hover {
@@ -1123,6 +1136,11 @@ body {
 
 .results {
   display: grid;
+  gap: var(--sp-3);
+}
+
+.results-narrative {
+  /* container for .admin-narrative inside planner results */
 }
 
 .results-grid {
@@ -1710,11 +1728,19 @@ body {
   color: var(--ink-soft);
   text-decoration: none;
   font-weight: 700;
-  transition: color 0.12s ease;
+  font-size: var(--text-sm);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.12s ease, background 0.12s ease;
 }
 
 .site-footer-links a:hover {
-  color: var(--accent);
+  color: var(--accent-text);
+  background: var(--accent-bg);
 }
 
 /* --- Landing page --- */

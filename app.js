@@ -142,6 +142,7 @@
     participantList: document.getElementById("participantList"),
     leaderboard: document.getElementById("leaderboard"),
     weekDetail: document.getElementById("weekDetail"),
+    resultsSummary: document.getElementById("resultsSummary"),
     weekContextMenu: document.getElementById("weekContextMenu"),
     toastArea: document.getElementById("toastArea"),
     panels: {
@@ -1805,6 +1806,67 @@
       item.innerHTML = `<span>${card.label}</span><strong>${card.value}</strong>${card.sub ? `<span class="score-chip-sub">${card.sub}</span>` : ""}`;
       els.scoreChips.appendChild(item);
     });
+
+    // --- Narrative summary ---
+    if (els.resultsSummary) {
+      const best = topWeek;
+      const bestWeekData = best ? state.weeks[best.weekNumber - 1] : null;
+      const bestPct = best && totalPeople > 0 ? Math.round((best.availableCount / totalPeople) * 100) : 0;
+
+      if (best && best.score > 0) {
+        const bestSelections = state.groupSelections.length
+          ? state.groupSelections.filter((s) => s.week_number === best.weekNumber)
+          : state.selections[best.weekNumber - 1] ? [{ status: state.selections[best.weekNumber - 1].status, participant_id: "local" }] : [];
+
+        const availNames = [];
+        const maybeNames = [];
+        const unavailNames = [];
+        participants.forEach((p) => {
+          const sel = bestSelections.find((s) => s.participant_id === p.id);
+          const status = sel ? sel.status : "unselected";
+          const name = escapeHtml(p.name);
+          if (status === "available") availNames.push(name);
+          else if (status === "maybe") maybeNames.push(name);
+          else unavailNames.push(name);
+        });
+
+        const notSubmitted = participants.filter((p) => !p.submitted_at).map((p) => escapeHtml(p.name));
+
+        let html = `<div class="admin-narrative">`;
+        html += `<p class="admin-narrative-lead">`;
+        if (bestPct === 100 && totalPeople > 1) {
+          html += `Everyone is available for <strong>${bestWeekData ? bestWeekData.rangeText : `Week ${best.weekNumber}`}</strong>. You\u2019re good to go!`;
+        } else if (best.availableCount > 1) {
+          html += `The best overlap is <strong>${bestWeekData ? bestWeekData.rangeText : `Week ${best.weekNumber}`}</strong> with <strong>${best.availableCount} of ${totalPeople}</strong> available (${bestPct}%).`;
+        } else if (best.availableCount === 1) {
+          html += `Top window so far: <strong>${bestWeekData ? bestWeekData.rangeText : `Week ${best.weekNumber}`}</strong> with 1 person available.`;
+        } else {
+          html += `No strong consensus yet. Waiting for more submissions.`;
+        }
+        html += `</p>`;
+
+        if (totalPeople > 1) {
+          const parts = [];
+          if (availNames.length) parts.push(`<span class="wd-badge wd-badge-available">${availNames.join(", ")}</span> ${availNames.length === 1 ? "is" : "are"} free`);
+          if (maybeNames.length) parts.push(`<span class="wd-badge wd-badge-maybe">${maybeNames.join(", ")}</span> ${maybeNames.length === 1 ? "is" : "are"} tentative`);
+          if (unavailNames.length) parts.push(`<span class="wd-badge wd-badge-unselected">${unavailNames.join(", ")}</span> ${unavailNames.length === 1 ? "is" : "are"} unavailable`);
+          if (parts.length) {
+            html += `<p class="admin-narrative-detail">${parts.join(". ")}.</p>`;
+          }
+        }
+
+        if (notSubmitted.length && totalPeople > 1) {
+          html += `<p class="admin-narrative-pending">Waiting on: <strong>${notSubmitted.join(", ")}</strong> (${submittedCount} of ${totalPeople} submitted).</p>`;
+        } else if (totalPeople > 1) {
+          html += `<p class="admin-narrative-pending">All ${totalPeople} participants have submitted.</p>`;
+        }
+
+        html += `</div>`;
+        els.resultsSummary.innerHTML = html;
+      } else {
+        els.resultsSummary.innerHTML = "";
+      }
+    }
 
     els.heatmap.innerHTML = "";
     const MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
