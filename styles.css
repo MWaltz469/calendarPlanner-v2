@@ -1308,6 +1308,30 @@ body {
   opacity: 0.85;
 }
 
+/* --- Participant avatars --- */
+
+.avatar {
+  display: inline-grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-family: "Sora", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 800;
+  line-height: 1;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.participant-name {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
 .participant-list {
   list-style: none;
   margin: 0;
@@ -1432,7 +1456,11 @@ body {
 .lb-who {
   font-size: var(--text-xs);
   color: var(--ink-soft);
-  line-height: 1.4;
+  line-height: 1.8;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-1);
 }
 
 .lb-who-label {

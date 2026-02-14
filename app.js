@@ -41,6 +41,23 @@
     return div.innerHTML;
   }
 
+  const AVATAR_COLORS = [
+    "#0f766e", "#0369a1", "#7c3aed", "#c026d3", "#db2777",
+    "#dc2626", "#ea580c", "#d97706", "#65a30d", "#059669"
+  ];
+
+  function nameColor(name) {
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) hash = ((hash << 5) - hash + name.charCodeAt(i)) | 0;
+    return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
+  }
+
+  function avatarHtml(name) {
+    const initial = (name || "?").charAt(0).toUpperCase();
+    const bg = nameColor(name);
+    return `<span class="avatar" style="background:${bg}">${escapeHtml(initial)}</span>`;
+  }
+
   function safeSetItem(key, value) {
     try {
       localStorage.setItem(key, value);
@@ -1908,10 +1925,10 @@
         const hasMaybeOnly = !hasAvailable && entry.maybeCount > 0;
 
         if (hasAvailable) {
-          const intensity = entry.availableCount / maxAvailable;
-          const pct = Math.round(18 + intensity * 57);
+          const intensity = totalPeople > 0 ? entry.availableCount / totalPeople : 1;
+          const pct = Math.round(12 + intensity * 78);
           btn.style.background = `color-mix(in srgb, var(--available) ${pct}%, var(--surface-muted))`;
-          if (intensity > 0.5) btn.classList.add("hm-hot");
+          if (intensity >= 0.75) btn.classList.add("hm-hot");
         } else if (hasMaybeOnly) {
           btn.style.background = `color-mix(in srgb, var(--maybe) 15%, var(--surface-muted))`;
         }
@@ -1943,11 +1960,12 @@
       const li = document.createElement("li");
       const done = Boolean(participant.submitted_at);
       li.className = done ? "done" : "";
-      const nameSpan = document.createElement("span");
-      nameSpan.textContent = participant.name;
+      const nameWrap = document.createElement("span");
+      nameWrap.className = "participant-name";
+      nameWrap.innerHTML = `${avatarHtml(participant.name)} ${escapeHtml(participant.name)}`;
       const statusSpan = document.createElement("span");
       statusSpan.textContent = done ? "Submitted" : "Not submitted";
-      li.append(nameSpan, statusSpan);
+      li.append(nameWrap, statusSpan);
       els.participantList.appendChild(li);
     });
 
@@ -1966,9 +1984,9 @@
       // Build people context for this week
       const availPeople = entry.people.filter((p) => p.status === "available");
       const rankedPeople = entry.people.filter((p) => p.rank);
-      const availNames = availPeople.map((p) => escapeHtml(p.name));
+      const availNames = availPeople.map((p) => `${avatarHtml(p.name)} ${escapeHtml(p.name)}`);
       const rankContext = rankedPeople.length
-        ? rankedPeople.sort((a, b) => a.rank - b.rank).map((p) => `${escapeHtml(p.name)}\u2019s #${p.rank}`).join(", ")
+        ? rankedPeople.sort((a, b) => a.rank - b.rank).map((p) => `${avatarHtml(p.name)} ${escapeHtml(p.name)}\u2019s #${p.rank}`).join(", ")
         : "";
 
       row.innerHTML = `
@@ -2040,7 +2058,7 @@
       ? sortedPeople
           .map((person) =>
             `<div class="wd-person${person.rank ? " wd-person-ranked" : ""}">` +
-              `<span class="wd-person-name">${escapeHtml(person.name)}</span>` +
+              `<span class="wd-person-name">${avatarHtml(person.name)} ${escapeHtml(person.name)}</span>` +
               `<div class="wd-person-status">` +
                 `${rankLabel(person.rank)}` +
                 `${statusBadge(person.status)}` +
