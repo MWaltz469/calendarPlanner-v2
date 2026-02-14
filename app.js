@@ -1612,26 +1612,27 @@
     state.syncState = normalizedMode;
 
     els.connectionBadge.classList.remove("online", "degraded", "required", "checking");
+
     if (normalizedMode === "live_ready") {
-      els.connectionBadge.classList.add("online");
-      els.connectionBadge.textContent = "Cloud connected";
+      els.connectionBadge.hidden = true;
       return;
     }
 
+    els.connectionBadge.hidden = false;
     if (normalizedMode === "cloud_checking") {
       els.connectionBadge.classList.add("checking");
-      els.connectionBadge.textContent = "Checking cloud...";
+      els.connectionBadge.textContent = "Connecting...";
       return;
     }
 
     if (normalizedMode === "cloud_unavailable") {
       els.connectionBadge.classList.add("degraded");
-      els.connectionBadge.textContent = "Cloud unavailable";
+      els.connectionBadge.textContent = "Offline";
       return;
     }
 
     els.connectionBadge.classList.add("required");
-    els.connectionBadge.textContent = "Cloud connection required";
+    els.connectionBadge.textContent = "Connection required";
   }
 
   function renderStepper() {
