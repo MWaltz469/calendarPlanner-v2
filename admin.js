@@ -2,7 +2,7 @@
   "use strict";
 
   const API_BASE = "/api/admin";
-  const SCORE_MAP = { available: 100, maybe: 25, unselected: 0 };
+  const SCORE_MAP = { available: 100, maybe: 0, unselected: 0 };
   const RANK_BONUS = { 1: 10, 2: 8, 3: 6, 4: 4, 5: 2 };
 
   const els = {

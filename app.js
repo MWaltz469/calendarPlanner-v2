@@ -75,7 +75,7 @@
   const VALID_START_DAYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   const START_DAY_LABELS = { sun: "Sunday", mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday", fri: "Friday", sat: "Saturday" };
   const STATUS_SEQUENCE = ["unselected", "available", "maybe"];
-  const SCORE_MAP = { available: 100, maybe: 25, unselected: 0 };
+  const SCORE_MAP = { available: 100, maybe: 0, unselected: 0 };
   const RANK_BONUS = { 1: 10, 2: 8, 3: 6, 4: 4, 5: 2 };
   const AUTO_SAVE_DELAY_MS = 4000;
   const STORAGE_PREFIX = "calendar_planner_wizard_v1";
