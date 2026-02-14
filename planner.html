@@ -9,11 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=20260215d" />
-  <script src="/theme-init.js?v=20260215d"></script>
-  <script defer src="/config.js?v=20260215d"></script>
-  <script defer src="/cloud-client.js?v=20260215d"></script>
-  <script defer src="/app.js?v=20260215d"></script>
+  <link rel="stylesheet" href="/styles.css?v=20260215e" />
+  <script src="/theme-init.js?v=20260215e"></script>
+  <script defer src="/config.js?v=20260215e"></script>
+  <script defer src="/cloud-client.js?v=20260215e"></script>
+  <script defer src="/app.js?v=20260215e"></script>
 </head>
 <body>
   <nav class="site-nav">
@@ -185,6 +185,10 @@
               <div id="scoreChips" class="score-chips"></div>
 
               <h3>Heatmap</h3>
+              <details class="wtf-inline">
+                <summary>What do the colors mean?</summary>
+                <p>Each cell is a week, grouped by month. The color shows how much of your group is available: <strong>blue</strong> = a few people, <strong>teal</strong> = growing overlap, <strong>green</strong> = strong consensus. Tap any cell to see exactly who&rsquo;s free.</p>
+              </details>
               <div id="heatmap" class="heatmap" role="listbox" aria-label="Group overlap heatmap"></div>
             </article>
 
