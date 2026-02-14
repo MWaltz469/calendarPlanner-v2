@@ -1923,12 +1923,10 @@
 
         const hasAvailable = entry.availableCount > 0;
         const hasMaybeOnly = !hasAvailable && entry.maybeCount > 0;
+        const intensity = totalPeople > 0 ? entry.availableCount / totalPeople : 0;
 
         if (hasAvailable) {
-          const intensity = totalPeople > 0 ? entry.availableCount / totalPeople : 1;
-          const curved = Math.sqrt(intensity);
-          const pct = Math.round(10 + curved * 80);
-          btn.style.background = `color-mix(in srgb, var(--available) ${pct}%, var(--surface-muted))`;
+          btn.style.background = heatColor(intensity);
           if (intensity >= 0.65) btn.classList.add("hm-hot");
         } else if (hasMaybeOnly) {
           btn.style.background = `color-mix(in srgb, var(--maybe) 15%, var(--surface-muted))`;
@@ -1937,16 +1935,16 @@
         const day = week.start.getDate();
         const countLabel = entry.availableCount ? entry.availableCount : (entry.maybeCount ? `${entry.maybeCount}?` : "");
         btn.innerHTML = `<span class="hm-day">${day}</span>${countLabel ? `<span class="hm-count">${countLabel}</span>` : ""}`;
-        btn.title = `${week.rangeText} \u2014 ${entry.availableCount} avail, ${entry.maybeCount} maybe`;
         btn.setAttribute(
           "aria-label",
           `${MONTH_LABELS[monthIdx]} ${day}, Week ${entry.weekNumber}. ${entry.availableCount} available, ${entry.maybeCount} maybe`
         );
 
-        btn.addEventListener("click", () => {
+        btn.addEventListener("click", (event) => {
           state.selectedDetailWeek = entry.weekNumber;
           persistSession();
           renderResults();
+          showHeatPopover(event, entry, week, participants);
         });
 
         cells.appendChild(btn);
@@ -2020,6 +2018,76 @@
     }
 
     renderWeekDetail(aggregates);
+  }
+
+  // --- Heatmap color scale (cool→warm) ---
+
+  function heatColor(intensity) {
+    const curved = Math.sqrt(intensity);
+    if (intensity <= 0) return "var(--surface-muted)";
+    if (intensity <= 0.25) {
+      const pct = Math.round(15 + curved * 60);
+      return `color-mix(in srgb, #0ea5e9 ${pct}%, var(--surface-muted))`;
+    }
+    if (intensity <= 0.5) {
+      const pct = Math.round(20 + curved * 65);
+      return `color-mix(in srgb, var(--accent) ${pct}%, var(--surface-muted))`;
+    }
+    if (intensity <= 0.75) {
+      const pct = Math.round(25 + curved * 65);
+      return `color-mix(in srgb, var(--available) ${pct}%, var(--surface-muted))`;
+    }
+    const pct = Math.round(35 + curved * 55);
+    return `color-mix(in srgb, #16a34a ${pct}%, var(--surface-muted))`;
+  }
+
+  // --- Heatmap popover ---
+
+  function showHeatPopover(event, entry, week, participants) {
+    const popover = document.getElementById("heatPopover");
+    if (!popover) return;
+
+    const availPeople = entry.people.filter((p) => p.status === "available");
+    const maybePeople = entry.people.filter((p) => p.status === "maybe");
+    const unavailPeople = entry.people.filter((p) => p.status !== "available" && p.status !== "maybe");
+
+    const section = (label, people, cls) => {
+      if (!people.length) return "";
+      const rows = people.map((p) =>
+        `<span class="hp-person">${avatarHtml(p.name)} ${escapeHtml(p.name)}${p.rank ? ` <span class="wd-person-rank">#${p.rank}</span>` : ""}</span>`
+      ).join("");
+      return `<div class="hp-group"><span class="hp-group-label ${cls}">${label}</span>${rows}</div>`;
+    };
+
+    popover.innerHTML = `
+      <div class="hp-header">
+        <strong>${week.rangeText}</strong>
+        <span class="hp-meta">Week ${entry.weekNumber}</span>
+      </div>
+      ${section(`${availPeople.length} available`, availPeople, "hp-avail")}
+      ${section(`${maybePeople.length} maybe`, maybePeople, "hp-maybe")}
+      ${section(`${unavailPeople.length} unavailable`, unavailPeople, "hp-unavail")}
+    `;
+
+    popover.hidden = false;
+    const btn = event.currentTarget;
+    const btnRect = btn.getBoundingClientRect();
+    const popRect = popover.getBoundingClientRect();
+    let x = btnRect.left + btnRect.width / 2 - popRect.width / 2;
+    let y = btnRect.bottom + 6;
+    if (x + popRect.width > window.innerWidth - 8) x = window.innerWidth - popRect.width - 8;
+    if (x < 8) x = 8;
+    if (y + popRect.height > window.innerHeight - 8) y = btnRect.top - popRect.height - 6;
+    popover.style.left = `${Math.max(4, x)}px`;
+    popover.style.top = `${Math.max(4, y)}px`;
+
+    const dismiss = (e) => {
+      if (!popover.contains(e.target) && e.target !== btn) {
+        popover.hidden = true;
+        document.removeEventListener("click", dismiss);
+      }
+    };
+    setTimeout(() => document.addEventListener("click", dismiss), 0);
   }
 
   function renderWeekDetail(aggregates) {
