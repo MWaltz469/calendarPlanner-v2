@@ -9,11 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=20260215a" />
-  <script src="/theme-init.js?v=20260215a"></script>
-  <script defer src="/config.js?v=20260215a"></script>
-  <script defer src="/cloud-client.js?v=20260215a"></script>
-  <script defer src="/app.js?v=20260215a"></script>
+  <link rel="stylesheet" href="/styles.css?v=20260215b" />
+  <script src="/theme-init.js?v=20260215b"></script>
+  <script defer src="/config.js?v=20260215b"></script>
+  <script defer src="/cloud-client.js?v=20260215b"></script>
+  <script defer src="/app.js?v=20260215b"></script>
 </head>
 <body>
   <nav class="site-nav">
@@ -143,6 +143,10 @@
       <section id="step-3" class="step-panel" aria-labelledby="step3-heading" hidden>
         <h2 id="step3-heading">Step 3: Rank your top 5 preferred weeks</h2>
         <p class="step-copy">This step is <strong>optional</strong>. Ranking helps the organizer see your strongest preferences, but you can skip it if you have no preference.</p>
+        <details class="wtf-inline">
+          <summary>How does ranking affect results?</summary>
+          <p>Weeks are sorted by availability first &mdash; more people free = higher rank. When two weeks have the same overlap, your top picks break the tie. A #1 pick adds more weight than a #5, so the group&rsquo;s strongest preferences float to the top.</p>
+        </details>
 
         <div id="rankRows" class="rank-rows" aria-label="Rank assignments"></div>
         <p id="rankNote" class="hint" aria-live="polite"></p>
@@ -189,6 +193,10 @@
               <ul id="participantList" class="participant-list"></ul>
 
               <h3>Leaderboard</h3>
+              <details class="wtf-inline">
+                <summary>How is this ranked?</summary>
+                <p>Sorted by group overlap first &mdash; weeks where more people are available rank higher. When overlap is equal, individual rankings break the tie. A #1 pick adds more weight than a #5, so the group&rsquo;s preferred weeks rise above weeks that merely work.</p>
+              </details>
               <div id="leaderboard" class="leaderboard"></div>
 
               <h3>Week Detail</h3>
