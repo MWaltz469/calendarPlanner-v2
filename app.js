@@ -1619,6 +1619,7 @@
     }
 
     if (normalizedMode === "cloud_checking") {
+      els.connectionBadge.hidden = true;
       return;
     }
 
