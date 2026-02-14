@@ -1962,6 +1962,15 @@
       const width = (entry.score / maxScore) * 100;
       const totalPeople = (state.participants.length || 1);
       const availPct = totalPeople > 0 ? Math.round((entry.availableCount / totalPeople) * 100) : 0;
+
+      // Build people context for this week
+      const availPeople = entry.people.filter((p) => p.status === "available");
+      const rankedPeople = entry.people.filter((p) => p.rank);
+      const availNames = availPeople.map((p) => escapeHtml(p.name));
+      const rankContext = rankedPeople.length
+        ? rankedPeople.sort((a, b) => a.rank - b.rank).map((p) => `${escapeHtml(p.name)}\u2019s #${p.rank}`).join(", ")
+        : "";
+
       row.innerHTML = `
         <div class="lb-header">
           <span class="lb-rank">#${index + 1}</span>
@@ -1970,6 +1979,8 @@
             <span class="lb-meta">Week ${entry.weekNumber} \u00B7 ${week ? week.days : ""} days</span>
           </div>
         </div>
+        ${availNames.length ? `<div class="lb-who"><span class="lb-who-label">Available:</span> ${availNames.join(", ")}</div>` : ""}
+        ${rankContext ? `<div class="lb-who lb-who-ranked"><span class="lb-who-label">Ranked:</span> ${rankContext}</div>` : ""}
         <div class="lb-stats">
           ${entry.availableCount ? `<span class="lb-stat available">${entry.availableCount} of ${totalPeople} available</span>` : ""}
           ${entry.maybeCount ? `<span class="lb-stat maybe">${entry.maybeCount} maybe</span>` : ""}
@@ -1995,7 +2006,7 @@
   function renderWeekDetail(aggregates) {
     const target = aggregates.find((entry) => entry.weekNumber === state.selectedDetailWeek);
     if (!target) {
-      els.weekDetail.innerHTML = `<span class="wd-empty">Click a week in the heatmap or leaderboard to see who's available.</span>`;
+      els.weekDetail.innerHTML = `<span class="wd-empty">Tap a week in the heatmap or leaderboard to see who's available.</span>`;
       return;
     }
 
@@ -2007,6 +2018,9 @@
         if (weight[a.status] !== weight[b.status]) {
           return weight[a.status] - weight[b.status];
         }
+        if (a.rank && b.rank) return a.rank - b.rank;
+        if (a.rank) return -1;
+        if (b.rank) return 1;
         return a.name.localeCompare(b.name);
       });
 
@@ -2016,17 +2030,45 @@
       return `<span class="wd-badge ${cls}">${labels[status] || "Unavailable"}</span>`;
     };
 
+    const rankLabel = (rank) => {
+      if (!rank) return "";
+      const labels = { 1: "Top pick", 2: "2nd pick", 3: "3rd pick", 4: "4th pick", 5: "5th pick" };
+      return `<span class="wd-person-rank">${labels[rank] || `#${rank}`}</span>`;
+    };
+
     const peopleRows = sortedPeople.length
       ? sortedPeople
           .map((person) =>
-            `<div class="wd-person">` +
+            `<div class="wd-person${person.rank ? " wd-person-ranked" : ""}">` +
               `<span class="wd-person-name">${escapeHtml(person.name)}</span>` +
-              `${statusBadge(person.status)}` +
-              `${person.rank ? `<span class="wd-person-rank">#${person.rank}</span>` : ""}` +
+              `<div class="wd-person-status">` +
+                `${rankLabel(person.rank)}` +
+                `${statusBadge(person.status)}` +
+              `</div>` +
             `</div>`
           )
           .join("")
       : `<p class="wd-empty">No participant details yet.</p>`;
+
+    // Build a natural language sentence about this week
+    const availNames = sortedPeople.filter((p) => p.status === "available").map((p) => escapeHtml(p.name));
+    const maybeNames = sortedPeople.filter((p) => p.status === "maybe").map((p) => escapeHtml(p.name));
+    const rankedHere = sortedPeople.filter((p) => p.rank);
+    let insight = "";
+    if (availNames.length && target.people.length > 1) {
+      if (availNames.length === target.people.length) {
+        insight = "Everyone is free this week.";
+      } else {
+        insight = `<strong>${availNames.join("</strong> and <strong>")}</strong> ${availNames.length === 1 ? "is" : "are"} free.`;
+      }
+      if (maybeNames.length) {
+        insight += ` ${maybeNames.join(" and ")} might work.`;
+      }
+      if (rankedHere.length) {
+        const rankBits = rankedHere.sort((a, b) => a.rank - b.rank).map((p) => `${escapeHtml(p.name)} ranked it #${p.rank}`);
+        insight += ` ${rankBits.join("; ")}.`;
+      }
+    }
 
     els.weekDetail.innerHTML = `
       <div class="wd-header">
@@ -2038,6 +2080,7 @@
         <span class="lb-stat maybe">${target.maybeCount} maybe</span>
         <span class="lb-stat">${target.unselectedCount} unavailable</span>
       </div>
+      ${insight ? `<p class="wd-insight">${insight}</p>` : ""}
       <div class="wd-people">${peopleRows}</div>
     `;
   }

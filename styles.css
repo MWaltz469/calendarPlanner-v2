@@ -1429,6 +1429,25 @@ body {
   color: var(--ink-soft);
 }
 
+.lb-who {
+  font-size: var(--text-xs);
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+
+.lb-who-label {
+  font-weight: 800;
+  color: var(--ink-soft);
+}
+
+.lb-who-ranked {
+  color: var(--accent-text);
+}
+
+.lb-who-ranked .lb-who-label {
+  color: var(--accent-text);
+}
+
 .lb-stats {
   display: flex;
   flex-wrap: wrap;
@@ -1534,10 +1553,37 @@ body {
   white-space: nowrap;
 }
 
+.wd-person-status {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  flex-shrink: 0;
+}
+
 .wd-person-rank {
-  font-weight: 700;
-  font-size: 0.7rem;
+  font-weight: 800;
+  font-size: var(--text-xs);
   color: var(--accent);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  padding: 0.1rem 0.35rem;
+  border-radius: var(--radius-pill);
+}
+
+.wd-person-ranked {
+  border-left: 2px solid var(--accent);
+}
+
+.wd-insight {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--ink);
+  line-height: 1.55;
+  font-style: italic;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--accent-bg);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--accent);
 }
 
 .wd-badge {
