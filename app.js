@@ -1926,9 +1926,10 @@
 
         if (hasAvailable) {
           const intensity = totalPeople > 0 ? entry.availableCount / totalPeople : 1;
-          const pct = Math.round(12 + intensity * 78);
+          const curved = Math.sqrt(intensity);
+          const pct = Math.round(10 + curved * 80);
           btn.style.background = `color-mix(in srgb, var(--available) ${pct}%, var(--surface-muted))`;
-          if (intensity >= 0.75) btn.classList.add("hm-hot");
+          if (intensity >= 0.65) btn.classList.add("hm-hot");
         } else if (hasMaybeOnly) {
           btn.style.background = `color-mix(in srgb, var(--maybe) 15%, var(--surface-muted))`;
         }
