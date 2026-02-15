@@ -131,7 +131,7 @@
     lbStatMaybe: "border-[var(--warn-border)] bg-[var(--warn-bg)] text-[var(--warn-text)]",
     lbBar: "h-2 rounded-full bg-[var(--surface-muted)] overflow-hidden",
     lbBarFill: "block h-full rounded-full bg-gradient-to-r from-[var(--available)] to-[var(--accent)]",
-    lbChevron: "text-[0.55rem] text-[var(--ink-soft)] ml-auto shrink-0 transition-transform duration-200",
+    lbChevron: "text-[0.75rem] text-[var(--ink-soft)] ml-auto shrink-0 transition-transform duration-200 inline-block leading-none",
     lbWho: "text-[0.6875rem] text-[var(--ink-soft)] leading-[1.8] flex flex-wrap items-center gap-1",
     lbWhoLabel: "font-extrabold text-[var(--ink-soft)]",
     lbWhoRanked: "text-[var(--accent-text)]",
@@ -2321,7 +2321,7 @@
             <span class="${TW.lbDates}">${week ? `${week.startDisplay} \u2192 ${week.endDisplay}` : ""}</span>
             <span class="${TW.lbMeta}">Week ${entry.weekNumber} \u00B7 ${week ? week.days : ""} days</span>
           </div>
-          <span class="${TW.lbChevron}">\u25BE</span>
+          <span class="${TW.lbChevron}">\u25B8</span>
         </div>
         ${availNames.length ? `<div class="${TW.lbWho}"><span class="${TW.lbWhoLabel}">Available:</span> ${availNames.join(", ")}</div>` : ""}
         ${rankContext ? `<div class="${TW.lbWho} ${TW.lbWhoRanked}"><span class="${TW.lbWhoLabel}">Ranked:</span> ${rankContext}</div>` : ""}
@@ -2356,12 +2356,16 @@
           if (di) { TW.lbDetailInnerOpen.split(" ").forEach(c => di.classList.remove(c)); }
           const r = item.querySelector("button");
           if (r) r.classList.remove("lb-active");
+          const chev = item.querySelector("[class*='ml-auto']");
+          if (chev) chev.classList.remove("rotate-90");
         });
         if (!wasOpen) {
           wrapper.classList.add("lb-item-open", ...TW.lbItemOpen.split(" "));
           detail.classList.add(...TW.lbDetailOpen.split(" "));
           detailInner.classList.add(...TW.lbDetailInnerOpen.split(" "));
           row.classList.add("lb-active");
+          const chev = row.querySelector("[class*='ml-auto']");
+          if (chev) chev.classList.add("rotate-90");
           state.selectedDetailWeek = entry.weekNumber;
         } else {
           state.selectedDetailWeek = null;
