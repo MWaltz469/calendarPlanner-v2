@@ -2054,10 +2054,10 @@
       if (state.selectedDetailWeek === entry.weekNumber) row.classList.add("lb-active");
       const width = (entry.score / maxScore) * 100;
       const totalPeople = (state.participants.length || 1);
-      const availPct = submittedCount > 0 ? Math.round((lbk.available.length / submittedCount) * 100) : 0;
 
       // Build people context for this week (submission-aware)
       const lbk = getWeekBreakdown(entry);
+      const availPct = submittedCount > 0 ? Math.round((lbk.available.length / submittedCount) * 100) : 0;
       const availPeople = lbk.available;
       const rankedPeople = entry.people.filter((p) => p.rank && p.submitted);
       const availNames = availPeople.map((p) => `${avatarHtml(p.name)} ${escapeHtml(p.name)}`);
