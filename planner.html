@@ -175,45 +175,45 @@
 
         <span id="saveState" class="text-[0.84rem] text-[--ink-soft] font-semibold" aria-live="polite">Not saved yet.</span>
 
-        <article id="resultsLocked" class="results-locked" aria-live="polite">
+        <article id="resultsLocked" class="border border-dashed border-[--border] rounded-xl bg-[--surface-muted] text-[--ink-soft] p-3 text-[0.86rem]" aria-live="polite">
           Submit your availability to unlock group results.
         </article>
 
-        <section id="resultsSection" class="results" hidden>
-          <div id="resultsSummary" class="results-narrative"></div>
+        <section id="resultsSection" class="grid gap-3" hidden>
+          <div id="resultsSummary"></div>
 
-          <article class="results-card">
-            <h3>Top Weeks <span class="results-subtitle">Ranked by overlap and preference</span></h3>
-            <div id="leaderboard" class="leaderboard"></div>
+          <article class="border-none rounded-xl bg-[--surface] shadow-sm p-4 grid gap-4">
+            <h3 class="m-0 font-display text-sm font-extrabold uppercase tracking-[0.06em] text-[--ink-soft] pb-2 border-b border-[--border]">Top Weeks <span class="font-body text-[0.6875rem] font-semibold text-[--ink-soft] normal-case tracking-normal ml-2">Ranked by overlap and preference</span></h3>
+            <div id="leaderboard" class="grid gap-2"></div>
           </article>
 
-          <article class="results-card results-snapshot-card">
-            <h3>Snapshot</h3>
-            <div id="scoreChips" class="score-chips"></div>
+          <article class="border-none rounded-xl bg-[--surface] shadow-sm p-4 grid gap-4 hidden lg:grid">
+            <h3 class="m-0 font-display text-sm font-extrabold uppercase tracking-[0.06em] text-[--ink-soft] pb-2 border-b border-[--border]">Snapshot</h3>
+            <div id="scoreChips" class="grid grid-cols-2 gap-2"></div>
           </article>
 
-          <details class="results-card results-collapsible" id="heatmapSection">
-            <summary class="results-collapsible-toggle">
-              <h3>Heatmap <span class="results-subtitle">Explore all weeks by month</span></h3>
+          <details class="border-none rounded-xl bg-[--surface] shadow-sm p-4 grid gap-4 cursor-default" id="heatmapSection">
+            <summary class="cursor-pointer list-none flex items-center [&::-webkit-details-marker]:hidden">
+              <h3 class="m-0 font-display text-sm font-extrabold uppercase tracking-[0.06em] text-[--ink-soft] flex items-center before:content-['\25B6'] before:text-[0.55rem] before:mr-2 before:text-[--ink-soft] before:transition-transform before:duration-150">Heatmap <span class="font-body text-[0.6875rem] font-semibold text-[--ink-soft] normal-case tracking-normal ml-2">Explore all weeks by month</span></h3>
             </summary>
-            <div class="results-collapsible-body">
-              <div class="hm-legend">
-                <span class="hm-legend-item"><span class="hm-legend-swatch" style="background:var(--surface-muted)"></span> No overlap</span>
-                <span class="hm-legend-item"><span class="hm-legend-swatch" style="background:#f59e0b"></span> Low</span>
-                <span class="hm-legend-item"><span class="hm-legend-swatch" style="background:#ea580c"></span> Medium</span>
-                <span class="hm-legend-item"><span class="hm-legend-swatch" style="background:#dc2626"></span> High</span>
-                <span class="hm-legend-item hm-legend-hint">Tap a cell to see who</span>
+            <div class="mt-3">
+              <div class="flex flex-wrap gap-2 items-center mb-3">
+                <span class="flex items-center gap-1 text-[0.6875rem] font-bold text-[--ink-soft]"><span class="w-3 h-3 rounded-sm border border-[--border] shrink-0" style="background:var(--surface-muted)"></span> No overlap</span>
+                <span class="flex items-center gap-1 text-[0.6875rem] font-bold text-[--ink-soft]"><span class="w-3 h-3 rounded-sm border border-[--border] shrink-0" style="background:#f59e0b"></span> Low</span>
+                <span class="flex items-center gap-1 text-[0.6875rem] font-bold text-[--ink-soft]"><span class="w-3 h-3 rounded-sm border border-[--border] shrink-0" style="background:#ea580c"></span> Medium</span>
+                <span class="flex items-center gap-1 text-[0.6875rem] font-bold text-[--ink-soft]"><span class="w-3 h-3 rounded-sm border border-[--border] shrink-0" style="background:#dc2626"></span> High</span>
+                <span class="flex items-center gap-1 text-[0.6875rem] font-semibold text-[--ink-soft] italic">Tap a cell to see who</span>
               </div>
-              <div id="heatmap" class="heatmap" role="listbox" aria-label="Group overlap heatmap"></div>
+              <div id="heatmap" class="grid gap-[3px] border border-[--border] rounded-xl p-3 bg-[--surface]" role="listbox" aria-label="Group overlap heatmap"></div>
             </div>
           </details>
 
-          <details class="results-card results-collapsible" id="participantSection">
-            <summary class="results-collapsible-toggle">
-              <h3>Participants <span id="participantSummary" class="results-subtitle"></span></h3>
+          <details class="border-none rounded-xl bg-[--surface] shadow-sm p-4 grid gap-4 cursor-default" id="participantSection">
+            <summary class="cursor-pointer list-none flex items-center [&::-webkit-details-marker]:hidden">
+              <h3 class="m-0 font-display text-sm font-extrabold uppercase tracking-[0.06em] text-[--ink-soft] flex items-center before:content-['\25B6'] before:text-[0.55rem] before:mr-2 before:text-[--ink-soft] before:transition-transform before:duration-150">Participants <span id="participantSummary" class="font-body text-[0.6875rem] font-semibold text-[--ink-soft] normal-case tracking-normal ml-2"></span></h3>
             </summary>
-            <div class="results-collapsible-body">
-              <ul id="participantList" class="participant-list"></ul>
+            <div class="mt-3">
+              <ul id="participantList" class="list-none m-0 p-0 grid gap-2"></ul>
             </div>
           </details>
 
@@ -224,12 +224,12 @@
     </section>
   </main>
 
-  <div id="heatPopover" class="heat-popover" hidden></div>
-  <div id="weekContextMenu" class="week-context-menu" hidden>
-    <button type="button" data-status="available">Available</button>
-    <button type="button" data-status="maybe">Maybe</button>
-    <button type="button" data-status="unselected">Unselected</button>
+  <div id="heatPopover" class="fixed z-30 border border-[--border] rounded-xl bg-[--surface] shadow-lg p-3 min-w-[180px] max-w-[280px] grid gap-2 hidden"></div>
+  <div id="weekContextMenu" class="fixed z-[25] border border-[--border] rounded-lg bg-[--surface] shadow-[0_10px_24px_rgba(0,0,0,0.18)] p-[0.3rem] grid gap-[0.15rem] min-w-[140px] hidden">
+    <button type="button" data-status="available" class="border-none rounded-lg bg-transparent text-[--available] text-sm font-bold p-3 px-4 min-h-[44px] text-left cursor-pointer hover:bg-[--accent-bg]">Available</button>
+    <button type="button" data-status="maybe" class="border-none rounded-lg bg-transparent text-[--maybe] text-sm font-bold p-3 px-4 min-h-[44px] text-left cursor-pointer hover:bg-[--accent-bg]">Maybe</button>
+    <button type="button" data-status="unselected" class="border-none rounded-lg bg-transparent text-[--ink-soft] text-sm font-bold p-3 px-4 min-h-[44px] text-left cursor-pointer hover:bg-[--accent-bg]">Unselected</button>
   </div>
-  <div id="toastArea" class="toast-area" aria-live="polite" aria-atomic="true"></div>
+  <div id="toastArea" class="fixed right-3 bottom-3 w-[min(320px,calc(100vw-1.5rem))] grid gap-1.5 z-20" aria-live="polite" aria-atomic="true"></div>
 </body>
 </html>

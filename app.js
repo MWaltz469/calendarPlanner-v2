@@ -43,11 +43,155 @@
 
   /* Tailwind class constants — avoids repeating long utility strings */
   const TW = {
+    /* Buttons */
     btn: "inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-[--border] bg-[--surface-muted] text-[--ink-soft] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2] disabled:opacity-55 disabled:cursor-not-allowed",
     btnPrimary: "inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-transparent bg-[--accent] text-white font-bold cursor-pointer hover:bg-[--accent-strong] disabled:opacity-55 disabled:cursor-not-allowed",
     btnDanger: "inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-[--danger-border] bg-[--danger-soft] text-[--danger] font-bold cursor-pointer",
     btnSm: "inline-flex items-center justify-center min-h-[36px] px-3 py-1 text-sm rounded-full border border-[--border] bg-[--surface-muted] text-[--ink-soft] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2]",
     btnDangerSm: "inline-flex items-center justify-center min-h-[36px] px-3 py-1 text-sm rounded-full border border-[--danger-border] bg-[--danger-soft] text-[--danger] font-bold cursor-pointer",
+    /* Week card */
+    weekCard: "border-none border-l-4 border-l-transparent rounded-xl bg-[--surface] shadow-sm min-w-0 overflow-hidden select-none",
+    wcRow: "flex items-center gap-3 w-full border-none bg-transparent px-4 py-3 text-left cursor-pointer min-h-[56px]",
+    wcRowCompact: "flex items-center gap-3 w-full border-none bg-transparent px-4 py-2 text-left cursor-pointer min-h-[44px]",
+    wcMain: "flex-1 min-w-0 grid gap-0.5",
+    wcHeadline: "font-extrabold text-[0.9375rem] text-[--ink] leading-tight",
+    wcDate: "font-semibold text-[--ink-soft]",
+    wcSub: "text-[0.6875rem] font-semibold text-[--ink-soft]",
+    wcBadges: "flex gap-1 items-center shrink-0",
+    wcDetail: "hidden px-4 py-2 pb-3 border-t border-[--border] grid gap-2",
+    /* Status pills */
+    statusPill: "self-start rounded-full border border-[--border] bg-[--surface-muted] text-[--ink-soft] uppercase tracking-wide text-[0.68rem] font-extrabold px-2 py-0.5",
+    statusAvailable: "bg-[--ok-bg] border-[--ok-border] text-[--ok-text]",
+    statusMaybe: "bg-[--warn-bg] border-[--warn-border] text-[--warn-text]",
+    rankPill: "self-start rounded-full bg-[--accent] border border-[--accent] text-white uppercase tracking-wide text-[0.68rem] font-extrabold px-2 py-0.5",
+    /* Week card state borders */
+    wcBorderAvailable: "border-l-[--available]",
+    wcBorderMaybe: "border-l-[--maybe]",
+    wcBorderUnselected: "border-l-transparent opacity-70",
+    /* Flow points */
+    flowPoint: "rounded-full border border-[--border] bg-[--surface-muted] px-2 py-1 text-[0.7rem] font-extrabold text-[--ink-soft] flex items-center",
+    flowStart: "bg-[--info-bg] border-[--info-border] text-[--info-text]",
+    flowEnd: "bg-[--warn-bg] border-[--warn-border] text-[--warn-text]",
+    flowArrow: "text-[--ink-soft] font-extrabold text-[0.84rem]",
+    /* Day strip */
+    daySpan: "border border-[--border] rounded-[10px] bg-[--surface-muted] text-[--ink-soft] text-[clamp(0.66rem,1.7vw,0.74rem)] font-extrabold leading-none tracking-tight text-center min-h-[1.78rem] min-w-0 p-[0.3rem_0.1rem] whitespace-nowrap grid place-items-center",
+    dayStart: "bg-[--info-bg] border-[--info-border] text-[--info-text]",
+    dayEnd: "bg-[--warn-bg] border-[--warn-border] text-[--warn-text]",
+    /* Month button */
+    monthBtn: "border border-[--border] rounded-full bg-[--surface-muted] text-[--ink-soft] text-[0.74rem] font-bold px-2.5 py-1 cursor-pointer min-h-[34px] dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#b6c7d5]",
+    monthActive: "bg-[--accent] border-[--accent] text-white dark:bg-[--accent] dark:border-[--accent] dark:text-white",
+    /* Overlay items */
+    overlayItem: "border border-[--border] rounded-[10px] bg-[--surface-muted] p-[0.3rem_0.42rem] grid gap-[0.05rem]",
+    overlayAvailable: "border-[--ok-border] bg-[--ok-bg]",
+    overlayMaybe: "border-[--warn-border] bg-[--warn-bg]",
+    overlaySelected: "border-[--accent-border] bg-[--accent-bg]",
+    overlayUnselected: "border-[--neutral-border] bg-[--neutral-bg]",
+    overlayLabel: "uppercase tracking-wide text-[0.67rem] text-[--ink-soft] font-bold",
+    overlayValue: "font-display text-[0.94rem] text-[--ink]",
+    /* Overlay nav */
+    ovNavBtn: "min-w-[44px] h-[44px] rounded-lg border-none bg-[--surface-muted] text-[--ink-soft] font-bold cursor-pointer inline-grid grid-cols-[auto_auto] items-center justify-center gap-1 px-2",
+    ovNavPrimary: "bg-[--accent] text-white",
+    /* Rank system */
+    rankChip: "w-[46px] h-[46px] rounded-lg bg-[--accent-bg] text-[--accent-text] border border-[--accent-border] inline-grid place-items-center font-display font-bold",
+    rankSelect: "w-full min-h-[46px] border border-[--border] rounded-lg bg-[--surface] text-[--ink] py-2.5 px-3 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2",
+    rankFilled: "border-[--ok-border] bg-[--ok-bg] text-[--ok-text]",
+    /* Checklist */
+    checklistItem: "border-none rounded-lg bg-[--surface] p-3 text-sm text-[--ink] flex items-center gap-3",
+    checklistIcon: "w-6 h-6 rounded-full inline-grid place-items-center text-[0.72rem] font-extrabold shrink-0 bg-[--neutral-bg] text-[--neutral-text]",
+    checklistOk: "bg-[--available] text-white",
+    checklistWarn: "bg-[--maybe] text-white",
+    checklistInfo: "bg-[--info-text] text-white",
+    checklistItemOk: "border-[--ok-border] bg-[--ok-bg] text-[--ok-text]",
+    checklistItemWarn: "border-[--warn-border] bg-[--warn-bg] text-[--warn-text]",
+    checklistItemInfo: "border-[--info-border] bg-[--info-bg] text-[--info-text]",
+    /* Results */
+    resultsCard: "border-none rounded-xl bg-[--surface] shadow-sm p-4 grid gap-4",
+    resultsH3: "m-0 font-display text-sm font-extrabold uppercase tracking-[0.06em] text-[--ink-soft] pb-2 border-b border-[--border]",
+    resultsSubtitle: "font-body text-[0.6875rem] font-semibold text-[--ink-soft] normal-case tracking-normal ml-2",
+    /* Score chips */
+    scoreChip: "border border-[--border] rounded-xl bg-[--surface] p-3 px-4 grid gap-0.5 relative overflow-hidden",
+    scoreChipBar: "absolute top-0 left-0 right-0 h-[3px] bg-[--accent] opacity-40",
+    scoreLabel: "uppercase tracking-[0.06em] text-[0.6875rem] text-[--ink-soft] font-bold",
+    scoreValue: "font-display text-[clamp(1rem,2.5vw,1.3rem)] font-extrabold text-[--ink]",
+    scoreSub: "text-[0.6875rem] font-semibold text-[--ink-soft] normal-case tracking-normal",
+    /* Leaderboard */
+    lbItem: "grid border border-[--border] rounded-lg overflow-hidden bg-[--surface]",
+    lbItemOpen: "border-[--accent-border]",
+    lbRow: "border-none rounded-none p-3 bg-[--surface] grid gap-2 cursor-pointer text-left w-full",
+    lbRowTopPick: "border-l-[--available] bg-[--ok-bg]",
+    lbHeader: "flex items-center gap-[0.45rem]",
+    lbRank: "w-8 h-8 rounded-lg bg-[--accent-bg] text-[--accent-text] border border-[--accent-border] inline-grid place-items-center font-display font-bold text-[0.78rem] shrink-0",
+    lbRankTop: "bg-[--accent] border-[--accent] text-white",
+    lbInfo: "grid gap-[0.08rem] min-w-0",
+    lbDates: "font-bold text-sm text-[--ink]",
+    lbMeta: "text-[0.6875rem] font-semibold text-[--ink-soft]",
+    lbStats: "flex flex-wrap gap-[0.32rem]",
+    lbStat: "rounded-full py-[0.15rem] px-[0.42rem] text-[0.68rem] font-bold border border-[--border] bg-[--surface-muted] text-[--ink-soft]",
+    lbStatAvail: "border-[--ok-border] bg-[--ok-bg] text-[--ok-text]",
+    lbStatMaybe: "border-[--warn-border] bg-[--warn-bg] text-[--warn-text]",
+    lbBar: "h-2 rounded-full bg-[--surface-muted] overflow-hidden",
+    lbBarFill: "block h-full rounded-full bg-gradient-to-r from-[--available] to-[--accent]",
+    lbChevron: "text-[0.55rem] text-[--ink-soft] ml-auto shrink-0 transition-transform duration-200",
+    lbWho: "text-[0.6875rem] text-[--ink-soft] leading-[1.8] flex flex-wrap items-center gap-1",
+    lbWhoLabel: "font-extrabold text-[--ink-soft]",
+    lbWhoRanked: "text-[--accent-text]",
+    lbDetail: "grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out",
+    lbDetailOpen: "grid-rows-[1fr]",
+    lbDetailInner: "overflow-hidden px-3 py-0 opacity-0 transition-all duration-200 border-t border-[--border]",
+    lbDetailInnerOpen: "py-3 pb-4 opacity-100",
+    /* Heatmap */
+    hmRow: "flex items-center gap-2",
+    hmLabel: "w-8 shrink-0 text-[0.6875rem] font-extrabold uppercase tracking-wide text-[--ink-soft] text-right",
+    hmCells: "flex gap-[3px] flex-1",
+    hmCell: "flex-1 border-2 border-transparent rounded-md min-h-[42px] bg-[--surface-muted] text-[--ink] font-extrabold cursor-pointer grid place-items-center leading-tight text-center p-0.5 transition-shadow duration-100 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2",
+    hmCellActive: "border-[--accent] shadow-[0_0_0_2px_color-mix(in_srgb,var(--accent)_40%,transparent)]",
+    hmDay: "text-sm font-extrabold",
+    hmCount: "text-[0.6rem] opacity-65",
+    /* Heatmap popover */
+    heatPopover: "fixed z-30 border border-[--border] rounded-xl bg-[--surface] shadow-lg p-3 min-w-[180px] max-w-[280px] grid gap-2",
+    hpHeader: "grid gap-0.5",
+    hpMeta: "text-[0.6875rem] text-[--ink-soft]",
+    hpGroup: "grid gap-1",
+    hpGroupLabel: "text-[0.6875rem] font-extrabold uppercase tracking-[0.06em]",
+    hpPerson: "flex items-center gap-1 text-sm font-semibold py-1",
+    /* Week detail */
+    weekDetail: "border border-[--border] border-l-[3px] border-l-[--accent] rounded-xl bg-[--surface] p-4 text-sm text-[--ink] min-h-[78px] grid gap-2",
+    wdHeader: "flex items-baseline gap-2 flex-wrap",
+    wdHeaderStrong: "font-display text-[0.9375rem] font-extrabold",
+    wdDates: "text-[0.6875rem] font-semibold text-[--ink-soft]",
+    wdSummary: "flex flex-wrap gap-[0.28rem]",
+    wdPeople: "grid gap-[0.22rem]",
+    wdPerson: "flex items-center gap-[0.35rem] p-[0.28rem_0.38rem] border border-[--border] rounded-lg bg-[--surface] text-[0.78rem]",
+    wdPersonName: "font-bold flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap",
+    wdPersonStatus: "flex items-center gap-1 shrink-0",
+    wdPersonRank: "font-extrabold text-[0.6875rem] text-[--accent] bg-[--accent-bg] border border-[--accent-border] py-[0.1rem] px-[0.35rem] rounded-full",
+    wdBadge: "rounded-full py-[0.1rem] px-[0.36rem] text-[0.65rem] font-bold uppercase tracking-[0.03em] shrink-0",
+    wdBadgeAvail: "bg-[--ok-bg] text-[--ok-text] border border-[--ok-border]",
+    wdBadgeMaybe: "bg-[--warn-bg] text-[--warn-text] border border-[--warn-border]",
+    wdBadgeUnsel: "bg-[--neutral-bg] text-[--neutral-text] border border-[--neutral-border]",
+    wdBadgePending: "bg-[--surface-muted] text-[--ink-soft] border border-dashed border-[--border]",
+    wdInsight: "m-0 text-sm text-[--ink] leading-relaxed italic p-2 px-3 bg-[--accent-bg] rounded-lg border-l-[3px] border-l-[--accent]",
+    wdEmpty: "text-[0.8rem] text-[--ink-soft] italic",
+    /* Participants */
+    participantList: "list-none m-0 p-0 grid gap-2",
+    participantItem: "border border-[--border] border-l-[3px] border-l-[--neutral-border] rounded-lg bg-[--surface] py-2 px-3 text-sm font-semibold flex justify-between items-center gap-2 min-h-[44px]",
+    participantDone: "border-l-[--available]",
+    participantStatus: "text-[0.6875rem] font-bold uppercase tracking-wide py-1 px-2 rounded-full bg-[--neutral-bg] text-[--neutral-text]",
+    participantDoneStatus: "bg-[--ok-bg] text-[--ok-text]",
+    participantNudge: "flex items-center justify-between gap-2 py-2 px-3 rounded-lg bg-[--warn-bg] border border-[--warn-border] mb-2 flex-wrap",
+    participantNudgeText: "text-sm text-[--warn-text]",
+    /* Narrative */
+    narrative: "rounded-xl bg-[--surface-muted] p-4 grid gap-2 mb-3",
+    narrativeLead: "m-0 text-[0.9375rem] font-semibold text-[--ink] leading-normal",
+    narrativeDetail: "m-0 text-sm text-[--ink] leading-relaxed",
+    narrativePending: "m-0 text-sm text-[--ink-soft] italic",
+    /* Context menu */
+    ctxMenu: "fixed z-[25] border border-[--border] rounded-lg bg-[--surface] shadow-[0_10px_24px_rgba(0,0,0,0.18)] p-[0.3rem] grid gap-[0.15rem] min-w-[140px]",
+    ctxBtn: "border-none rounded-lg bg-transparent text-[--ink] text-sm font-bold p-3 px-4 min-h-[44px] text-left cursor-pointer hover:bg-[--accent-bg] hover:text-[--accent-text]",
+    /* Toast */
+    toast: "rounded-xl py-2 px-3 text-white bg-[--ink] text-[0.81rem] shadow-[0_10px_24px_rgba(0,0,0,0.2)]",
+    toastGood: "bg-[--ok-text]",
+    toastWarn: "bg-[--warn-text]",
   };
 
   const AVATAR_COLORS = [
@@ -1073,8 +1217,7 @@
     months.forEach((m) => {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "month-btn";
-      if (m.monthIndex === state.selectedMonth) btn.classList.add("month-active");
+      btn.className = TW.monthBtn + (m.monthIndex === state.selectedMonth ? " " + TW.monthActive : "");
 
       const monthWeeks = getWeeksForMonth(m.monthIndex);
       const selectedCount = monthWeeks.filter(({ index }) =>
@@ -1101,39 +1244,38 @@
 
     monthWeeks.forEach(({ week, index }) => {
       const card = document.createElement("div");
-      card.className = "week-card";
+      card.className = TW.weekCard;
       card.dataset.index = String(index);
       card.setAttribute("role", "listitem");
 
       const stripMarkup = week.dayTokens
         .map((token, tokenIndex) => {
-          const classes = [];
-          if (tokenIndex === 0) classes.push("start");
-          if (tokenIndex === week.dayTokens.length - 1) classes.push("end");
-          const classMarkup = classes.length ? ` class="${classes.join(" ")}"` : "";
-          return `<span${classMarkup}>${token.label.slice(0, 2)}</span>`;
+          let cls = TW.daySpan;
+          if (tokenIndex === 0) cls += " " + TW.dayStart;
+          if (tokenIndex === week.dayTokens.length - 1) cls += " " + TW.dayEnd;
+          return `<span class="${cls}">${token.label.slice(0, 2)}</span>`;
         })
         .join("");
-      const dayCountClass = `days-${week.dayTokens.length}`;
+      const dayCols = week.dayTokens.length >= 8 ? "grid-cols-5" : "grid-cols-4";
 
       card.innerHTML = `
-        <button type="button" class="wc-row">
-          <div class="wc-main">
-            <span class="wc-headline">W${week.weekNumber} <span class="wc-date">${week.rangeText}</span></span>
-            <span class="wc-sub">${week.weekdayRangeText} &middot; ${week.days} days</span>
+        <button type="button" class="${TW.wcRow}">
+          <div class="${TW.wcMain}">
+            <span class="${TW.wcHeadline}">W${week.weekNumber} <span class="${TW.wcDate}">${week.rangeText}</span></span>
+            <span class="${TW.wcSub}">${week.weekdayRangeText} &middot; ${week.days} days</span>
           </div>
-          <div class="wc-badges">
-            <span class="status-pill">Unselected</span>
-            <span class="rank-pill" hidden>#1</span>
+          <div class="${TW.wcBadges}">
+            <span class="status-pill ${TW.statusPill}">Unselected</span>
+            <span class="rank-pill ${TW.rankPill}" hidden>#1</span>
           </div>
         </button>
-        <div class="wc-detail" hidden>
-          <div class="window-flow">
-            <span class="flow-point start">From ${week.startDisplay}</span>
-            <span class="flow-arrow" aria-hidden="true">&rarr;</span>
-            <span class="flow-point end">To ${week.endDisplay}</span>
+        <div class="${TW.wcDetail}" hidden>
+          <div class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-stretch gap-[0.3rem]">
+            <span class="${TW.flowPoint} ${TW.flowStart}">From ${week.startDisplay}</span>
+            <span class="${TW.flowArrow}" aria-hidden="true">&rarr;</span>
+            <span class="${TW.flowPoint} ${TW.flowEnd}">To ${week.endDisplay}</span>
           </div>
-          <div class="day-strip ${dayCountClass}" aria-hidden="true">${stripMarkup}</div>
+          <div class="grid ${dayCols} auto-rows-[minmax(1.78rem,auto)] gap-[0.26rem] w-full min-w-0 content-start" aria-hidden="true">${stripMarkup}</div>
         </div>
       `;
 
@@ -1172,18 +1314,33 @@
   }
 
   function updateWeekCards() {
-    const cards = els.weekGrid.querySelectorAll(".week-card");
+    const cards = els.weekGrid.querySelectorAll("[data-index]");
     cards.forEach((card) => {
       const index = Number(card.dataset.index);
       const selection = state.selections[index];
       if (!selection) return;
       const status = selection.status;
-      card.dataset.status = status;
+
+      /* Reset card border + opacity */
+      card.classList.remove("border-l-[--available]", "border-l-[--maybe]", "border-l-transparent", "opacity-70");
+      if (status === "available") card.classList.add("border-l-[--available]");
+      else if (status === "maybe") card.classList.add("border-l-[--maybe]");
+      else { card.classList.add("border-l-transparent", "opacity-70"); }
+
+      /* Compact row for unselected */
+      const row = card.querySelector("button");
+      if (row) {
+        row.className = status === "unselected" ? TW.wcRow.replace("py-3", "py-2").replace("min-h-[56px]", "min-h-[44px]") : TW.wcRow;
+      }
 
       const statusPill = card.querySelector(".status-pill");
       const rankPill = card.querySelector(".rank-pill");
 
       const statusLabel = status === "available" ? "Available" : status === "maybe" ? "Maybe" : "Unselected";
+      /* Reset and apply status pill styling */
+      statusPill.className = "status-pill " + TW.statusPill;
+      if (status === "available") statusPill.classList.add(...TW.statusAvailable.split(" "));
+      else if (status === "maybe") statusPill.classList.add(...TW.statusMaybe.split(" "));
       statusPill.textContent = statusLabel;
 
       if (selection.rank) {
@@ -1294,14 +1451,14 @@
 
     for (let rank = 1; rank <= MAX_RANK; rank += 1) {
       const row = document.createElement("div");
-      row.className = "rank-row";
+      row.className = "grid grid-cols-[auto_1fr] items-center gap-2";
 
       const chip = document.createElement("span");
-      chip.className = "rank-chip";
+      chip.className = TW.rankChip;
       chip.textContent = `#${rank}`;
 
       const select = document.createElement("select");
-      select.className = "rank-select";
+      select.className = TW.rankSelect;
       select.dataset.rank = String(rank);
       select.setAttribute("aria-label", `Rank ${rank}`);
       select.addEventListener("change", (event) => {
@@ -1349,7 +1506,8 @@
       });
 
       select.value = currentWeek ? String(currentWeek) : "";
-      select.classList.toggle("rank-filled", Boolean(currentWeek));
+      /* Toggle filled styling */
+      TW.rankFilled.split(" ").forEach(c => select.classList.toggle(c, Boolean(currentWeek)));
     });
 
     const missing = state.validation.missingRanks;
@@ -1490,9 +1648,11 @@
     els.reviewList.innerHTML = "";
     list.forEach((item) => {
       const li = document.createElement("li");
-      li.className = item.className;
+      const itemStyle = item.className === "ok" ? TW.checklistItemOk : item.className === "info" ? TW.checklistItemInfo : TW.checklistItemWarn;
+      li.className = TW.checklistItem + " " + itemStyle;
+      const iconStyle = item.className === "ok" ? TW.checklistOk : item.className === "info" ? TW.checklistInfo : TW.checklistWarn;
       const icon = item.className === "ok" ? "\u2713" : item.className === "info" ? "\u2014" : "\u25CB";
-      li.innerHTML = `<span class="checklist-icon">${icon}</span><span>${item.text}</span>`;
+      li.innerHTML = `<span class="${TW.checklistIcon} ${iconStyle}">${icon}</span><span>${item.text}</span>`;
       els.reviewList.appendChild(li);
     });
   }
@@ -1933,8 +2093,8 @@
     els.scoreChips.innerHTML = "";
     scoreCards.forEach((card) => {
       const item = document.createElement("article");
-      item.className = "score-chip";
-      item.innerHTML = `<span>${card.label}</span><strong>${card.value}</strong>${card.sub ? `<span class="score-chip-sub">${card.sub}</span>` : ""}`;
+      item.className = TW.scoreChip;
+      item.innerHTML = `<span class="${TW.scoreChipBar}"></span><span class="${TW.scoreLabel}">${card.label}</span><strong class="${TW.scoreValue}">${card.value}</strong>${card.sub ? `<span class="${TW.scoreSub}">${card.sub}</span>` : ""}`;
       els.scoreChips.appendChild(item);
     });
 
@@ -1952,10 +2112,10 @@
         const myStatus = myPerson ? myPerson.status : "unselected";
         const mySubmitted = myPerson ? myPerson.submitted : false;
 
-        let html = `<div class="admin-narrative">`;
+        let html = `<div class="${TW.narrative}">`;
 
         // Lead sentence — personalized
-        html += `<p class="admin-narrative-lead">`;
+        html += `<p class="${TW.narrativeLead}">`;
         if (bestPct === 100 && submittedCount === totalPeople && totalPeople > 1) {
           html += `Everyone is available for <strong>${bestLabel}</strong>. You\u2019re all set!`;
         } else if (myStatus === "available") {
@@ -1984,20 +2144,20 @@
 
         // Completeness indicator
         if (submittedCount < totalPeople) {
-          html += `<p class="admin-narrative-pending">Based on <strong>${submittedCount} of ${totalPeople}</strong> submissions. Waiting on: <strong>${bk.notSubmitted.map((p) => escapeHtml(p.name)).join(", ") || participants.filter((p) => !p.submitted_at).map((p) => escapeHtml(p.name)).join(", ")}</strong>.</p>`;
+          html += `<p class="${TW.narrativePending}">Based on <strong>${submittedCount} of ${totalPeople}</strong> submissions. Waiting on: <strong>${bk.notSubmitted.map((p) => escapeHtml(p.name)).join(", ") || participants.filter((p) => !p.submitted_at).map((p) => escapeHtml(p.name)).join(", ")}</strong>.</p>`;
         } else if (totalPeople > 1) {
-          html += `<p class="admin-narrative-pending" style="color:var(--ok-text)">All ${totalPeople} participants have submitted.</p>`;
+          html += `<p class="${TW.narrativePending}" style="color:var(--ok-text)">All ${totalPeople} participants have submitted.</p>`;
         }
 
         // People breakdown — submission-aware
         if (totalPeople > 1) {
           const parts = [];
-          if (bk.available.length) parts.push(`${bk.available.map((p) => `<span class="wd-badge wd-badge-available">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.available.length === 1 ? "is" : "are"} free`);
-          if (bk.maybe.length) parts.push(`${bk.maybe.map((p) => `<span class="wd-badge wd-badge-maybe">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.maybe.length === 1 ? "is" : "are"} tentative`);
-          if (bk.unavailable.length) parts.push(`${bk.unavailable.map((p) => `<span class="wd-badge wd-badge-unselected">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.unavailable.length === 1 ? "is" : "are"} unavailable`);
-          if (bk.notSubmitted.length) parts.push(`${bk.notSubmitted.map((p) => `<span class="wd-badge wd-badge-pending">${escapeHtml(p.name)}</span>`).join(" ")} haven\u2019t submitted yet`);
+          if (bk.available.length) parts.push(`${bk.available.map((p) => `<span class="${TW.wdBadge} ${TW.wdBadgeAvail}">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.available.length === 1 ? "is" : "are"} free`);
+          if (bk.maybe.length) parts.push(`${bk.maybe.map((p) => `<span class="${TW.wdBadge} ${TW.wdBadgeMaybe}">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.maybe.length === 1 ? "is" : "are"} tentative`);
+          if (bk.unavailable.length) parts.push(`${bk.unavailable.map((p) => `<span class="${TW.wdBadge} ${TW.wdBadgeUnsel}">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.unavailable.length === 1 ? "is" : "are"} unavailable`);
+          if (bk.notSubmitted.length) parts.push(`${bk.notSubmitted.map((p) => `<span class="${TW.wdBadge} ${TW.wdBadgePending}">${escapeHtml(p.name)}</span>`).join(" ")} haven\u2019t submitted yet`);
           if (parts.length) {
-            html += `<p class="admin-narrative-detail">${parts.join(". ")}.</p>`;
+            html += `<p class="${TW.narrativeDetail}">${parts.join(". ")}.</p>`;
           }
         }
 
@@ -2026,22 +2186,22 @@
     for (const [monthIdx, entries] of monthGroups) {
       const hasActivity = entries.some((e) => e.availableCount > 0 || e.maybeCount > 0);
       const row = document.createElement("div");
-      row.className = `hm-row${hasActivity ? "" : " hm-row-empty"}`;
+      row.className = TW.hmRow + (hasActivity ? "" : " opacity-40");
 
       const label = document.createElement("span");
-      label.className = "hm-label";
+      label.className = TW.hmLabel;
       label.textContent = MONTH_LABELS[monthIdx] || "";
       row.appendChild(label);
 
       const cells = document.createElement("div");
-      cells.className = "hm-cells";
+      cells.className = TW.hmCells;
 
       entries.forEach((entry) => {
         const week = state.weeks[entry.weekNumber - 1];
         const btn = document.createElement("button");
         btn.type = "button";
-        btn.className = "hm-cell";
-        if (state.selectedDetailWeek === entry.weekNumber) btn.classList.add("active");
+        btn.className = TW.hmCell;
+        if (state.selectedDetailWeek === entry.weekNumber) btn.classList.add(...TW.hmCellActive.split(" "));
 
         const hasAvailable = entry.availableCount > 0;
         const hasMaybeOnly = !hasAvailable && entry.maybeCount > 0;
@@ -2049,14 +2209,15 @@
 
         if (hasAvailable) {
           btn.style.background = heatColor(intensity);
-          if (intensity >= 0.6) btn.classList.add("hm-hot");
+          if (intensity >= 0.6) btn.classList.add("text-white");
         } else if (hasMaybeOnly) {
           btn.style.background = `color-mix(in srgb, var(--maybe) 12%, var(--surface-muted))`;
         }
+        if (!hasActivity) btn.classList.add("min-h-[28px]");
 
         const day = week.start.getDate();
         const countLabel = entry.availableCount ? entry.availableCount : (entry.maybeCount ? `${entry.maybeCount}?` : "");
-        btn.innerHTML = `<span class="hm-day">${day}</span><span class="hm-count">${countLabel || "\u00B7"}</span>`;
+        btn.innerHTML = `<span class="${TW.hmDay}">${day}</span><span class="${TW.hmCount}">${countLabel || "\u00B7"}</span>`;
         btn.setAttribute(
           "aria-label",
           `${MONTH_LABELS[monthIdx]} ${day}, Week ${entry.weekNumber}. ${entry.availableCount} available, ${entry.maybeCount} maybe`
@@ -2082,11 +2243,12 @@
     participants.forEach((participant) => {
       const li = document.createElement("li");
       const done = Boolean(participant.submitted_at);
-      li.className = done ? "done" : "";
+      li.className = TW.participantItem + (done ? " " + TW.participantDone : "");
       const nameWrap = document.createElement("span");
-      nameWrap.className = "participant-name";
+      nameWrap.className = "flex items-center gap-2";
       nameWrap.innerHTML = `${avatarHtml(participant.name)} ${escapeHtml(participant.name)}`;
       const statusSpan = document.createElement("span");
+      statusSpan.className = TW.participantStatus + (done ? " " + TW.participantDoneStatus : "");
       statusSpan.textContent = done ? "Submitted" : "Not submitted";
       li.append(nameWrap, statusSpan);
       els.participantList.appendChild(li);
@@ -2101,12 +2263,12 @@
     const pendingPeople = participants.filter((p) => !p.submitted_at);
     if (pendingPeople.length > 0 && participants.length > 1) {
       const nudge = document.createElement("div");
-      nudge.className = "participant-nudge";
+      nudge.className = TW.participantNudge;
       const names = pendingPeople.map((p) => escapeHtml(p.name)).join(", ");
       const tripLink = `${window.location.origin}/planner.html?trip=${encodeURIComponent(state.tripCode)}`;
       const reminderText = `Hey! We\u2019re planning our trip on TripWeek \u2014 can you submit your availability? ${tripLink}`;
       nudge.innerHTML = `
-        <span class="participant-nudge-text">Waiting on: <strong>${names}</strong></span>
+        <span class="${TW.participantNudgeText}">Waiting on: <strong>${names}</strong></span>
         <button class="${TW.btnSm} participant-nudge-btn" type="button">Copy reminder</button>
       `;
       nudge.querySelector(".participant-nudge-btn").addEventListener("click", () => {
@@ -2123,12 +2285,12 @@
     aggregates.slice(0, 5).forEach((entry, index) => {
       const week = state.weeks[entry.weekNumber - 1];
       const wrapper = document.createElement("div");
-      wrapper.className = "lb-item";
+      wrapper.className = TW.lbItem;
 
       const row = document.createElement("button");
       row.type = "button";
-      row.className = "lb-row";
-      if (index === 0 && entry.score > 0) row.classList.add("lb-top-pick");
+      row.className = TW.lbRow;
+      if (index === 0 && entry.score > 0) row.classList.add(...TW.lbRowTopPick.split(" "));
       /* rows start closed — toggled by click */
       const width = (entry.score / maxScore) * 100;
       const totalPeople = (state.participants.length || 1);
@@ -2150,31 +2312,32 @@
       if (rankOverflow > 0) rankParts.push(`+${rankOverflow} more`);
       const rankContext = rankParts.join(", ");
 
+      const isTop = index === 0 && entry.score > 0;
       row.innerHTML = `
-        <div class="lb-header">
-          <span class="lb-rank">#${index + 1}</span>
-          <div class="lb-info">
-            <span class="lb-dates">${week ? `${week.startDisplay} \u2192 ${week.endDisplay}` : ""}</span>
-            <span class="lb-meta">Week ${entry.weekNumber} \u00B7 ${week ? week.days : ""} days</span>
+        <div class="${TW.lbHeader}">
+          <span class="${TW.lbRank}${isTop ? " " + TW.lbRankTop : ""}">#${index + 1}</span>
+          <div class="${TW.lbInfo}">
+            <span class="${TW.lbDates}">${week ? `${week.startDisplay} \u2192 ${week.endDisplay}` : ""}</span>
+            <span class="${TW.lbMeta}">Week ${entry.weekNumber} \u00B7 ${week ? week.days : ""} days</span>
           </div>
-          <span class="lb-chevron">\u25BE</span>
+          <span class="${TW.lbChevron}">\u25BE</span>
         </div>
-        ${availNames.length ? `<div class="lb-who"><span class="lb-who-label">Available:</span> ${availNames.join(", ")}</div>` : ""}
-        ${rankContext ? `<div class="lb-who lb-who-ranked"><span class="lb-who-label">Ranked:</span> ${rankContext}</div>` : ""}
-        <div class="lb-stats">
-          ${lbk.available.length ? `<span class="lb-stat available">${lbk.available.length} of ${submittedCount} available</span>` : ""}
-          ${lbk.maybe.length ? `<span class="lb-stat maybe">${lbk.maybe.length} maybe</span>` : ""}
-          ${availPct ? `<span class="lb-stat pct">${availPct}%</span>` : ""}
-          ${lbk.notSubmitted.length ? `<span class="lb-stat" style="border-style:dashed">${lbk.notSubmitted.length} pending</span>` : ""}
+        ${availNames.length ? `<div class="${TW.lbWho}"><span class="${TW.lbWhoLabel}">Available:</span> ${availNames.join(", ")}</div>` : ""}
+        ${rankContext ? `<div class="${TW.lbWho} ${TW.lbWhoRanked}"><span class="${TW.lbWhoLabel}">Ranked:</span> ${rankContext}</div>` : ""}
+        <div class="${TW.lbStats}">
+          ${lbk.available.length ? `<span class="${TW.lbStat} ${TW.lbStatAvail}">${lbk.available.length} of ${submittedCount} available</span>` : ""}
+          ${lbk.maybe.length ? `<span class="${TW.lbStat} ${TW.lbStatMaybe}">${lbk.maybe.length} maybe</span>` : ""}
+          ${availPct ? `<span class="${TW.lbStat}">${availPct}%</span>` : ""}
+          ${lbk.notSubmitted.length ? `<span class="${TW.lbStat}" style="border-style:dashed">${lbk.notSubmitted.length} pending</span>` : ""}
         </div>
-        <div class="lb-bar"><span style="width:${width.toFixed(1)}%"></span></div>
+        <div class="${TW.lbBar}"><span class="${TW.lbBarFill}" style="width:${width.toFixed(1)}%"></span></div>
       `;
 
       // Inline detail panel
       const detail = document.createElement("div");
-      detail.className = "lb-detail";
+      detail.className = TW.lbDetail;
       const detailInner = document.createElement("div");
-      detailInner.className = "lb-detail-inner";
+      detailInner.className = TW.lbDetailInner;
       detailInner.innerHTML = buildWeekDetailHtml(entry);
       detail.appendChild(detailInner);
 
@@ -2185,12 +2348,18 @@
         const wasOpen = wrapper.classList.contains("lb-item-open");
         // Close all open items
         els.leaderboard.querySelectorAll(".lb-item-open").forEach((item) => {
-          item.classList.remove("lb-item-open");
-          const r = item.querySelector(".lb-row");
+          item.classList.remove("lb-item-open", ...TW.lbItemOpen.split(" "));
+          const d = item.querySelector("[class*='grid-rows']");
+          if (d) { d.classList.remove(...TW.lbDetailOpen.split(" ")); }
+          const di = item.querySelector("[class*='opacity']");
+          if (di) { TW.lbDetailInnerOpen.split(" ").forEach(c => di.classList.remove(c)); }
+          const r = item.querySelector("button");
           if (r) r.classList.remove("lb-active");
         });
         if (!wasOpen) {
-          wrapper.classList.add("lb-item-open");
+          wrapper.classList.add("lb-item-open", ...TW.lbItemOpen.split(" "));
+          detail.classList.add(...TW.lbDetailOpen.split(" "));
+          detailInner.classList.add(...TW.lbDetailInnerOpen.split(" "));
           row.classList.add("lb-active");
           state.selectedDetailWeek = entry.weekNumber;
         } else {
@@ -2237,23 +2406,24 @@
 
     const bk = getWeekBreakdown(entry);
 
-    const section = (label, people, cls) => {
+    const hpColors = { avail: "text-[--ok-text]", maybe: "text-[--warn-text]", unavail: "text-[--neutral-text]", pending: "text-[--ink-soft] italic" };
+    const section = (label, people, colorKey) => {
       if (!people.length) return "";
       const rows = people.map((p) =>
-        `<span class="hp-person">${avatarHtml(p.name)} ${escapeHtml(p.name)}${p.rank ? ` <span class="wd-person-rank">#${p.rank}</span>` : ""}</span>`
+        `<span class="${TW.hpPerson}">${avatarHtml(p.name)} ${escapeHtml(p.name)}${p.rank ? ` <span class="${TW.wdPersonRank}">#${p.rank}</span>` : ""}</span>`
       ).join("");
-      return `<div class="hp-group"><span class="hp-group-label ${cls}">${label}</span>${rows}</div>`;
+      return `<div class="${TW.hpGroup}"><span class="${TW.hpGroupLabel} ${hpColors[colorKey]}">${label}</span>${rows}</div>`;
     };
 
     popover.innerHTML = `
-      <div class="hp-header">
-        <strong>${week.rangeText}</strong>
-        <span class="hp-meta">W${entry.weekNumber}</span>
+      <div class="${TW.hpHeader}">
+        <strong class="font-display text-sm font-extrabold">${week.rangeText}</strong>
+        <span class="${TW.hpMeta}">W${entry.weekNumber}</span>
       </div>
-      ${section(`${bk.available.length} available`, bk.available, "hp-avail")}
-      ${section(`${bk.maybe.length} maybe`, bk.maybe, "hp-maybe")}
-      ${section(`${bk.unavailable.length} unavailable`, bk.unavailable, "hp-unavail")}
-      ${section(`${bk.notSubmitted.length} pending`, bk.notSubmitted, "hp-pending")}
+      ${section(`${bk.available.length} available`, bk.available, "avail")}
+      ${section(`${bk.maybe.length} maybe`, bk.maybe, "maybe")}
+      ${section(`${bk.unavailable.length} unavailable`, bk.unavailable, "unavail")}
+      ${section(`${bk.notSubmitted.length} pending`, bk.notSubmitted, "pending")}
     `;
 
     // Position: show popover off-screen first to measure, then place
@@ -2299,32 +2469,32 @@
 
     const statusBadge = (person) => {
       if (!person.submitted) {
-        return `<span class="wd-badge" style="background:var(--surface-muted);color:var(--ink-soft);border:1px solid var(--border);">Not submitted</span>`;
+        return `<span class="${TW.wdBadge} ${TW.wdBadgePending}">Not submitted</span>`;
       }
-      const cls = person.status === "available" ? "wd-badge-available" : person.status === "maybe" ? "wd-badge-maybe" : "wd-badge-unselected";
+      const cls = person.status === "available" ? TW.wdBadgeAvail : person.status === "maybe" ? TW.wdBadgeMaybe : TW.wdBadgeUnsel;
       const labels = { available: "Available", maybe: "Maybe", unselected: "Unavailable" };
-      return `<span class="wd-badge ${cls}">${labels[person.status] || "Unavailable"}</span>`;
+      return `<span class="${TW.wdBadge} ${cls}">${labels[person.status] || "Unavailable"}</span>`;
     };
 
     const rankLabel = (rank) => {
       if (!rank) return "";
       const labels = { 1: "Top pick", 2: "2nd pick", 3: "3rd pick", 4: "4th pick", 5: "5th pick" };
-      return `<span class="wd-person-rank">${labels[rank] || `#${rank}`}</span>`;
+      return `<span class="${TW.wdPersonRank}">${labels[rank] || `#${rank}`}</span>`;
     };
 
     const peopleRows = sortedPeople.length
       ? sortedPeople
           .map((person) =>
-            `<div class="wd-person${person.rank ? " wd-person-ranked" : ""}${!person.submitted ? " wd-person-pending" : ""}">` +
-              `<span class="wd-person-name">${avatarHtml(person.name)} ${escapeHtml(person.name)}</span>` +
-              `<div class="wd-person-status">` +
+            `<div class="${TW.wdPerson}${person.rank ? " border-l-2 border-l-[--accent]" : ""}${!person.submitted ? " opacity-60" : ""}">` +
+              `<span class="${TW.wdPersonName}">${avatarHtml(person.name)} ${escapeHtml(person.name)}</span>` +
+              `<div class="${TW.wdPersonStatus}">` +
                 `${rankLabel(person.rank)}` +
                 `${statusBadge(person)}` +
               `</div>` +
             `</div>`
           )
           .join("")
-      : `<p class="wd-empty">No participant details yet.</p>`;
+      : `<p class="${TW.wdEmpty}">No participant details yet.</p>`;
 
     // Build a personalized insight sentence using submission-aware breakdown
     const wbk = getWeekBreakdown(target);
@@ -2378,8 +2548,8 @@
     }
 
     return `
-      ${insight ? `<p class="wd-insight">${insight}</p>` : ""}
-      <div class="wd-people">${peopleRows}</div>
+      ${insight ? `<p class="${TW.wdInsight}">${insight}</p>` : ""}
+      <div class="${TW.wdPeople}">${peopleRows}</div>
     `;
   }
 
@@ -2492,7 +2662,8 @@
 
   function showToast(message, tone) {
     const toast = document.createElement("div");
-    toast.className = `toast ${tone || ""}`.trim();
+    const toneClass = tone === "good" ? TW.toastGood : tone === "warn" ? TW.toastWarn : "";
+    toast.className = `${TW.toast} ${toneClass} toast-animate`.trim();
     toast.textContent = message;
     els.toastArea.appendChild(toast);
 
