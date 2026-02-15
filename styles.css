@@ -132,6 +132,17 @@ a, button, select, input, [role="button"] {
   touch-action: manipulation;
 }
 
+/* Unified section header */
+.section-header {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+}
+
 html,
 body {
   margin: 0;
@@ -206,7 +217,7 @@ body {
   margin: 0;
   font-family: "Sora", sans-serif;
   font-size: clamp(1.1rem, 2vw, 1.5rem);
-  font-weight: 800;
+  font-weight: var(--font-bold);
 }
 
 .hero p {
@@ -223,7 +234,7 @@ body {
   background: var(--surface-muted);
   color: var(--ink-soft);
   font-size: var(--text-sm);
-  font-weight: 700;
+  font-weight: var(--font-semi);
   padding: 0 var(--sp-3);
 }
 
@@ -274,8 +285,8 @@ body {
 }
 
 .theme-picker span {
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semi);
   color: var(--ink-soft);
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -286,8 +297,8 @@ body {
   background: transparent;
   color: var(--ink);
   font: inherit;
-  font-size: 0.79rem;
-  font-weight: 700;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semi);
   padding: 0.2rem 0.25rem;
 }
 
@@ -332,7 +343,7 @@ body {
   color: var(--ink-soft);
   font: inherit;
   font-size: var(--text-xs);
-  font-weight: 700;
+  font-weight: var(--font-semi);
   line-height: 1.15;
   padding: var(--sp-2) var(--sp-3);
   display: grid;
@@ -352,7 +363,7 @@ body {
   place-items: center;
   background: var(--surface);
   color: var(--ink-soft);
-  font-weight: 800;
+  font-weight: var(--font-bold);
   font-size: var(--text-xs);
 }
 
@@ -401,7 +412,7 @@ body {
 .step-copy {
   margin: 0;
   color: var(--ink-soft);
-  font-size: 0.94rem;
+  font-size: var(--text-base);
 }
 
 .form-grid {
@@ -416,10 +427,10 @@ body {
 }
 
 .field span {
-  font-size: 0.78rem;
+  font-size: var(--text-sm);
   color: var(--ink-soft);
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: var(--font-semi);
   letter-spacing: 0.05em;
 }
 
@@ -464,8 +475,8 @@ body {
 }
 
 .window-config-toggle {
-  font-size: 0.82rem;
-  font-weight: 700;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semi);
   color: var(--ink-soft);
   cursor: pointer;
   list-style: none;
@@ -476,7 +487,7 @@ body {
 
 .window-config-toggle::before {
   content: "\25B6";
-  font-size: 0.6rem;
+  font-size: var(--text-xs);
   transition: transform 0.15s ease;
 }
 
@@ -521,7 +532,7 @@ body {
   background: var(--surface-muted);
   color: var(--ink-soft);
   font: inherit;
-  font-weight: 700;
+  font-weight: var(--font-semi);
   cursor: pointer;
 }
 
@@ -571,7 +582,7 @@ body {
 }
 
 .hint {
-  font-size: 0.84rem;
+  font-size: var(--text-base);
   color: var(--ink-soft);
   font-weight: 600;
 }
@@ -606,14 +617,14 @@ body {
 .count-card span {
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  font-size: 0.73rem;
+  font-size: var(--text-sm);
   color: var(--ink-soft);
-  font-weight: 700;
+  font-weight: var(--font-semi);
 }
 
 .count-card strong {
   font-family: "Sora", sans-serif;
-  font-size: 1.05rem;
+  font-size: var(--text-lg);
 }
 
 .legend {
@@ -621,8 +632,8 @@ body {
   flex-wrap: wrap;
   gap: 0.45rem;
   color: var(--ink-soft);
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semi);
 }
 
 .legend span {
@@ -657,7 +668,7 @@ body {
 
 .ov-summary {
   font-size: var(--text-sm);
-  font-weight: 700;
+  font-weight: var(--font-semi);
   color: var(--ink);
   min-width: 0;
   overflow: hidden;
@@ -678,7 +689,7 @@ body {
   border: none;
   background: var(--surface-muted);
   color: var(--ink-soft);
-  font-weight: 700;
+  font-weight: var(--font-semi);
   cursor: pointer;
   display: inline-grid;
   grid-template-columns: auto auto;
@@ -743,14 +754,14 @@ body {
 .overlay-item span {
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-size: 0.67rem;
+  font-size: var(--text-xs);
   color: var(--ink-soft);
-  font-weight: 700;
+  font-weight: var(--font-semi);
 }
 
 .overlay-item strong {
   font-family: "Sora", sans-serif;
-  font-size: 0.94rem;
+  font-size: var(--text-base);
   color: var(--ink);
 }
 
@@ -793,7 +804,7 @@ body {
 }
 
 .keyboard-hint {
-  font-size: 0.78rem;
+  font-size: var(--text-sm);
   font-style: italic;
 }
 
@@ -818,8 +829,8 @@ body {
   background: var(--surface-muted);
   color: var(--ink-soft);
   font: inherit;
-  font-size: 0.74rem;
-  font-weight: 700;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semi);
   padding: 0.3rem 0.6rem;
   cursor: pointer;
   min-height: 34px;
@@ -891,7 +902,7 @@ body {
 }
 
 .wc-headline {
-  font-weight: 800;
+  font-weight: var(--font-bold);
   font-size: var(--text-base);
   color: var(--ink);
   line-height: 1.2;
@@ -938,8 +949,8 @@ body {
   border: 1px solid var(--border);
   background: var(--surface-muted);
   padding: 0.34rem 0.48rem;
-  font-size: 0.7rem;
-  font-weight: 800;
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
   color: var(--ink-soft);
   display: flex;
   align-items: center;
@@ -959,14 +970,14 @@ body {
 
 .week-card .flow-arrow {
   color: var(--ink-soft);
-  font-weight: 800;
-  font-size: 0.84rem;
+  font-weight: var(--font-bold);
+  font-size: var(--text-base);
 }
 
 .week-card .weekday-range {
   color: var(--ink-soft);
-  font-size: 0.74rem;
-  font-weight: 700;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semi);
 }
 
 .day-strip {
@@ -990,7 +1001,7 @@ body {
   background: var(--surface-muted);
   color: var(--ink-soft);
   font-size: clamp(0.66rem, 1.7vw, 0.74rem);
-  font-weight: 800;
+  font-weight: var(--font-bold);
   line-height: 1;
   letter-spacing: 0.01em;
   text-align: center;
@@ -1023,8 +1034,8 @@ body {
   color: var(--ink-soft);
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  font-size: 0.68rem;
-  font-weight: 800;
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
   padding: 0.2rem 0.46rem;
 }
 
@@ -1086,7 +1097,7 @@ body {
   display: inline-grid;
   place-items: center;
   font-family: "Sora", sans-serif;
-  font-weight: 700;
+  font-weight: var(--font-semi);
 }
 
 .review-checklist {
@@ -1096,7 +1107,7 @@ body {
   padding: var(--sp-4);
 }
 
-/* h3 margin now handled by .review-checklist-toggle */
+/* h3 now uses .section-header globally */
 
 .review-checklist ul {
   list-style: none;
@@ -1124,8 +1135,8 @@ body {
   border-radius: 50%;
   display: inline-grid;
   place-items: center;
-  font-size: 0.72rem;
-  font-weight: 800;
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
   flex-shrink: 0;
   background: var(--neutral-bg);
   color: var(--neutral-text);
@@ -1170,7 +1181,7 @@ body {
   background: var(--surface-muted);
   color: var(--ink-soft);
   padding: var(--sp-3);
-  font-size: 0.86rem;
+  font-size: var(--text-base);
 }
 
 .results {
@@ -1215,7 +1226,7 @@ body {
 
 .results-collapsible-toggle h3::before {
   content: "\25B6";
-  font-size: 0.55rem;
+  font-size: var(--text-xs);
   margin-right: var(--sp-2);
   color: var(--ink-soft);
   transition: transform 0.15s ease;
@@ -1244,12 +1255,12 @@ body {
   align-items: center;
   gap: var(--sp-2);
   margin: 0;
-  font-size: 0.95rem;
+  font-size: var(--text-base);
 }
 
 .review-checklist-toggle h3::before {
   content: "\25B6";
-  font-size: 0.55rem;
+  font-size: var(--text-xs);
   color: var(--ink-soft);
   transition: transform 0.15s ease;
 }
@@ -1283,17 +1294,7 @@ body {
   gap: var(--sp-4);
 }
 
-.results-card h3 {
-  margin: 0;
-  font-family: "Sora", sans-serif;
-  font-size: var(--text-sm);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--ink-soft);
-  padding-bottom: var(--sp-2);
-  border-bottom: 1px solid var(--border);
-}
+/* results-card h3 now uses .section-header */
 
 .score-chips {
   display: grid;
@@ -1328,13 +1329,13 @@ body {
   letter-spacing: 0.06em;
   font-size: var(--text-xs);
   color: var(--ink-soft);
-  font-weight: 700;
+  font-weight: var(--font-semi);
 }
 
 .score-chip strong {
   font-family: "Sora", sans-serif;
   font-size: clamp(1rem, 2.5vw, 1.3rem);
-  font-weight: 800;
+  font-weight: var(--font-bold);
   color: var(--ink);
 }
 
@@ -1359,7 +1360,7 @@ body {
   align-items: center;
   gap: var(--sp-1);
   font-size: var(--text-xs);
-  font-weight: 700;
+  font-weight: var(--font-semi);
   color: var(--ink-soft);
 }
 
@@ -1395,7 +1396,7 @@ body {
   width: 2rem;
   flex-shrink: 0;
   font-size: var(--text-xs);
-  font-weight: 800;
+  font-weight: var(--font-bold);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--ink-soft);
@@ -1415,7 +1416,7 @@ body {
   min-height: 42px;
   background: var(--surface-muted);
   color: var(--ink);
-  font-weight: 800;
+  font-weight: var(--font-bold);
   cursor: pointer;
   display: grid;
   place-items: center;
@@ -1438,11 +1439,11 @@ body {
 
 .hm-day {
   font-size: var(--text-sm);
-  font-weight: 800;
+  font-weight: var(--font-bold);
 }
 
 .hm-count {
-  font-size: 0.6rem;
+  font-size: var(--text-xs);
   opacity: 0.65;
 }
 
@@ -1490,7 +1491,7 @@ body {
 .hp-header strong {
   font-family: "Sora", sans-serif;
   font-size: var(--text-sm);
-  font-weight: 800;
+  font-weight: var(--font-bold);
 }
 
 .hp-meta {
@@ -1505,7 +1506,7 @@ body {
 
 .hp-group-label {
   font-size: var(--text-xs);
-  font-weight: 800;
+  font-weight: var(--font-bold);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -1535,8 +1536,8 @@ body {
   background: var(--accent);
   color: #fff;
   font-family: "Sora", sans-serif;
-  font-size: 0.65rem;
-  font-weight: 800;
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
   line-height: 1;
   flex-shrink: 0;
   vertical-align: middle;
@@ -1595,7 +1596,7 @@ body {
 
 .participant-list li span:last-child {
   font-size: var(--text-xs);
-  font-weight: 700;
+  font-weight: var(--font-semi);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   padding: var(--sp-1) var(--sp-2);
@@ -1663,7 +1664,7 @@ body {
 }
 
 .lb-chevron {
-  font-size: 0.55rem;
+  font-size: var(--text-xs);
   color: var(--ink-soft);
   margin-left: auto;
   flex-shrink: 0;
@@ -1718,8 +1719,8 @@ body {
   display: inline-grid;
   place-items: center;
   font-family: "Sora", sans-serif;
-  font-weight: 700;
-  font-size: 0.78rem;
+  font-weight: var(--font-semi);
+  font-size: var(--text-sm);
   flex-shrink: 0;
 }
 
@@ -1736,7 +1737,7 @@ body {
 }
 
 .lb-dates {
-  font-weight: 700;
+  font-weight: var(--font-semi);
   font-size: var(--text-sm);
   color: var(--ink);
 }
@@ -1758,7 +1759,7 @@ body {
 }
 
 .lb-who-label {
-  font-weight: 800;
+  font-weight: var(--font-bold);
   color: var(--ink-soft);
 }
 
@@ -1779,8 +1780,8 @@ body {
 .lb-stat {
   border-radius: 999px;
   padding: 0.15rem 0.42rem;
-  font-size: 0.68rem;
-  font-weight: 700;
+  font-size: var(--text-xs);
+  font-weight: var(--font-semi);
   border: 1px solid var(--border);
   background: var(--surface-muted);
   color: var(--ink-soft);
@@ -1835,7 +1836,7 @@ body {
 .wd-header strong {
   font-family: "Sora", sans-serif;
   font-size: var(--text-base);
-  font-weight: 800;
+  font-weight: var(--font-bold);
 }
 
 .wd-dates {
@@ -1863,11 +1864,11 @@ body {
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--surface);
-  font-size: 0.78rem;
+  font-size: var(--text-sm);
 }
 
 .wd-person-name {
-  font-weight: 700;
+  font-weight: var(--font-semi);
   flex: 1;
   min-width: 0;
   overflow: hidden;
@@ -1883,7 +1884,7 @@ body {
 }
 
 .wd-person-rank {
-  font-weight: 800;
+  font-weight: var(--font-bold);
   font-size: var(--text-xs);
   color: var(--accent);
   background: var(--accent-bg);
@@ -1917,8 +1918,8 @@ body {
 .wd-badge {
   border-radius: 999px;
   padding: 0.1rem 0.36rem;
-  font-size: 0.65rem;
-  font-weight: 700;
+  font-size: var(--text-xs);
+  font-weight: var(--font-semi);
   text-transform: uppercase;
   letter-spacing: 0.03em;
   flex-shrink: 0;
@@ -1949,7 +1950,7 @@ body {
 }
 
 .wd-empty {
-  font-size: 0.8rem;
+  font-size: var(--text-sm);
   color: var(--ink-soft);
   font-style: italic;
 }
@@ -1985,7 +1986,7 @@ body {
   color: var(--ink);
   font: inherit;
   font-size: var(--text-sm);
-  font-weight: 700;
+  font-weight: var(--font-semi);
   padding: var(--sp-3) var(--sp-4);
   min-height: 44px;
   text-align: left;
@@ -2028,7 +2029,7 @@ body {
   padding: 0.56rem 0.7rem;
   color: #fff;
   background: var(--ink);
-  font-size: 0.81rem;
+  font-size: var(--text-sm);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
   animation: toast-in 0.28s ease-out, toast-out 0.32s ease-in 2.1s forwards;
 }
@@ -2087,13 +2088,13 @@ body {
 }
 
 .site-logo {
-  font-size: 1.3rem;
+  font-size: var(--text-lg);
   line-height: 1;
 }
 
 .site-wordmark {
   font-family: "Sora", sans-serif;
-  font-weight: 800;
+  font-weight: var(--font-bold);
   font-size: var(--text-base);
   letter-spacing: -0.01em;
 }
@@ -2107,7 +2108,7 @@ body {
 .site-nav-link {
   text-decoration: none;
   color: var(--ink-soft);
-  font-weight: 700;
+  font-weight: var(--font-semi);
   font-size: var(--text-sm);
   padding: var(--sp-1) var(--sp-2);
   border-radius: var(--radius-sm);
@@ -2128,7 +2129,7 @@ body {
   border-radius: 50%;
   background: var(--surface-muted);
   color: var(--ink-soft);
-  font-size: 1.1rem;
+  font-size: var(--text-lg);
   line-height: 1;
   cursor: pointer;
   display: inline-grid;
@@ -2173,7 +2174,7 @@ body {
 .site-footer-links a {
   color: var(--ink-soft);
   text-decoration: none;
-  font-weight: 700;
+  font-weight: var(--font-semi);
   font-size: var(--text-sm);
   padding: var(--sp-2) var(--sp-3);
   border-radius: var(--radius-sm);
@@ -2207,7 +2208,7 @@ body {
 .landing-eyebrow {
   display: inline-block;
   font-size: var(--text-xs);
-  font-weight: 800;
+  font-weight: var(--font-bold);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--accent);
@@ -2222,7 +2223,7 @@ body {
   margin: 0;
   font-family: "Sora", sans-serif;
   font-size: clamp(1.8rem, 5vw, 2.8rem);
-  font-weight: 800;
+  font-weight: var(--font-bold);
   line-height: 1.1;
   letter-spacing: -0.025em;
 }
@@ -2264,7 +2265,7 @@ body {
 
 .hero-quick-label {
   font-size: var(--text-sm);
-  font-weight: 700;
+  font-weight: var(--font-semi);
   color: var(--ink-soft);
 }
 
@@ -2289,7 +2290,7 @@ body {
   display: block;
   font-family: "Sora", sans-serif;
   font-size: clamp(1.2rem, 3vw, 1.6rem);
-  font-weight: 800;
+  font-weight: var(--font-bold);
   color: var(--accent);
 }
 
@@ -2306,7 +2307,7 @@ body {
   margin: 0 0 var(--sp-4);
   font-family: "Sora", sans-serif;
   font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-  font-weight: 800;
+  font-weight: var(--font-bold);
   text-align: center;
   letter-spacing: -0.01em;
 }
@@ -2344,14 +2345,14 @@ body {
   background: var(--accent-bg);
   display: grid;
   place-items: center;
-  font-size: 1.2rem;
+  font-size: var(--text-lg);
   line-height: 1;
 }
 
 .landing-feature h3 {
   margin: 0;
   font-size: var(--text-sm);
-  font-weight: 800;
+  font-weight: var(--font-bold);
 }
 
 .landing-feature p {
@@ -2402,7 +2403,7 @@ body {
 
 .landing-testimonial footer strong {
   font-size: var(--text-sm);
-  font-weight: 800;
+  font-weight: var(--font-bold);
 }
 
 .landing-testimonial footer span {
@@ -2429,7 +2430,7 @@ body {
   margin: 0;
   font-family: "Sora", sans-serif;
   font-size: clamp(1.2rem, 3vw, 1.8rem);
-  font-weight: 800;
+  font-weight: var(--font-bold);
   letter-spacing: -0.01em;
 }
 
@@ -2447,7 +2448,7 @@ body {
   background: var(--surface);
   color: var(--ink);
   font: inherit;
-  font-weight: 700;
+  font-weight: var(--font-semi);
   padding: 0.5rem 0.65rem;
   text-transform: uppercase;
 }
@@ -2463,7 +2464,7 @@ body {
 .landing-how-title {
   margin: 0 0 var(--sp-3);
   font-family: "Sora", sans-serif;
-  font-size: 1.05rem;
+  font-size: var(--text-lg);
   text-align: center;
 }
 
@@ -2488,7 +2489,7 @@ body {
   background: var(--accent);
   color: #fff;
   font-family: "Sora", sans-serif;
-  font-weight: 800;
+  font-weight: var(--font-bold);
   font-size: var(--text-sm);
   display: inline-grid;
   place-items: center;
@@ -2516,7 +2517,7 @@ body {
 
 .wtf-inline summary {
   font-size: var(--text-sm);
-  font-weight: 700;
+  font-weight: var(--font-semi);
   color: var(--ink-soft);
   cursor: pointer;
 }
@@ -2586,7 +2587,7 @@ body {
   margin: 0;
   font-family: "Sora", sans-serif;
   font-size: clamp(1.4rem, 3vw, 2rem);
-  font-weight: 800;
+  font-weight: var(--font-bold);
 }
 
 .changelog {
@@ -2606,7 +2607,7 @@ body {
 
 .changelog-date {
   font-size: var(--text-xs);
-  font-weight: 800;
+  font-weight: var(--font-bold);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--accent);
@@ -2616,7 +2617,7 @@ body {
   margin: 0;
   font-family: "Sora", sans-serif;
   font-size: var(--text-base);
-  font-weight: 800;
+  font-weight: var(--font-bold);
 }
 
 .changelog-entry ul {
@@ -2707,7 +2708,7 @@ body {
 
 .admin-create-form h3 {
   margin: 0 0 0.4rem;
-  font-size: 0.95rem;
+  font-size: var(--text-base);
 }
 
 .admin-trips,
@@ -2748,18 +2749,18 @@ body {
 
 .admin-trip-code {
   font-family: "Sora", sans-serif;
-  font-size: 1rem;
+  font-size: var(--text-base);
   color: var(--ink);
 }
 
 .admin-trip-name {
-  font-size: 0.82rem;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--ink-soft);
 }
 
 .admin-trip-meta {
-  font-size: 0.76rem;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--ink-soft);
 }
@@ -2794,7 +2795,7 @@ body {
 
 .admin-danger-label {
   font-size: var(--text-xs);
-  font-weight: 800;
+  font-weight: var(--font-bold);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--danger);
@@ -2844,7 +2845,7 @@ body {
 
 .admin-actions-toggle h3::before {
   content: "\25B6";
-  font-size: 0.55rem;
+  font-size: var(--text-xs);
   margin-right: var(--sp-2);
   color: var(--ink-soft);
   transition: transform 0.15s ease;
@@ -2864,7 +2865,7 @@ body {
 }
 
 .admin-participant-info strong {
-  font-size: 0.9rem;
+  font-size: var(--text-base);
 }
 
 .admin-participant-meta {
