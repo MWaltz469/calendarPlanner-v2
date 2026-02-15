@@ -1957,10 +1957,10 @@
         // People breakdown — submission-aware
         if (totalPeople > 1) {
           const parts = [];
-          if (bk.available.length) parts.push(`<span class="wd-badge wd-badge-available">${bk.available.map((p) => escapeHtml(p.name)).join(", ")}</span> ${bk.available.length === 1 ? "is" : "are"} free`);
-          if (bk.maybe.length) parts.push(`<span class="wd-badge wd-badge-maybe">${bk.maybe.map((p) => escapeHtml(p.name)).join(", ")}</span> ${bk.maybe.length === 1 ? "is" : "are"} tentative`);
-          if (bk.unavailable.length) parts.push(`<span class="wd-badge wd-badge-unselected">${bk.unavailable.map((p) => escapeHtml(p.name)).join(", ")}</span> ${bk.unavailable.length === 1 ? "is" : "are"} unavailable`);
-          if (bk.notSubmitted.length) parts.push(`<span class="wd-badge" style="background:var(--surface-muted);color:var(--ink-soft);border:1px solid var(--border);">${bk.notSubmitted.map((p) => escapeHtml(p.name)).join(", ")}</span> haven\u2019t submitted yet`);
+          if (bk.available.length) parts.push(`${bk.available.map((p) => `<span class="wd-badge wd-badge-available">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.available.length === 1 ? "is" : "are"} free`);
+          if (bk.maybe.length) parts.push(`${bk.maybe.map((p) => `<span class="wd-badge wd-badge-maybe">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.maybe.length === 1 ? "is" : "are"} tentative`);
+          if (bk.unavailable.length) parts.push(`${bk.unavailable.map((p) => `<span class="wd-badge wd-badge-unselected">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.unavailable.length === 1 ? "is" : "are"} unavailable`);
+          if (bk.notSubmitted.length) parts.push(`${bk.notSubmitted.map((p) => `<span class="wd-badge wd-badge-pending">${escapeHtml(p.name)}</span>`).join(" ")} haven\u2019t submitted yet`);
           if (parts.length) {
             html += `<p class="admin-narrative-detail">${parts.join(". ")}.</p>`;
           }
