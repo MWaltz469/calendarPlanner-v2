@@ -41,27 +41,27 @@
       <p class="mt-2 mb-0 text-[--ink-soft]">Follow the guided steps so your organizer gets complete, consistent availability in one pass.</p>
     </header>
 
-    <section class="wizard card" aria-label="Availability wizard">
-      <ol id="stepper" class="stepper" aria-label="Setup progress">
-        <li>
+    <section class="card grid gap-4 p-3.5" aria-label="Availability wizard">
+      <ol id="stepper" class="list-none m-0 p-0 flex gap-2 overflow-x-auto scrollbar-none" aria-label="Setup progress">
+        <li class="m-0 p-0 flex-1 min-w-0">
           <button class="stepper-btn" data-step="1" type="button" aria-current="step">
             <span>1</span>
             <span>Join Trip</span>
           </button>
         </li>
-        <li>
+        <li class="m-0 p-0 flex-1 min-w-0">
           <button class="stepper-btn" data-step="2" type="button">
             <span>2</span>
             <span>Pick Weeks</span>
           </button>
         </li>
-        <li>
+        <li class="m-0 p-0 flex-1 min-w-0">
           <button class="stepper-btn" data-step="3" type="button">
             <span>3</span>
             <span>Rank Top 5</span>
           </button>
         </li>
-        <li>
+        <li class="m-0 p-0 flex-1 min-w-0">
           <button class="stepper-btn" data-step="4" type="button">
             <span>4</span>
             <span>Submit</span>
@@ -70,14 +70,14 @@
       </ol>
 
       <section id="step-1" class="step-panel" aria-labelledby="step1-heading">
-        <h2 id="step1-heading">Step 1: Join your trip</h2>
-        <p class="step-copy">Enter the trip code your organizer shared with you and your name.</p>
+        <h2 id="step1-heading" class="m-0 font-display text-[clamp(1.05rem,2vw,1.35rem)]">Step 1: Join your trip</h2>
+        <p class="m-0 text-[--ink-soft] text-[0.94rem]">Enter the trip code your organizer shared with you and your name.</p>
         <details class="wtf-inline">
           <summary>New here? What is this?</summary>
           <p>Your trip organizer created a code for your group. Enter it below with your name, then you'll pick which weeks work for you. The app figures out the best overlap for everyone. That's it.</p>
         </details>
 
-        <div class="form-grid">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <label class="grid gap-1">
             <span class="text-xs text-[--ink-soft] uppercase font-bold tracking-wide">Trip code</span>
             <input id="tripCodeInput" class="w-full min-h-[46px] border border-[--border] rounded-lg bg-[--surface] text-[--ink] py-2.5 px-3 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" style="text-transform:uppercase;" />
@@ -102,8 +102,8 @@
       </section>
 
       <section id="step-2" class="step-panel" aria-labelledby="step2-heading" hidden>
-        <h2 id="step2-heading">Step 2: Pick your available weeks</h2>
-        <p class="step-copy"><span class="touch-copy">Tap</span><span class="pointer-copy">Click</span> a week card to cycle status: <strong>Unselected &rarr; Available &rarr; Maybe</strong>.</p>
+        <h2 id="step2-heading" class="m-0 font-display text-[clamp(1.05rem,2vw,1.35rem)]">Step 2: Pick your available weeks</h2>
+        <p class="m-0 text-[--ink-soft] text-[0.94rem]"><span class="touch-copy">Tap</span><span class="pointer-copy">Click</span> a week card to cycle status: <strong>Unselected &rarr; Available &rarr; Maybe</strong>.</p>
 
         <div id="step2CountRow" class="count-row" aria-label="Selection counts">
           <article class="count-card">
@@ -143,8 +143,8 @@
       </section>
 
       <section id="step-3" class="step-panel" aria-labelledby="step3-heading" hidden>
-        <h2 id="step3-heading">Step 3: Rank your top 5 preferred weeks</h2>
-        <p class="step-copy">This step is <strong>optional</strong>. Ranking helps the organizer see your strongest preferences, but you can skip it if you have no preference.</p>
+        <h2 id="step3-heading" class="m-0 font-display text-[clamp(1.05rem,2vw,1.35rem)]">Step 3: Rank your top 5 preferred weeks</h2>
+        <p class="m-0 text-[--ink-soft] text-[0.94rem]">This step is <strong>optional</strong>. Ranking helps the organizer see your strongest preferences, but you can skip it if you have no preference.</p>
         <details class="wtf-inline" id="rankingExplainer">
           <summary>How does ranking affect results?</summary>
           <p>Weeks are sorted by availability first &mdash; more people free = higher rank. When two weeks have the same overlap, your top picks break the tie. A #1 pick adds more weight than a #5, so the group&rsquo;s strongest preferences float to the top.</p>
@@ -159,8 +159,8 @@
       </section>
 
       <section id="step-4" class="step-panel" aria-labelledby="step4-heading" hidden>
-        <h2 id="step4-heading">Step 4: Review and submit</h2>
-        <p class="step-copy">You can submit now or go back to refine. Results unlock after your first submission.</p>
+        <h2 id="step4-heading" class="m-0 font-display text-[clamp(1.05rem,2vw,1.35rem)]">Step 4: Review and submit</h2>
+        <p class="m-0 text-[--ink-soft] text-[0.94rem]">You can submit now or go back to refine. Results unlock after your first submission.</p>
 
         <details class="review-checklist" aria-label="Readiness checklist" id="checklistDetails" open>
           <summary class="review-checklist-toggle"><h3>Readiness checklist</h3></summary>

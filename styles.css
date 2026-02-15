@@ -180,33 +180,7 @@ body {
 
 /* .theme-picker: removed — dead CSS, replaced by #themeToggle button (Phase 2) */
 
-.wizard {
-  padding: 0.9rem;
-  display: grid;
-  gap: 1rem;
-}
-
-.stepper {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  gap: var(--sp-2);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.stepper::-webkit-scrollbar {
-  display: none;
-}
-
-.stepper li {
-  margin: 0;
-  padding: 0;
-  flex: 1;
-  min-width: 0;
-}
+/* .wizard, .stepper, .stepper li: migrated to Tailwind (Phase 5) */
 
 .stepper-btn {
   width: 100%;
@@ -265,6 +239,7 @@ body {
   color: #fff;
 }
 
+/* .step-panel: keep grid + hidden override (Tailwind grid class overrides [hidden] attribute) */
 .step-panel {
   width: min(920px, 100%);
   margin: 0 auto;
@@ -276,23 +251,7 @@ body {
   display: none;
 }
 
-.step-panel h2 {
-  margin: 0;
-  font-family: "Sora", sans-serif;
-  font-size: clamp(1.05rem, 2vw, 1.35rem);
-}
-
-.step-copy {
-  margin: 0;
-  color: var(--ink-soft);
-  font-size: 0.94rem;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.7rem;
-}
+/* .step-panel h2, .step-copy, .form-grid: migrated to Tailwind (Phase 5) */
 
 /* .field: migrated to Tailwind (Phase 4) */
 
@@ -347,9 +306,7 @@ body {
   display: none;
 }
 
-.window-config-details .form-grid {
-  margin-top: 0.5rem;
-}
+/* .window-config-details .form-grid: migrated to Tailwind (Phase 5) */
 
 :root[data-theme="dark"] .window-config-details {
   background: var(--surface-muted);
@@ -2235,7 +2192,6 @@ body {
 
 /* lb-bar dark mode now handled by tokens (--surface-muted, --available, --accent) */
 
-:root[data-theme="dark"] .step-copy,
 :root[data-theme="dark"] .legend,
 :root[data-theme="dark"] .week-card .weekday-range {
   color: var(--ink-soft);
@@ -2322,9 +2278,7 @@ body {
 
   /* landing responsive: migrated to Tailwind sm: breakpoint (Phase 3) */
 
-  .form-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  /* .form-grid responsive: migrated to Tailwind sm:grid-cols-2 (Phase 5) */
 
   .selection-overlay {
     top: 0.72rem;
@@ -2350,9 +2304,7 @@ body {
 
   /* results now use single-column flow with collapsible sections */
 
-  .wizard {
-    padding: 1rem;
-  }
+  /* .wizard responsive: migrated to Tailwind (Phase 5) */
 }
 
 @media (prefers-reduced-motion: reduce) {

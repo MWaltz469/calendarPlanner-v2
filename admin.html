@@ -37,7 +37,7 @@
     <!-- Login -->
     <section id="loginSection" class="card admin-login-card">
       <h2>Sign in</h2>
-      <p class="step-copy">Enter the admin password to continue.</p>
+      <p class="m-0 text-[--ink-soft] text-[0.94rem]">Enter the admin password to continue.</p>
       <div class="admin-login-form">
         <label class="grid gap-1">
           <span class="text-xs text-[--ink-soft] uppercase font-bold tracking-wide">Password</span>
@@ -64,7 +64,7 @@
       <!-- Create Trip Form -->
       <div id="createTripForm" class="admin-create-form card" hidden>
         <h3>Create a new trip</h3>
-        <div class="form-grid">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <label class="grid gap-1">
             <span class="text-xs text-[--ink-soft] uppercase font-bold tracking-wide">Trip code</span>
             <input id="newTripCode" class="w-full min-h-[46px] border border-[--border] rounded-lg bg-[--surface] text-[--ink] py-2.5 px-3 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" style="text-transform:uppercase;" title="The unique code participants enter to join this trip. Letters, numbers, hyphens, and underscores only." />
@@ -76,7 +76,7 @@
             <span class="text-[0.6875rem] font-semibold text-[--ink-soft] normal-case tracking-normal italic">A label for your reference — participants won't see this.</span>
           </label>
         </div>
-        <div class="form-grid">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <label class="grid gap-1">
             <span class="text-xs text-[--ink-soft] uppercase font-bold tracking-wide">Window start day</span>
             <select id="newTripStartDay" class="w-full min-h-[46px] border border-[--border] rounded-lg bg-[--surface] text-[--ink] py-2.5 px-3 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" title="Which day of the week each trip window starts on. Determines how weeks are sliced across the calendar.">
