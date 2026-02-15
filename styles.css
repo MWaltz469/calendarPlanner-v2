@@ -39,28 +39,39 @@
   /* Danger (completing the set) */
   --danger-border: #fecaca;
 
-  /* Type scale */
-  --text-xs: 0.6875rem;
-  --text-sm: 0.8125rem;
-  --text-base: 0.9375rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.5rem;
-  --text-2xl: 2rem;
+  /* Type scale (5 steps — no in-between sizes) */
+  --text-xs: 0.75rem;     /* 12px — fine print, timestamps, badge labels */
+  --text-sm: 0.875rem;    /* 14px — secondary text, chips, helper copy */
+  --text-base: 1rem;      /* 16px — body text, card content, form labels */
+  --text-lg: 1.25rem;     /* 20px — section headers, card titles */
+  --text-xl: 1.5rem;      /* 24px — page titles only */
 
-  /* Spacing (4px grid) */
-  --sp-1: 0.25rem;
-  --sp-2: 0.5rem;
-  --sp-3: 0.75rem;
-  --sp-4: 1rem;
-  --sp-5: 1.25rem;
-  --sp-6: 1.5rem;
-  --sp-8: 2rem;
+  /* Font weights (3 levels — restraint creates hierarchy) */
+  --font-normal: 400;
+  --font-semi: 600;
+  --font-bold: 700;
+
+  /* Spacing (4px base grid) */
+  --sp-1: 0.25rem;   /* 4px */
+  --sp-2: 0.5rem;    /* 8px */
+  --sp-3: 0.75rem;   /* 12px */
+  --sp-4: 1rem;      /* 16px */
+  --sp-5: 1.25rem;   /* 20px */
+  --sp-6: 1.5rem;    /* 24px */
+  --sp-8: 2rem;      /* 32px */
+  --sp-10: 2.5rem;   /* 40px */
+  --sp-12: 3rem;     /* 48px */
 
   /* Radius */
-  --radius-lg: 16px;
-  --radius-md: 12px;
-  --radius-sm: 8px;
+  --radius-sm: 0.375rem;  /* 6px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 0.75rem;   /* 12px */
   --radius-pill: 999px;
+
+  /* Button heights */
+  --btn-height-sm: 2rem;    /* 32px */
+  --btn-height-md: 2.5rem;  /* 40px */
+  --btn-height-lg: 3rem;    /* 48px */
 
   /* Shadows */
   --shadow-sm: 0 2px 8px rgba(15, 31, 46, 0.05);
