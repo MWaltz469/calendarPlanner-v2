@@ -786,6 +786,14 @@ body {
   font-style: italic;
 }
 
+/* Pointer-aware help copy */
+.touch-copy { display: inline; }
+.pointer-copy { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .touch-copy { display: none; }
+  .pointer-copy { display: inline; }
+}
+
 .month-bar {
   display: flex;
   flex-wrap: wrap;

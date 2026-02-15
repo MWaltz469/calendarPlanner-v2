@@ -9,11 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=20260215m" />
-  <script src="/theme-init.js?v=20260215m"></script>
-  <script defer src="/config.js?v=20260215m"></script>
-  <script defer src="/cloud-client.js?v=20260215m"></script>
-  <script defer src="/app.js?v=20260215m"></script>
+  <link rel="stylesheet" href="/styles.css?v=20260215p" />
+  <script src="/theme-init.js?v=20260215p"></script>
+  <script defer src="/config.js?v=20260215p"></script>
+  <script defer src="/cloud-client.js?v=20260215p"></script>
+  <script defer src="/app.js?v=20260215p"></script>
 </head>
 <body>
   <nav class="site-nav">
@@ -96,13 +96,13 @@
 
         <div class="inline-actions">
           <button id="joinButton" class="btn primary" type="button">Join Trip</button>
-          <span id="joinState" class="hint" aria-live="polite">Waiting for trip details.</span>
+          <span id="joinState" class="hint" aria-live="polite"></span>
         </div>
       </section>
 
       <section id="step-2" class="step-panel" aria-labelledby="step2-heading" hidden>
         <h2 id="step2-heading">Step 2: Pick your available weeks</h2>
-        <p class="step-copy">Click a week card to cycle status: <strong>Unselected -&gt; Available -&gt; Maybe</strong>.</p>
+        <p class="step-copy"><span class="touch-copy">Tap</span><span class="pointer-copy">Click</span> a week card to cycle status: <strong>Unselected &rarr; Available &rarr; Maybe</strong>.</p>
 
         <div id="step2CountRow" class="count-row" aria-label="Selection counts">
           <article class="count-card">
@@ -124,7 +124,8 @@
           <span><i class="dot available" aria-hidden="true"></i>Available</span>
           <span><i class="dot maybe" aria-hidden="true"></i>Maybe</span>
         </div>
-        <p class="hint keyboard-hint">Tip: Long-press or right-click a card to set status directly. On desktop, focus a card and press 1&ndash;5 to rank, Delete to clear rank.</p>
+        <p class="hint keyboard-hint touch-copy">Tip: Long-press a card to set status directly.</p>
+        <p class="hint keyboard-hint pointer-copy">Tip: Right-click a card to set status directly. Focus a card and press 1&ndash;5 to rank, Delete to clear rank.</p>
 
         <aside id="selectionOverlay" class="selection-overlay" aria-live="polite" hidden>
           <div class="ov-row ov-summary-row">
@@ -143,7 +144,7 @@
       <section id="step-3" class="step-panel" aria-labelledby="step3-heading" hidden>
         <h2 id="step3-heading">Step 3: Rank your top 5 preferred weeks</h2>
         <p class="step-copy">This step is <strong>optional</strong>. Ranking helps the organizer see your strongest preferences, but you can skip it if you have no preference.</p>
-        <details class="wtf-inline">
+        <details class="wtf-inline" id="rankingExplainer">
           <summary>How does ranking affect results?</summary>
           <p>Weeks are sorted by availability first &mdash; more people free = higher rank. When two weeks have the same overlap, your top picks break the tie. A #1 pick adds more weight than a #5, so the group&rsquo;s strongest preferences float to the top.</p>
         </details>

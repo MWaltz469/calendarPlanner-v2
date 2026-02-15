@@ -868,9 +868,26 @@
 
     persistSession();
     renderAll();
+
+    // Auto-expand disclosures on first visit per step
+    autoExpandFirstVisit(next);
+
     const targetPanel = els.panels[next];
     if (targetPanel) {
       targetPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  function autoExpandFirstVisit(step) {
+    const key = `${STORAGE_PREFIX}:visited_step_${step}`;
+    try {
+      if (localStorage.getItem(key)) return;
+      localStorage.setItem(key, "1");
+    } catch { return; }
+
+    if (step === 3) {
+      const el = document.getElementById("rankingExplainer");
+      if (el && !el.open) el.open = true;
     }
   }
 
