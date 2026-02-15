@@ -160,6 +160,7 @@
     leaderboard: document.getElementById("leaderboard"),
     weekDetail: document.getElementById("weekDetail"),
     resultsSummary: document.getElementById("resultsSummary"),
+    participantSummary: document.getElementById("participantSummary"),
     weekContextMenu: document.getElementById("weekContextMenu"),
     toastArea: document.getElementById("toastArea"),
     panels: {
@@ -1712,6 +1713,14 @@
     const unlocked = state.hasSavedOnce;
     els.resultsLocked.hidden = unlocked;
     els.resultsSection.hidden = !unlocked;
+
+    // Auto-collapse checklist post-submission to save scroll space
+    const checklist = document.querySelector(".review-checklist");
+    if (checklist && unlocked) {
+      checklist.classList.add("checklist-collapsed");
+    } else if (checklist) {
+      checklist.classList.remove("checklist-collapsed");
+    }
   }
 
   function computeAggregates() {
@@ -2006,6 +2015,9 @@
       li.append(nameWrap, statusSpan);
       els.participantList.appendChild(li);
     });
+    if (els.participantSummary) {
+      els.participantSummary.textContent = `${submittedCount} of ${totalPeople} submitted`;
+    }
 
     els.leaderboard.innerHTML = "";
     aggregates.slice(0, 5).forEach((entry, index) => {
@@ -2143,9 +2155,10 @@
   function renderWeekDetail(aggregates) {
     const target = aggregates.find((entry) => entry.weekNumber === state.selectedDetailWeek);
     if (!target) {
-      els.weekDetail.innerHTML = `<span class="wd-empty">Tap a week in the heatmap or leaderboard to see who's available.</span>`;
+      els.weekDetail.hidden = true;
       return;
     }
+    els.weekDetail.hidden = false;
 
     const week = state.weeks[target.weekNumber - 1];
     const sortedPeople = target.people

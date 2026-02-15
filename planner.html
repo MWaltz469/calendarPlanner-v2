@@ -9,11 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=20260215g" />
-  <script src="/theme-init.js?v=20260215g"></script>
-  <script defer src="/config.js?v=20260215g"></script>
-  <script defer src="/cloud-client.js?v=20260215g"></script>
-  <script defer src="/app.js?v=20260215g"></script>
+  <link rel="stylesheet" href="/styles.css?v=20260215h" />
+  <script src="/theme-init.js?v=20260215h"></script>
+  <script defer src="/config.js?v=20260215h"></script>
+  <script defer src="/cloud-client.js?v=20260215h"></script>
+  <script defer src="/app.js?v=20260215h"></script>
 </head>
 <body>
   <nav class="site-nav">
@@ -174,39 +174,41 @@
         <span id="saveState" class="hint" aria-live="polite">Not saved yet.</span>
 
         <article id="resultsLocked" class="results-locked" aria-live="polite">
-          Results will appear here after your first successful save.
+          Submit your availability to unlock group results.
         </article>
 
         <section id="resultsSection" class="results" hidden>
           <div id="resultsSummary" class="results-narrative"></div>
-          <div class="results-grid">
-            <article class="results-card">
-              <h3>Score Snapshot</h3>
-              <div id="scoreChips" class="score-chips"></div>
 
-              <h3>Heatmap</h3>
-              <details class="wtf-inline">
-                <summary>What do the colors mean?</summary>
-                <p>Each cell is a week, grouped by month. The color shows how much of your group is available: <strong>blue</strong> = a few people, <strong>teal</strong> = growing overlap, <strong>green</strong> = strong consensus. Tap any cell to see exactly who&rsquo;s free.</p>
-              </details>
+          <article class="results-card">
+            <h3>Top Weeks <span class="results-subtitle">Ranked by overlap and preference</span></h3>
+            <div id="leaderboard" class="leaderboard"></div>
+          </article>
+
+          <article class="results-card results-snapshot-card">
+            <h3>Snapshot</h3>
+            <div id="scoreChips" class="score-chips"></div>
+          </article>
+
+          <details class="results-card results-collapsible" id="heatmapSection">
+            <summary class="results-collapsible-toggle">
+              <h3>Heatmap <span class="results-subtitle">Explore all weeks by month</span></h3>
+            </summary>
+            <div class="results-collapsible-body">
               <div id="heatmap" class="heatmap" role="listbox" aria-label="Group overlap heatmap"></div>
-            </article>
+            </div>
+          </details>
 
-            <article class="results-card">
-              <h3>Participant Status</h3>
+          <details class="results-card results-collapsible" id="participantSection">
+            <summary class="results-collapsible-toggle">
+              <h3>Participants <span id="participantSummary" class="results-subtitle"></span></h3>
+            </summary>
+            <div class="results-collapsible-body">
               <ul id="participantList" class="participant-list"></ul>
+            </div>
+          </details>
 
-              <h3>Leaderboard</h3>
-              <details class="wtf-inline">
-                <summary>How is this ranked?</summary>
-                <p>Sorted by group overlap first &mdash; weeks where more people are available rank higher. When overlap is equal, individual rankings break the tie. A #1 pick adds more weight than a #5, so the group&rsquo;s preferred weeks rise above weeks that merely work.</p>
-              </details>
-              <div id="leaderboard" class="leaderboard"></div>
-
-              <h3>Week Detail</h3>
-              <div id="weekDetail" class="week-detail">Select a week from the heatmap.</div>
-            </article>
-          </div>
+          <div id="weekDetail" class="week-detail" hidden>Select a week from the leaderboard or heatmap.</div>
         </section>
       </section>
 

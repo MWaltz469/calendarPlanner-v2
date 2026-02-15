@@ -1151,10 +1151,82 @@ body {
   /* container for .admin-narrative inside planner results */
 }
 
-.results-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--sp-3);
+.results-subtitle {
+  font-family: "Manrope", sans-serif;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-transform: none;
+  letter-spacing: normal;
+  margin-left: var(--sp-2);
+}
+
+/* Collapsible results sections */
+.results-collapsible {
+  cursor: default;
+}
+
+.results-collapsible-toggle {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.results-collapsible-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.results-collapsible-toggle h3 {
+  display: flex;
+  align-items: center;
+}
+
+.results-collapsible-toggle h3::before {
+  content: "\25B6";
+  font-size: 0.55rem;
+  margin-right: var(--sp-2);
+  color: var(--ink-soft);
+  transition: transform 0.15s ease;
+}
+
+.results-collapsible[open] > .results-collapsible-toggle h3::before {
+  transform: rotate(90deg);
+}
+
+.results-collapsible-body {
+  margin-top: var(--sp-3);
+}
+
+/* Auto-collapse checklist post-submission */
+.checklist-collapsed {
+  padding: var(--sp-2) var(--sp-4);
+}
+
+.checklist-collapsed h3 {
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+.checklist-collapsed h3::after {
+  content: " \2714";
+  color: var(--ok-text);
+  font-size: var(--text-xs);
+}
+
+.checklist-collapsed ul {
+  display: none;
+}
+
+/* Score snapshot hidden on mobile, visible on desktop */
+.results-snapshot-card {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .results-snapshot-card {
+    display: grid;
+  }
 }
 
 .results-card {
@@ -2738,9 +2810,7 @@ body {
     grid-template-columns: repeat(9, minmax(0, 1fr));
   }
 
-  .results-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  /* results now use single-column flow with collapsible sections */
 
   .wizard {
     padding: 1rem;
