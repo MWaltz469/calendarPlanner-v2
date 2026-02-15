@@ -43,6 +43,9 @@ Delete/Remove in danger zones with visual separation. Reset styled as destructiv
 ### Mobile-first results
 On mobile, the information hierarchy is: narrative → leaderboard (with inline accordion) → collapsible heatmap → collapsible participants. Score snapshot hidden on mobile, visible on desktop.
 
+### Tailwind CSS hybrid approach
+Tailwind CDN (no build step) handles layout for static pages and global chrome. CSS component classes (`.btn`, `.badge`, `.stepper-btn`, `.week-card`, etc.) remain in `styles.css` because: (a) Tailwind CDN has no `@apply`, (b) component classes are referenced in JS innerHTML templates, (c) state variants (`.active`, `.complete`, `data-status`) are managed by JS. The CSS variable bridge (`text-[--ink]`, `bg-[--surface]`) connects Tailwind utilities to the existing token system for dark mode.
+
 ## Known Technical Patterns
 
 ### Auto-save vs Submit

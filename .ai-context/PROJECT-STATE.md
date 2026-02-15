@@ -4,7 +4,7 @@
 A serverless group trip coordination app. Participants pick available weeks, rank favorites, app computes group overlap in real time. Admin portal for trip management.
 
 **Stack:** Vanilla JS (no framework), Cloudflare Pages + Functions, D1 (SQLite), no build step.
-**Tailwind CSS CDN** is installed on all pages but migration has NOT started yet. Both `styles.css` and Tailwind coexist.
+**Tailwind CSS CDN** is installed on all pages. Phases 2-3 complete: global chrome (nav, footer, hero) and static pages (landing, about, changelog) fully migrated to Tailwind. Component classes (`.btn`, `.stepper`, `.week-card`, `.badge`, etc.) remain in CSS due to JS coupling and Tailwind CDN limitations. `styles.css` (~2500 lines) + Tailwind coexist.
 
 ## Live URL
 `https://trip-week-planner.pages.dev`

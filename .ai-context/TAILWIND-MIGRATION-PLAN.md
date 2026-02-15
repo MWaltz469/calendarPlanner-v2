@@ -59,61 +59,23 @@ Nav bar, hero card, footer migrated to Tailwind on all 5 pages. Uses CSS variabl
 ## Phase 3 — Landing + About + Changelog (DONE)
 Full rewrite of static page markup to Tailwind. All `.landing-*`, `.changelog-*`, `.about-*` CSS deleted.
 
-## Phase 4 — Base Components
-Rewrite in both HTML and JS template strings:
-- `.btn` / `.btn-sm` / `.btn-lg` / `.btn.primary` / `.btn.danger`
-- `.field` / `.field input` / `.field select`
-- `.badge` variants
-- `.wd-badge` / `.lb-stat` / `.status-pill` / `.rank-pill`
-- `.avatar`
-- `.review-checklist` / `.checklist-icon`
+## Phases 4-7 — Component Classes (DEFERRED)
 
-JS files to update: `app.js` (avatarHtml, statusBadge, rankLabel, all innerHTML templates), `admin.js` (similar).
+**Decision:** Component classes (`.btn`, `.badge`, `.field`, `.stepper-btn`, `.week-card`, `.month-btn`, `.lb-*`, `.hm-*`, `.admin-*`, etc.) are kept in CSS rather than converted to Tailwind utilities.
 
-## Phase 5 — Planner Steps 1-3
-- `.wizard`, `.stepper`, `.stepper-btn`
-- `.step-panel`, `.step-copy`
-- `.form-grid`, `.field`
-- `.count-row`, `.count-card`
-- `.legend`, `.dot`
-- `.selection-overlay`, `.ov-*`
-- `.month-bar`, `.month-btn`
-- `.week-grid`, `.week-card`, `.wc-*`
-- `.day-strip`
-- `.rank-rows`, `.rank-row`, `.rank-chip`, `.rank-select`
-- `.week-context-menu`
+**Rationale:**
+1. **Tailwind CDN has no `@apply`** — without a build step, component classes can't be composed from Tailwind utilities. Every `.btn` would become 10+ inline utility classes.
+2. **JS coupling** — These classes are referenced throughout `app.js` (~2400 lines) and `admin.js` (~680 lines) via innerHTML templates. The JS adds/removes state variants (`.active`, `.complete`, `data-status`, `.month-active`, etc.) that are defined as CSS rules. Converting to Tailwind would require simultaneous JS refactoring.
+3. **Readability** — `class="btn primary"` is far more readable than `class="inline-flex items-center justify-center min-h-[44px] px-4 rounded-full border font-bold cursor-pointer bg-[--accent] text-white border-transparent hover:bg-[--accent-strong]"` in 50+ places.
+4. **Risk** — Planner and admin are in active use by testers. Mass class replacement across HTML + JS has high regression risk with no functional benefit.
 
-## Phase 6 — Planner Step 4 Results
-- `.results`, `.results-card`, `.results-narrative`
-- `.results-collapsible`, `.results-collapsible-toggle`
-- `.admin-narrative`, `.admin-narrative-lead/detail/pending`
-- `.score-chips`, `.score-chip`
-- `.heatmap`, `.hm-*` (replace color-mix with tier classes)
-- `.heat-popover`, `.hp-*`
-- `.leaderboard`, `.lb-*` (including accordion)
-- `.participant-list`
-- `.participant-nudge`
+**Future path:** If the project migrates to a build step (Vite, etc.), `@apply` would allow defining these as Tailwind component classes. Until then, the CSS component system works well and coexists with Tailwind utility classes.
 
-## Phase 7 — Admin
-- `.admin-login-card`, `.admin-login-form`
-- `.admin-stats-bar`, `.admin-stats`
-- `.admin-section-header`, `.admin-header-actions`
-- `.admin-create-form`
-- `.admin-trip-row`, `.admin-trip-row-*`
-- `.admin-participant-row`, `.admin-participant-*`
-- `.admin-actions-grid`, `.admin-action-item`, `.admin-action-hint`
-- `.admin-danger-zone`
-- `.admin-detail-chips`
-- `.admin-results`, `.admin-leaderboard`
-- `.admin-actions-collapsible`, `.admin-actions-toggle`
-- `.admin-search-input`
-- Admin narrative (same classes as planner)
-
-## Phase 8 — Cleanup
-- Delete `styles.css` or reduce to <50 lines (keyframe animations, print styles)
-- Remove all `?v=` cache busting params (Tailwind CDN handles its own caching)
-- Final visual audit across all pages + both themes
-- Update ARCHITECTURE.md
+## Phase 8 — Cleanup (ADJUSTED)
+- `styles.css` reduced to ~2500 lines (from ~3100), serving component/planner/admin styling
+- Cache busting version bumped to `?v=20260215tw`
+- Tailwind handles all static page layout (landing, about, changelog) + global chrome (nav, footer)
+- CSS handles all interactive component styling (buttons, badges, stepper, week cards, results, admin)
 
 ## Guardrails
 - Do NOT change any API endpoints or database schema
