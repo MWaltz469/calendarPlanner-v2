@@ -115,7 +115,7 @@
     scoreValue: "font-display text-[clamp(1rem,2.5vw,1.3rem)] font-extrabold text-[var(--ink)]",
     scoreSub: "text-[0.6875rem] font-semibold text-[var(--ink-soft)] normal-case tracking-normal",
     /* Leaderboard */
-    lbItem: "grid border border-[var(--border)] rounded-lg overflow-hidden bg-[var(--surface)]",
+    lbItem: "grid border border-[var(--border)] rounded-lg overflow-hidden bg-[var(--surface)] transition-colors",
     lbItemOpen: "border-[var(--accent-border)]",
     lbRow: "border-none rounded-none p-3 bg-[var(--surface)] grid gap-2 cursor-pointer text-left w-full",
     lbRowTopPick: "border-l-[var(--available)] bg-[var(--ok-bg)]",
@@ -138,7 +138,7 @@
     lbDetail: "grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out",
     lbDetailOpen: "grid-rows-[1fr]",
     lbDetailInner: "overflow-hidden px-3 py-0 opacity-0 transition-all duration-200 border-t border-[var(--border)]",
-    lbDetailInnerOpen: "py-3 pb-4 opacity-100",
+    lbDetailInnerOpen: "py-3 pb-6 opacity-100",
     /* Heatmap */
     hmRow: "flex items-center gap-2",
     hmLabel: "w-8 shrink-0 text-[0.6875rem] font-extrabold uppercase tracking-wide text-[var(--ink-soft)] text-right",
@@ -165,20 +165,20 @@
     wdPersonName: "font-bold flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap",
     wdPersonStatus: "flex items-center gap-1 shrink-0",
     wdPersonRank: "font-extrabold text-[0.6875rem] text-[var(--accent)] bg-[var(--accent-bg)] border border-[var(--accent-border)] py-[0.1rem] px-[0.35rem] rounded-full",
-    wdBadge: "rounded-full py-[0.1rem] px-[0.36rem] text-[0.65rem] font-bold uppercase tracking-[0.03em] shrink-0",
+    wdBadge: "rounded-full py-[0.1rem] px-[0.36rem] text-[0.65rem] font-bold uppercase tracking-[0.03em] shrink-0 whitespace-nowrap inline-block align-middle",
     wdBadgeAvail: "bg-[var(--ok-bg)] text-[var(--ok-text)] border border-[var(--ok-border)]",
     wdBadgeMaybe: "bg-[var(--warn-bg)] text-[var(--warn-text)] border border-[var(--warn-border)]",
-    wdBadgeUnsel: "bg-[var(--neutral-bg)] text-[var(--neutral-text)] border border-[var(--neutral-border)]",
-    wdBadgePending: "bg-[var(--surface-muted)] text-[var(--ink-soft)] border border-dashed border-[var(--border)]",
+    wdBadgeUnsel: "bg-[var(--neutral-bg)] text-[var(--neutral-text)] border border-solid border-[var(--neutral-border)]",
+    wdBadgePending: "bg-transparent text-[var(--ink-soft)] border border-dashed border-[var(--ink-soft)] opacity-70",
     wdInsight: "m-0 text-sm text-[var(--ink)] leading-relaxed italic p-2 px-3 bg-[var(--accent-bg)] rounded-lg border-l-[3px] border-l-[var(--accent)]",
     wdEmpty: "text-[0.8rem] text-[var(--ink-soft)] italic",
     /* Participants */
     participantList: "list-none m-0 p-0 grid gap-2",
     participantItem: "border border-[var(--border)] border-l-[3px] border-l-[var(--neutral-border)] rounded-lg bg-[var(--surface)] py-2 px-3 text-sm font-semibold flex justify-between items-center gap-2 min-h-[44px]",
     participantDone: "border-l-[var(--available)]",
-    participantStatus: "text-[0.6875rem] font-bold uppercase tracking-wide py-1 px-2 rounded-full bg-[var(--neutral-bg)] text-[var(--neutral-text)]",
+    participantStatus: "text-[0.6875rem] font-bold uppercase tracking-wide py-1 px-2 rounded-full bg-[var(--neutral-bg)] text-[var(--ink-soft)]",
     participantDoneStatus: "bg-[var(--ok-bg)] text-[var(--ok-text)]",
-    participantNudge: "flex items-center justify-between gap-2 py-2 px-3 rounded-lg bg-[var(--warn-bg)] border border-[var(--warn-border)] mb-2 flex-wrap",
+    participantNudge: "flex items-center justify-between gap-2 py-2 px-3 rounded-lg bg-[var(--warn-bg)] border border-[var(--warn-border)] mb-2 flex-wrap min-h-[44px]",
     participantNudgeText: "text-sm text-[var(--warn-text)]",
     /* Narrative */
     narrative: "rounded-xl bg-[var(--surface-muted)] p-4 grid gap-2 mb-3",
@@ -1817,10 +1817,10 @@
     state.saveState = mode;
     const text = {
       idle: "Not saved yet.",
-      dirty: "Unsaved changes.",
-      saving: "Saving...",
-      saved: "Saved.",
-      error: "Save failed."
+      dirty: "Unsaved changes\u2026",
+      saving: "Saving\u2026",
+      saved: "\u2713 Saved.",
+      error: "\u2717 Save failed."
     };
     els.saveState.textContent = text[mode] || text.idle;
     clearHintColor(els.saveState);
@@ -2286,6 +2286,7 @@
       const week = state.weeks[entry.weekNumber - 1];
       const wrapper = document.createElement("div");
       wrapper.className = TW.lbItem;
+      if (index === 0 && entry.score > 0) wrapper.classList.add("border-2", "border-[var(--accent)]");
 
       const row = document.createElement("button");
       row.type = "button";

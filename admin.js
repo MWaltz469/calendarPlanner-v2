@@ -12,6 +12,7 @@
     btnDanger: "inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-[var(--danger-border)] bg-[var(--danger-soft)] text-[var(--danger)] font-bold cursor-pointer",
     btnSm: "inline-flex items-center justify-center min-h-[36px] px-3 py-1 text-sm rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2]",
     btnDangerSm: "inline-flex items-center justify-center min-h-[36px] px-3 py-1 text-sm rounded-full border border-[var(--danger-border)] bg-[var(--danger-soft)] text-[var(--danger)] font-bold cursor-pointer",
+    btnDangerOutlineSm: "inline-flex items-center justify-center min-h-[36px] px-3 py-1 text-sm rounded-full border border-[var(--danger-border)] bg-transparent text-[var(--danger)] font-bold cursor-pointer",
   };
 
   const els = {
@@ -414,8 +415,8 @@
     const wdB = "rounded-full py-[0.1rem] px-[0.36rem] text-[0.65rem] font-bold uppercase tracking-[0.03em] inline-block align-middle whitespace-nowrap";
     if (bk.available.length) parts.push(`${bk.available.map((p) => `<span class="${wdB} bg-[var(--ok-bg)] text-[var(--ok-text)] border border-[var(--ok-border)]">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.available.length === 1 ? "is" : "are"} available`);
     if (bk.maybe.length) parts.push(`${bk.maybe.map((p) => `<span class="${wdB} bg-[var(--warn-bg)] text-[var(--warn-text)] border border-[var(--warn-border)]">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.maybe.length === 1 ? "is" : "are"} maybe`);
-    if (bk.unavailable.length) parts.push(`${bk.unavailable.map((p) => `<span class="${wdB} bg-[var(--neutral-bg)] text-[var(--neutral-text)] border border-[var(--neutral-border)]">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.unavailable.length === 1 ? "is" : "are"} unavailable`);
-    if (bk.notSubmitted.length) parts.push(`${bk.notSubmitted.map((p) => `<span class="${wdB} bg-[var(--surface-muted)] text-[var(--ink-soft)] border border-dashed border-[var(--border)]">${escapeHtml(p.name)}</span>`).join(" ")} haven\u2019t submitted yet`);
+    if (bk.unavailable.length) parts.push(`${bk.unavailable.map((p) => `<span class="${wdB} bg-[var(--neutral-bg)] text-[var(--neutral-text)] border border-solid border-[var(--neutral-border)]">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.unavailable.length === 1 ? "is" : "are"} unavailable`);
+    if (bk.notSubmitted.length) parts.push(`${bk.notSubmitted.map((p) => `<span class="${wdB} bg-transparent text-[var(--ink-soft)] border border-dashed border-[var(--ink-soft)] opacity-70">${escapeHtml(p.name)}</span>`).join(" ")} haven\u2019t submitted yet`);
     if (parts.length) {
       narrative += `<p class="m-0 text-sm text-[var(--ink)] leading-relaxed">${parts.join(". ")}.</p>`;
     }
@@ -435,7 +436,7 @@
       const barW = (w.score / maxScore) * 100;
       const isTop = i === 0;
       leaderboard += `
-        <div class="border border-[var(--border)] border-l-[3px] ${isTop ? "border-l-[var(--available)] bg-[var(--ok-bg)]" : "border-l-transparent bg-[var(--surface)]"} rounded-lg p-3 grid gap-2 cursor-default text-left w-full">
+        <div class="border ${isTop ? "border-2 border-[var(--accent)]" : "border-[var(--border)]"} rounded-lg p-3 grid gap-2 cursor-default text-left w-full bg-[var(--surface)]">
           <div class="flex items-center gap-[0.45rem]">
             <span class="w-8 h-8 rounded-lg ${isTop ? "bg-[var(--accent)] border-[var(--accent)] text-white" : "bg-[var(--accent-bg)] text-[var(--accent-text)] border border-[var(--accent-border)]"} inline-grid place-items-center font-display font-bold text-[0.78rem] shrink-0">#${i + 1}</span>
             <div class="grid gap-[0.08rem] min-w-0">
@@ -519,8 +520,24 @@
 
     if (waiting.length) {
       const header = document.createElement("div");
-      header.className = "flex items-center gap-2 py-2 text-sm text-[var(--ink-soft)] border-b border-[var(--border)] mb-1";
+      header.className = "flex items-center gap-2 py-2 text-sm text-[var(--ink-soft)] border-b border-[var(--border)] mb-1 flex-wrap";
       header.innerHTML = `<strong>Waiting (${waiting.length})</strong><span class="rounded-full py-[0.15rem] px-[0.42rem] text-[0.68rem] font-bold border border-dashed border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)]">${waiting.length} not submitted</span>`;
+      /* Copy reminder for admin nudge */
+      const nudgeBtn = document.createElement("button");
+      nudgeBtn.type = "button";
+      nudgeBtn.className = TW.btnSm + " ml-auto";
+      nudgeBtn.textContent = "Copy reminder";
+      const waitingNames = waiting.map((p) => p.name).join(", ");
+      const tripLink = `${window.location.origin}/planner.html?trip=${encodeURIComponent(trip.share_code)}`;
+      const reminderText = `Hey ${waitingNames}! We're planning our trip on TripWeek \u2014 can you submit your availability? ${tripLink}`;
+      nudgeBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(reminderText).then(() => {
+          showToast("Reminder copied to clipboard.", "good");
+        }).catch(() => {
+          showToast("Could not copy.", "warn");
+        });
+      });
+      header.appendChild(nudgeBtn);
       els.participantsContainer.appendChild(header);
     }
     waiting.forEach((p) => renderParticipantRow(p));
@@ -561,7 +578,7 @@
         <div class="flex gap-1.5 flex-wrap">
           ${hasSelections ? `<button class="${TW.btn} view-sel-btn" type="button" title="View this person's week selections and rankings">View Selections</button>` : ""}
           <span class="flex gap-1 ml-auto">
-            ${submitted ? `<button class="${TW.btnDangerSm} reset-btn" type="button" title="Clear their submission status — they'll need to resubmit">Reset</button>` : ""}
+            ${submitted ? `<button class="${TW.btnDangerOutlineSm} reset-btn" type="button" title="Clear their submission status — they'll need to resubmit">Reset</button>` : ""}
             <button class="${TW.btnDangerSm} remove-btn" type="button" title="Permanently remove this participant and all their data">Remove</button>
           </span>
         </div>
