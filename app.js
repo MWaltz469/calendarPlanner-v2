@@ -1599,7 +1599,13 @@
           console.error(error);
           setSyncState("cloud_unavailable");
         }
-        try { renderResults(); } catch (renderErr) { console.error("Render error:", renderErr); } finally {
+        try {
+          // Don't rebuild leaderboard DOM if user has an accordion open
+          const hasOpenAccordion = els.leaderboard && els.leaderboard.querySelector(".lb-item-open");
+          if (!hasOpenAccordion) {
+            renderResults();
+          }
+        } catch (renderErr) { console.error("Render error:", renderErr); } finally {
           state.syncing = false;
         }
       }, 220);
@@ -2337,12 +2343,6 @@
     }
 
     return `
-      <div class="wd-summary">
-        <span class="lb-stat available">${wbk.available.length} available</span>
-        <span class="lb-stat maybe">${wbk.maybe.length} maybe</span>
-        <span class="lb-stat">${wbk.unavailable.length} unavailable</span>
-        ${wbk.notSubmitted.length ? `<span class="lb-stat" style="border-style:dashed">${wbk.notSubmitted.length} pending</span>` : ""}
-      </div>
       ${insight ? `<p class="wd-insight">${insight}</p>` : ""}
       <div class="wd-people">${peopleRows}</div>
     `;
