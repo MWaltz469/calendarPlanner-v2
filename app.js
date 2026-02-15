@@ -1680,28 +1680,23 @@
         : "cloud_required";
     state.syncState = normalizedMode;
 
-    els.connectionBadge.classList.remove("online", "degraded", "required", "checking");
+    /* Reset badge to base styling */
+    els.connectionBadge.className = "hidden inline-flex items-center min-h-[36px] rounded-full border text-sm font-bold px-3 whitespace-nowrap";
 
-    if (normalizedMode === "live_ready") {
-      els.connectionBadge.hidden = true;
+    if (normalizedMode === "live_ready" || normalizedMode === "cloud_checking") {
+      els.connectionBadge.classList.add("hidden");
       return;
     }
 
-    if (normalizedMode === "cloud_checking") {
-      els.connectionBadge.hidden = true;
-      return;
-    }
-
-    els.connectionBadge.hidden = false;
-
+    els.connectionBadge.classList.remove("hidden");
 
     if (normalizedMode === "cloud_unavailable") {
-      els.connectionBadge.classList.add("degraded");
+      els.connectionBadge.classList.add("bg-[--warn-bg]", "border-[--warn-border]", "text-[--warn-text]");
       els.connectionBadge.textContent = "Offline";
       return;
     }
 
-    els.connectionBadge.classList.add("required");
+    els.connectionBadge.classList.add("bg-[--surface-muted]", "border-[--border]", "text-[--ink-soft]");
     els.connectionBadge.textContent = "Connection required";
   }
 

@@ -39,9 +39,9 @@
       <h2>Sign in</h2>
       <p class="step-copy">Enter the admin password to continue.</p>
       <div class="admin-login-form">
-        <label class="field">
-          <span>Password</span>
-          <input id="passwordInput" type="password" placeholder="Admin password" autocomplete="current-password" />
+        <label class="grid gap-1">
+          <span class="text-xs text-[--ink-soft] uppercase font-bold tracking-wide">Password</span>
+          <input id="passwordInput" class="w-full min-h-[46px] border border-[--border] rounded-lg bg-[--surface] text-[--ink] py-2.5 px-3 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" type="password" placeholder="Admin password" autocomplete="current-password" />
         </label>
         <button id="loginBtn" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-transparent bg-[--accent] text-white font-bold cursor-pointer hover:bg-[--accent-strong]" type="button">Sign In</button>
         <span id="loginError" class="hint hint--error" hidden></span>
@@ -65,21 +65,21 @@
       <div id="createTripForm" class="admin-create-form card" hidden>
         <h3>Create a new trip</h3>
         <div class="form-grid">
-          <label class="field">
-            <span>Trip code</span>
-            <input id="newTripCode" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" style="text-transform:uppercase;" title="The unique code participants enter to join this trip. Letters, numbers, hyphens, and underscores only." />
-            <span class="field-hint">Share this code with your group so they can join.</span>
+          <label class="grid gap-1">
+            <span class="text-xs text-[--ink-soft] uppercase font-bold tracking-wide">Trip code</span>
+            <input id="newTripCode" class="w-full min-h-[46px] border border-[--border] rounded-lg bg-[--surface] text-[--ink] py-2.5 px-3 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" style="text-transform:uppercase;" title="The unique code participants enter to join this trip. Letters, numbers, hyphens, and underscores only." />
+            <span class="text-[0.6875rem] font-semibold text-[--ink-soft] normal-case tracking-normal italic">Share this code with your group so they can join.</span>
           </label>
-          <label class="field">
-            <span>Trip name (optional)</span>
-            <input id="newTripName" type="text" maxlength="120" placeholder="Beach House August" autocomplete="off" title="A friendly name for this trip. Only visible in admin." />
-            <span class="field-hint">A label for your reference — participants won't see this.</span>
+          <label class="grid gap-1">
+            <span class="text-xs text-[--ink-soft] uppercase font-bold tracking-wide">Trip name (optional)</span>
+            <input id="newTripName" class="w-full min-h-[46px] border border-[--border] rounded-lg bg-[--surface] text-[--ink] py-2.5 px-3 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" type="text" maxlength="120" placeholder="Beach House August" autocomplete="off" title="A friendly name for this trip. Only visible in admin." />
+            <span class="text-[0.6875rem] font-semibold text-[--ink-soft] normal-case tracking-normal italic">A label for your reference — participants won't see this.</span>
           </label>
         </div>
         <div class="form-grid">
-          <label class="field">
-            <span>Window start day</span>
-            <select id="newTripStartDay" title="Which day of the week each trip window starts on. Determines how weeks are sliced across the calendar.">
+          <label class="grid gap-1">
+            <span class="text-xs text-[--ink-soft] uppercase font-bold tracking-wide">Window start day</span>
+            <select id="newTripStartDay" class="w-full min-h-[46px] border border-[--border] rounded-lg bg-[--surface] text-[--ink] py-2.5 px-3 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" title="Which day of the week each trip window starts on. Determines how weeks are sliced across the calendar.">
               <option value="mon">Monday</option>
               <option value="tue">Tuesday</option>
               <option value="wed">Wednesday</option>
@@ -88,11 +88,11 @@
               <option value="sat" selected>Saturday</option>
               <option value="sun">Sunday</option>
             </select>
-            <span class="field-hint">Each week starts on this day (e.g., Sat → Sat–Fri windows).</span>
+            <span class="text-[0.6875rem] font-semibold text-[--ink-soft] normal-case tracking-normal italic">Each week starts on this day (e.g., Sat → Sat–Fri windows).</span>
           </label>
-          <label class="field">
-            <span>Window length</span>
-            <select id="newTripDays" title="How many days each trip window covers. A 7-day window is a full week; shorter windows for weekends or long weekends.">
+          <label class="grid gap-1">
+            <span class="text-xs text-[--ink-soft] uppercase font-bold tracking-wide">Window length</span>
+            <select id="newTripDays" class="w-full min-h-[46px] border border-[--border] rounded-lg bg-[--surface] text-[--ink] py-2.5 px-3 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" title="How many days each trip window covers. A 7-day window is a full week; shorter windows for weekends or long weekends.">
               <option value="2">2 days</option>
               <option value="3">3 days</option>
               <option value="4">4 days</option>
@@ -104,7 +104,7 @@
               <option value="10">10 days</option>
               <option value="14">14 days</option>
             </select>
-            <span class="field-hint">Duration of each bookable window across the year.</span>
+            <span class="text-[0.6875rem] font-semibold text-[--ink-soft] normal-case tracking-normal italic">Duration of each bookable window across the year.</span>
           </label>
         </div>
         <div class="inline-actions">

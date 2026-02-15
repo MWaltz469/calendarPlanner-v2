@@ -24,7 +24,7 @@
       <span class="font-display font-extrabold text-base tracking-tight">TripWeek</span>
     </a>
     <div class="flex items-center gap-2">
-      <span id="connectionBadge" class="badge" role="status" aria-live="polite" hidden>Connecting...</span>
+      <span id="connectionBadge" class="hidden inline-flex items-center min-h-[36px] rounded-full border border-[--border] bg-[--surface-muted] text-[--ink-soft] text-sm font-bold px-3 whitespace-nowrap" role="status" aria-live="polite">Connecting...</span>
       <a href="/admin.html" class="text-sm font-bold text-[--ink-soft] hover:text-[--accent-text] hover:bg-[--accent-bg] px-2 py-1 rounded-lg no-underline transition-colors duration-100">Admin</a>
       <select id="themeSelect" hidden>
         <option value="system">System</option>
@@ -78,13 +78,13 @@
         </details>
 
         <div class="form-grid">
-          <label class="field">
-            <span>Trip code</span>
-            <input id="tripCodeInput" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" style="text-transform:uppercase;" />
+          <label class="grid gap-1">
+            <span class="text-xs text-[--ink-soft] uppercase font-bold tracking-wide">Trip code</span>
+            <input id="tripCodeInput" class="w-full min-h-[46px] border border-[--border] rounded-lg bg-[--surface] text-[--ink] py-2.5 px-3 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" style="text-transform:uppercase;" />
           </label>
-          <label class="field">
-            <span>Your name</span>
-            <input id="nameInput" type="text" maxlength="64" placeholder="Alex Smith" autocomplete="name" />
+          <label class="grid gap-1">
+            <span class="text-xs text-[--ink-soft] uppercase font-bold tracking-wide">Your name</span>
+            <input id="nameInput" class="w-full min-h-[46px] border border-[--border] rounded-lg bg-[--surface] text-[--ink] py-2.5 px-3 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" type="text" maxlength="64" placeholder="Alex Smith" autocomplete="name" />
           </label>
         </div>
 
