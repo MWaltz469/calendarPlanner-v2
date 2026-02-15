@@ -1289,10 +1289,9 @@ body {
 }
 
 .results-card {
-  border: none;
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface);
-  box-shadow: var(--shadow-sm);
   padding: var(--sp-4);
   display: grid;
   gap: var(--sp-4);
@@ -2726,11 +2725,11 @@ body {
 .admin-trip-row,
 .admin-participant-row {
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: var(--surface);
-  padding: var(--sp-3);
+  padding: var(--sp-4);
   display: grid;
-  gap: var(--sp-2);
+  gap: var(--sp-3);
 }
 
 .admin-trip-row-main {
