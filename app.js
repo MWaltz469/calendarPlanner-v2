@@ -58,7 +58,7 @@
     wcDate: "font-semibold text-[var(--ink-soft)]",
     wcSub: "text-[0.6875rem] font-semibold text-[var(--ink-soft)]",
     wcBadges: "flex gap-1 items-center shrink-0",
-    wcDetail: "hidden px-4 py-2 pb-3 border-t border-[var(--border)] grid gap-2",
+    wcDetail: "px-4 py-2 pb-3 border-t border-[var(--border)] grid gap-2",
     /* Status pills */
     statusPill: "self-start rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] uppercase tracking-wide text-[0.68rem] font-extrabold px-2 py-0.5",
     statusAvailable: "bg-[var(--ok-bg)] border-[var(--ok-border)] text-[var(--ok-text)]",
@@ -324,7 +324,7 @@
     }
   };
 
-  init();
+  try { init(); } catch (e) { console.error("Init failed:", e); }
 
   function init() {
     state.weeks = buildWeeks(YEAR, state.windowConfig);
