@@ -1279,7 +1279,7 @@
         </div>
       `;
 
-      const row = card.querySelector(".wc-row");
+      const row = card.querySelector("button");
       row.addEventListener("click", () => toggleWeekStatus(index));
       card.addEventListener("contextmenu", (event) => showWeekContextMenu(event, index));
       let longPressTimer = null;
@@ -1473,7 +1473,7 @@
 
   function updateRankRows() {
     const availableWeeks = state.weeks.filter((_, index) => state.selections[index].status === "available");
-    const selects = els.rankRows.querySelectorAll(".rank-select");
+    const selects = els.rankRows.querySelectorAll("select");
 
     selects.forEach((select) => {
       const rank = Number(select.dataset.rank);
@@ -2263,7 +2263,7 @@
     const pendingPeople = participants.filter((p) => !p.submitted_at);
     if (pendingPeople.length > 0 && participants.length > 1) {
       const nudge = document.createElement("div");
-      nudge.className = TW.participantNudge;
+      nudge.className = "participant-nudge " + TW.participantNudge;
       const names = pendingPeople.map((p) => escapeHtml(p.name)).join(", ");
       const tripLink = `${window.location.origin}/planner.html?trip=${encodeURIComponent(state.tripCode)}`;
       const reminderText = `Hey! We\u2019re planning our trip on TripWeek \u2014 can you submit your availability? ${tripLink}`;
