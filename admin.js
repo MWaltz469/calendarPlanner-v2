@@ -307,7 +307,7 @@
       btn.type = "button"; btn.className = a.cls + " w-full text-center"; btn.textContent = a.label;
       btn.addEventListener("click", a.handler);
       const hint = document.createElement("span");
-      hint.className = "text-2xs text-[var(--ink-soft)] text-center leading-tight";
+      hint.className = "text-xs text-[var(--ink-soft)] text-center leading-tight";
       hint.textContent = a.hint;
       wrap.append(btn, hint);
       safeGrid.appendChild(wrap);

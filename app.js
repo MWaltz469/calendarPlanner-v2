@@ -131,7 +131,7 @@
     lbStatMaybe: "border-[var(--warn-border)] bg-[var(--warn-bg)] text-[var(--warn-text)]",
     lbBar: "h-2 rounded-full bg-[var(--surface-muted)] overflow-hidden",
     lbBarFill: "block h-full rounded-full bg-gradient-to-r from-[var(--available)] to-[var(--accent)]",
-    lbChevron: "text-xs text-[var(--ink-soft)] ml-auto shrink-0 transition-transform duration-200 inline-block leading-none",
+    lbChevron: "text-sm text-[var(--ink-soft)] ml-auto shrink-0 transition-transform duration-200 inline-block leading-none",
     lbWho: "text-2xs text-[var(--ink-soft)] leading-[1.8] flex flex-wrap items-center gap-1",
     lbWhoLabel: "font-extrabold text-[var(--ink-soft)]",
     lbWhoRanked: "text-[var(--accent-text)]",
