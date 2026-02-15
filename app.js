@@ -2081,15 +2081,14 @@
     els.leaderboard.innerHTML = "";
     aggregates.slice(0, 5).forEach((entry, index) => {
       const week = state.weeks[entry.weekNumber - 1];
-      const isActive = state.selectedDetailWeek === entry.weekNumber;
       const wrapper = document.createElement("div");
-      wrapper.className = `lb-item${isActive ? " lb-item-open" : ""}`;
+      wrapper.className = "lb-item";
 
       const row = document.createElement("button");
       row.type = "button";
       row.className = "lb-row";
       if (index === 0 && entry.score > 0) row.classList.add("lb-top-pick");
-      if (isActive) row.classList.add("lb-active");
+      /* rows start closed — toggled by click */
       const width = (entry.score / maxScore) * 100;
       const totalPeople = (state.participants.length || 1);
 
@@ -2117,7 +2116,7 @@
             <span class="lb-dates">${week ? `${week.startDisplay} \u2192 ${week.endDisplay}` : ""}</span>
             <span class="lb-meta">Week ${entry.weekNumber} \u00B7 ${week ? week.days : ""} days</span>
           </div>
-          <span class="lb-chevron">${isActive ? "\u25B2" : "\u25BC"}</span>
+          <span class="lb-chevron">\u25BE</span>
         </div>
         ${availNames.length ? `<div class="lb-who"><span class="lb-who-label">Available:</span> ${availNames.join(", ")}</div>` : ""}
         ${rankContext ? `<div class="lb-who lb-who-ranked"><span class="lb-who-label">Ranked:</span> ${rankContext}</div>` : ""}
@@ -2133,23 +2132,34 @@
       // Inline detail panel
       const detail = document.createElement("div");
       detail.className = "lb-detail";
-      detail.innerHTML = buildWeekDetailHtml(entry, aggregates);
+      const detailInner = document.createElement("div");
+      detailInner.className = "lb-detail-inner";
+      detailInner.innerHTML = buildWeekDetailHtml(entry);
+      detail.appendChild(detailInner);
 
       wrapper.append(row, detail);
 
       row.addEventListener("click", () => {
-        const wasOpen = state.selectedDetailWeek === entry.weekNumber;
-        state.selectedDetailWeek = wasOpen ? null : entry.weekNumber;
+        // Toggle accordion on existing DOM — no full re-render
+        const wasOpen = wrapper.classList.contains("lb-item-open");
+        // Close all open items
+        els.leaderboard.querySelectorAll(".lb-item-open").forEach((item) => {
+          item.classList.remove("lb-item-open");
+          const r = item.querySelector(".lb-row");
+          if (r) r.classList.remove("lb-active");
+        });
+        if (!wasOpen) {
+          wrapper.classList.add("lb-item-open");
+          row.classList.add("lb-active");
+          state.selectedDetailWeek = entry.weekNumber;
+        } else {
+          state.selectedDetailWeek = null;
+        }
         persistSession();
-        renderResults();
       });
 
       els.leaderboard.appendChild(wrapper);
     });
-
-    if (!state.selectedDetailWeek && topWeek) {
-      state.selectedDetailWeek = topWeek.weekNumber;
-    }
   }
 
   // --- Heatmap color scale (cool→warm) ---
