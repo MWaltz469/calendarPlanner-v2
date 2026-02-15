@@ -5,6 +5,15 @@
   const SCORE_MAP = { available: 100, maybe: 0, unselected: 0 };
   const RANK_BONUS = { 1: 10, 2: 8, 3: 6, 4: 4, 5: 2 };
 
+  /* Tailwind class constants — avoids repeating long utility strings */
+  const TW = {
+    btn: "inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-[--border] bg-[--surface-muted] text-[--ink-soft] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2] disabled:opacity-55 disabled:cursor-not-allowed",
+    btnPrimary: "inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-transparent bg-[--accent] text-white font-bold cursor-pointer hover:bg-[--accent-strong] disabled:opacity-55 disabled:cursor-not-allowed",
+    btnDanger: "inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-[--danger-border] bg-[--danger-soft] text-[--danger] font-bold cursor-pointer",
+    btnSm: "inline-flex items-center justify-center min-h-[36px] px-3 py-1 text-sm rounded-full border border-[--border] bg-[--surface-muted] text-[--ink-soft] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2]",
+    btnDangerSm: "inline-flex items-center justify-center min-h-[36px] px-3 py-1 text-sm rounded-full border border-[--danger-border] bg-[--danger-soft] text-[--danger] font-bold cursor-pointer",
+  };
+
   const els = {
     loginSection: document.getElementById("loginSection"),
     dashboardSection: document.getElementById("dashboardSection"),
@@ -220,10 +229,10 @@
           </div>
         </div>
         <div class="admin-trip-row-actions">
-          <button class="btn primary view-btn" type="button">View</button>
+          <button class="${TW.btnPrimary} view-btn" type="button">View</button>
         </div>
         <div class="admin-trip-row-danger">
-          <button class="btn danger btn-sm delete-trip-btn" type="button">Delete trip</button>
+          <button class="${TW.btnDangerSm} delete-trip-btn" type="button">Delete trip</button>
         </div>
       `;
       card.querySelector(".view-btn").addEventListener("click", () => loadTripDetail(trip.id));
@@ -277,10 +286,10 @@
     els.tripActions.innerHTML = "";
     // Safe actions
     const safeActions = [
-      { label: locked ? "Unlock Trip" : "Lock Trip", cls: "btn", hint: locked ? "Allow new joins and selection changes" : "Freeze joins and selection changes", handler: () => toggleLock(trip.id, !locked) },
-      { label: "Edit Name", cls: "btn", hint: "Change the display name (code stays the same)", handler: () => editTripName(trip.id, trip.name) },
-      { label: "Clone Trip", cls: "btn", hint: "Copy settings to a new trip code", handler: () => cloneTrip(trip.id, trip.share_code) },
-      { label: "Export CSV", cls: "btn", hint: "Download selections as a spreadsheet", handler: () => exportCsv(trip, participants, selections) }
+      { label: locked ? "Unlock Trip" : "Lock Trip", cls: TW.btn, hint: locked ? "Allow new joins and selection changes" : "Freeze joins and selection changes", handler: () => toggleLock(trip.id, !locked) },
+      { label: "Edit Name", cls: TW.btn, hint: "Change the display name (code stays the same)", handler: () => editTripName(trip.id, trip.name) },
+      { label: "Clone Trip", cls: TW.btn, hint: "Copy settings to a new trip code", handler: () => cloneTrip(trip.id, trip.share_code) },
+      { label: "Export CSV", cls: TW.btn, hint: "Download selections as a spreadsheet", handler: () => exportCsv(trip, participants, selections) }
     ];
     const safeGrid = document.createElement("div");
     safeGrid.className = "admin-actions-grid";
@@ -288,7 +297,7 @@
       const wrap = document.createElement("div");
       wrap.className = "admin-action-item";
       const btn = document.createElement("button");
-      btn.type = "button"; btn.className = a.cls; btn.textContent = a.label;
+      btn.type = "button"; btn.className = a.cls + " w-full text-center"; btn.textContent = a.label;
       btn.addEventListener("click", a.handler);
       const hint = document.createElement("span");
       hint.className = "admin-action-hint";
@@ -304,7 +313,7 @@
     dangerZone.innerHTML = `<span class="admin-danger-label">Danger zone</span>`;
     const deleteBtn = document.createElement("button");
     deleteBtn.type = "button";
-    deleteBtn.className = "btn danger btn-sm";
+    deleteBtn.className = TW.btnDangerSm;
     deleteBtn.textContent = "Delete Trip";
     deleteBtn.addEventListener("click", () => { deleteTrip(trip.id, trip.share_code); showView("dashboard"); loadTrips(); });
     dangerZone.appendChild(deleteBtn);
@@ -536,10 +545,10 @@
           </div>
         </div>
         <div class="admin-participant-actions">
-          ${hasSelections ? `<button class="btn view-sel-btn" type="button" title="View this person's week selections and rankings">View Selections</button>` : ""}
+          ${hasSelections ? `<button class="${TW.btn} view-sel-btn" type="button" title="View this person's week selections and rankings">View Selections</button>` : ""}
           <span class="admin-participant-danger">
-            ${submitted ? `<button class="btn danger btn-sm reset-btn" type="button" title="Clear their submission status — they'll need to resubmit">Reset</button>` : ""}
-            <button class="btn danger btn-sm remove-btn" type="button" title="Permanently remove this participant and all their data">Remove</button>
+            ${submitted ? `<button class="${TW.btnDangerSm} reset-btn" type="button" title="Clear their submission status — they'll need to resubmit">Reset</button>` : ""}
+            <button class="${TW.btnDangerSm} remove-btn" type="button" title="Permanently remove this participant and all their data">Remove</button>
           </span>
         </div>
       `;

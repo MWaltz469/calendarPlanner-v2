@@ -151,7 +151,6 @@ body {
 :root.theme-ready .field input,
 :root.theme-ready .field select,
 :root.theme-ready .rank-select,
-:root.theme-ready .btn,
 :root.theme-ready .stepper-btn,
 :root.theme-ready .day-strip span,
 :root.theme-ready .week-card .flow-point {
@@ -376,7 +375,6 @@ body {
 .field input:focus-visible,
 .field select:focus-visible,
 .rank-select:focus-visible,
-.btn:focus-visible,
 .stepper-btn:focus-visible,
 .week-card:focus-visible,
 .hm-cell:focus-visible {
@@ -435,51 +433,17 @@ body {
   flex-wrap: wrap;
 }
 
-@media (min-width: 640px) {
-  .inline-actions .btn.danger {
-    margin-left: auto;
-  }
-}
+/* .inline-actions .btn.danger margin: migrated to Tailwind sm:ml-auto (Phase 4) */
 
-.btn {
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  min-height: 44px;
-  padding: 0.62rem 0.92rem;
-  background: var(--surface-muted);
-  color: var(--ink-soft);
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-}
+/* .btn base/primary/danger: migrated to Tailwind (Phase 4) */
+/* Keep .loading for spinner pseudo-element (can't be done with Tailwind utilities) */
 
-.btn.primary {
-  border-color: transparent;
-  background: var(--accent);
-  color: #fff;
-}
-
-.btn.primary:hover {
-  background: var(--accent-strong);
-}
-
-.btn.danger {
-  background: var(--danger-soft);
-  color: var(--danger);
-  border-color: var(--danger-border);
-}
-
-.btn:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.btn.loading {
+.loading {
   position: relative;
   pointer-events: none;
 }
 
-.btn.loading::after {
+.loading::after {
   content: "";
   display: inline-block;
   width: 1em;
@@ -1993,21 +1957,13 @@ body {
 
 /* --- Global nav: migrated to Tailwind (Phase 2) --- */
 
-.btn-sm {
-  min-height: 36px;
-  padding: var(--sp-1) var(--sp-3);
-  font-size: var(--text-sm);
-}
+/* .btn-sm: migrated to Tailwind (Phase 4) */
 
 /* --- Global footer: migrated to Tailwind (Phase 2) --- */
 
 /* --- Landing page: migrated to Tailwind (Phase 3) --- */
 
-.btn-lg {
-  min-height: 50px;
-  padding: var(--sp-3) var(--sp-5);
-  font-size: var(--text-base);
-}
+/* .btn-lg: migrated to Tailwind (Phase 4) */
 
 /* Keep for planner inline help */
 .wtf-inline {
@@ -2339,10 +2295,7 @@ body {
   gap: var(--sp-1);
 }
 
-.admin-action-item .btn {
-  width: 100%;
-  text-align: center;
-}
+/* .admin-action-item .btn: migrated to Tailwind w-full (Phase 4) */
 
 .admin-action-hint {
   font-size: var(--text-xs);
@@ -2445,16 +2398,7 @@ body {
   color: #fff;
 }
 
-:root[data-theme="dark"] .btn {
-  background: #1a2b3b;
-  border-color: #34506a;
-  color: #d7e6f2;
-}
-
-:root[data-theme="dark"] .btn.danger {
-  background: var(--danger-soft);
-  border-color: var(--danger-border);
-}
+/* dark .btn: migrated to Tailwind dark: prefix (Phase 4) */
 
 :root[data-theme="dark"] .selection-overlay,
 :root[data-theme="dark"] .results-locked,
