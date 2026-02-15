@@ -8,14 +8,28 @@ Continued the Tailwind CSS migration from where the previous session left off:
 2. **Tailwind Phase 3 — Static Pages:** Fully converted landing page (index.html), about page, and changelog page to Tailwind. This includes hero, eyebrow badge, stats bar, features grid, how-it-works steps, testimonials, final CTA, about card, and changelog entries. Deleted ~420 lines of landing/about/changelog CSS. Responsive breakpoints now use Tailwind `sm:` prefix instead of CSS `@media`.
 
 ## Completed So Far
-- Phase 2: Global chrome (nav, hero, footer)
-- Phase 3: Static pages (landing, about, changelog)
+- Phase 1: Tailwind CDN + config (predecessor)
+- Phase 2: Global chrome (nav, hero, footer) across all 5 pages
+- Phase 3: Static pages (landing, about, changelog) — full rewrite
 - Phase 4: Base components (.btn, .field, .badge, .hint, .avatar, .inline-actions)
 - Phase 5a: Wizard chrome, step panels, form grid
-- Phase 5b: Stepper-btn with state management (active/complete)
+- Phase 5b: Stepper-btn with active/complete state management in JS
+- Phase 5c: Count-row, legend, dots, overlay layout, CSS cleanup
+
+## What Remains in styles.css (~2100 lines)
+The remaining CSS handles things Tailwind CDN genuinely can't do:
+- **CSS custom properties**: Design tokens for both themes (~115 lines)
+- **State cascades**: `data-status`, `.month-active`, `.lb-active`, `.lb-item-open`, `.lb-top-pick` — parent class cascades to child styling
+- **Pseudo-elements**: `::before` collapsible arrows, `::after` loading spinner
+- **`color-mix()` hover effects**: Used on month buttons, overlay nav, leaderboard rows
+- **CSS transitions**: Leaderboard accordion (grid-template-rows transition), theme-ready transitions
+- **Keyframes**: Toast animations, button spinner
+- **`[hidden]` overrides**: Required where Tailwind's display class overrides HTML hidden attribute
+- **Complex responsive**: `.day-strip.days-N` grid columns at different breakpoints
+- **JS-generated component styles**: Week cards, month buttons, leaderboard rows, heatmap cells, admin components — all rendered via innerHTML in app.js/admin.js
 
 ## Immediate Next Step
-Continue Phase 5-7: Migrate remaining planner components (count-row, legend, overlay, month-bar, week-card, day-strip, rank system, results, leaderboard, heatmap, admin portal).
+The branch is ready to merge. To continue the migration beyond this point, the remaining JS-generated components (week cards, leaderboard, heatmap, admin) would need their template strings in app.js/admin.js updated to use Tailwind utility classes. This is ~77 innerHTML/className insertion points across both files.
 
 ## Files the Next Agent Should Read First
 1. `.ai-context/PROJECT-STATE.md` — what the project is

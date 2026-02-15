@@ -71,11 +71,11 @@ Full rewrite of static page markup to Tailwind. All `.landing-*`, `.changelog-*`
 
 **Future path:** If the project migrates to a build step (Vite, etc.), `@apply` would allow defining these as Tailwind component classes. Until then, the CSS component system works well and coexists with Tailwind utility classes.
 
-## Phase 8 — Cleanup (ADJUSTED)
-- `styles.css` reduced to ~2500 lines (from ~3100), serving component/planner/admin styling
-- Cache busting version bumped to `?v=20260215tw`
-- Tailwind handles all static page layout (landing, about, changelog) + global chrome (nav, footer)
-- CSS handles all interactive component styling (buttons, badges, stepper, week cards, results, admin)
+## Phase 8 — Cleanup (DONE)
+- `styles.css` reduced from ~3100 to ~2100 lines (~1000 lines / 32% removed)
+- Cache busting version: `?v=20260215tw`
+- Tailwind handles: static page layout, global chrome (nav/footer), base components (btn/field/badge/hint/avatar), wizard chrome, stepper states, step panels, form grids, count cards, legend, overlay layout
+- CSS handles: design tokens, state cascades (data-status, month-active, lb-active), pseudo-elements, keyframes, color-mix() effects, JS-generated component templates (week cards, leaderboard, heatmap, admin)
 
 ## Guardrails
 - Do NOT change any API endpoints or database schema
