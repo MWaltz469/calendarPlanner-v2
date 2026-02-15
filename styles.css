@@ -1359,6 +1359,7 @@ body {
 .hp-group-label.hp-avail { color: var(--ok-text); }
 .hp-group-label.hp-maybe { color: var(--warn-text); }
 .hp-group-label.hp-unavail { color: var(--neutral-text); }
+.hp-group-label.hp-pending { color: var(--ink-soft); font-style: italic; }
 
 .hp-person {
   display: flex;
@@ -1661,6 +1662,10 @@ body {
 
 .wd-person-ranked {
   border-left: 2px solid var(--accent);
+}
+
+.wd-person-pending {
+  opacity: 0.6;
 }
 
 .wd-insight {

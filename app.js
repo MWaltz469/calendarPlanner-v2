@@ -983,7 +983,7 @@
       setJoinState(joinMessage, true);
       setSaveState("saved");
       setSyncState("live_ready");
-      showToast("Connected to cloud voting.", "good");
+      showToast("Connected. Real-time results are live.", "good");
     } catch (error) {
       console.error(error);
       cleanupRealtime();
@@ -1427,17 +1427,17 @@
       },
       {
         className: state.hasSavedOnce ? "ok" : "warn",
-        text: state.hasSavedOnce ? "Submitted at least once. Results are unlocked." : "Save once to unlock group results."
+        text: state.hasSavedOnce ? "Submitted at least once. Results are unlocked." : "Submit your availability to unlock group results."
       },
       {
         className: state.syncState === "live_ready" ? "ok" : "warn",
         text: state.syncState === "live_ready"
-          ? "Cloud voting is active."
+          ? "Real-time group results are live."
           : state.syncState === "cloud_checking"
-            ? "Checking cloud availability..."
+            ? "Connecting to group results..."
             : state.syncState === "cloud_required"
-              ? "Cloud connection is required before attendees can vote."
-              : "Cloud connection is currently unavailable."
+              ? "Connection required to share results with your group."
+              : "Connection unavailable. Results may be outdated."
       }
     ];
 
@@ -1718,7 +1718,7 @@
     /** @type {Participant[]} */
     const participants = state.participants.length
       ? state.participants
-      : [{ id: "local", name: state.participantName || "You", submitted_at: null, last_active_step: state.currentStep }];
+      : [{ id: "local", name: state.participantName || "You", submitted_at: state.hasSavedOnce ? new Date().toISOString() : null, last_active_step: state.currentStep }];
 
     const selectionRows = state.groupSelections.length
       ? state.groupSelections
@@ -1729,13 +1729,17 @@
           rank: selection.rank
         }));
 
+    const participantMap = new Map();
+    participants.forEach((p) => participantMap.set(p.id, p));
+
     const map = new Map();
     state.weeks.forEach((week) => {
       map.set(week.weekNumber, {
         weekNumber: week.weekNumber,
         availableCount: 0,
         maybeCount: 0,
-        unselectedCount: 0,
+        unavailableCount: 0,
+        notSubmittedCount: 0,
         score: 0,
         avgRank: null,
         rankTotal: 0,
@@ -1744,25 +1748,37 @@
       });
     });
 
+    // Index selections by participant+week for fast lookup
+    const selectionIndex = new Map();
     selectionRows.forEach((row) => {
-      const aggregate = map.get(row.week_number);
-      if (!aggregate) return;
+      selectionIndex.set(`${row.participant_id}:${row.week_number}`, row);
+    });
 
-      const status = STATUS_SEQUENCE.includes(row.status) ? row.status : "unselected";
-      if (status === "available") aggregate.availableCount += 1;
-      if (status === "maybe") aggregate.maybeCount += 1;
-      if (status === "unselected") aggregate.unselectedCount += 1;
+    // For each week, populate ALL participants
+    map.forEach((aggregate) => {
+      participants.forEach((p) => {
+        const sel = selectionIndex.get(`${p.id}:${aggregate.weekNumber}`);
+        const submitted = Boolean(p.submitted_at);
+        const rawStatus = sel ? (STATUS_SEQUENCE.includes(sel.status) ? sel.status : "unselected") : "unselected";
+        const rank = sel && sel.rank ? sel.rank : null;
 
-      if (row.rank) {
-        aggregate.rankTotal += row.rank;
-        aggregate.rankCount += 1;
-      }
+        aggregate.people.push({
+          id: p.id,
+          name: p.name,
+          status: rawStatus,
+          rank,
+          submitted
+        });
 
-      const person = participants.find((entry) => entry.id === row.participant_id);
-      aggregate.people.push({
-        name: person ? person.name : "Unknown",
-        status,
-        rank: row.rank || null
+        if (rawStatus === "available") aggregate.availableCount += 1;
+        else if (rawStatus === "maybe") aggregate.maybeCount += 1;
+        else if (submitted) aggregate.unavailableCount += 1;
+        else aggregate.notSubmittedCount += 1;
+
+        if (rank) {
+          aggregate.rankTotal += rank;
+          aggregate.rankCount += 1;
+        }
       });
     });
 
@@ -1789,6 +1805,18 @@
     });
 
     return aggregates;
+  }
+
+  /**
+   * Break down a week aggregate's people into submission-aware groups.
+   * Only submitted participants get availability labels.
+   */
+  function getWeekBreakdown(entry) {
+    const available = entry.people.filter((p) => p.submitted && p.status === "available");
+    const maybe = entry.people.filter((p) => p.submitted && p.status === "maybe");
+    const unavailable = entry.people.filter((p) => p.submitted && p.status !== "available" && p.status !== "maybe");
+    const notSubmitted = entry.people.filter((p) => !p.submitted);
+    return { available, maybe, unavailable, notSubmitted };
   }
 
   function renderResults() {
@@ -1834,75 +1862,59 @@
       const bestLabel = bestWeekData ? bestWeekData.rangeText : `Week ${best ? best.weekNumber : ""}`;
 
       if (best && best.score > 0) {
-        const bestSelections = state.groupSelections.length
-          ? state.groupSelections.filter((s) => s.week_number === best.weekNumber)
-          : state.selections[best.weekNumber - 1] ? [{ status: state.selections[best.weekNumber - 1].status, participant_id: "local" }] : [];
-
-        // Determine viewer's status for the top week
+        const bk = getWeekBreakdown(best);
         const myId = state.participantId || "local";
-        const mySel = bestSelections.find((s) => s.participant_id === myId);
-        const myStatus = mySel ? mySel.status : "unselected";
-
-        const availNames = [];
-        const maybeNames = [];
-        const unavailNames = [];
-        participants.forEach((p) => {
-          const sel = bestSelections.find((s) => s.participant_id === p.id);
-          const status = sel ? sel.status : "unselected";
-          const name = escapeHtml(p.name);
-          if (status === "available") availNames.push(name);
-          else if (status === "maybe") maybeNames.push(name);
-          else unavailNames.push(name);
-        });
-
-        const notSubmitted = participants.filter((p) => !p.submitted_at).map((p) => escapeHtml(p.name));
+        const myPerson = best.people.find((p) => p.id === myId);
+        const myStatus = myPerson ? myPerson.status : "unselected";
+        const mySubmitted = myPerson ? myPerson.submitted : false;
 
         let html = `<div class="admin-narrative">`;
 
         // Lead sentence — personalized
         html += `<p class="admin-narrative-lead">`;
-        if (bestPct === 100 && totalPeople > 1) {
+        if (bestPct === 100 && submittedCount === totalPeople && totalPeople > 1) {
           html += `Everyone is available for <strong>${bestLabel}</strong>. You\u2019re all set!`;
         } else if (myStatus === "available") {
-          const others = best.availableCount - 1;
+          const others = bk.available.filter((p) => p.id !== myId).length;
           if (others > 0) {
-            html += `The top week is <strong>${bestLabel}</strong> \u2014 you\u2019re free, and so ${others === 1 ? "is" : "are"} <strong>${others} other${others === 1 ? "" : "s"}</strong> (${bestPct}% overlap).`;
+            html += `The top week is <strong>${bestLabel}</strong> \u2014 you\u2019re free, and so ${others === 1 ? "is" : "are"} <strong>${others} other${others === 1 ? "" : "s"}</strong>.`;
           } else {
-            html += `The top week is <strong>${bestLabel}</strong> \u2014 you\u2019re the only one free so far. More votes may change this.`;
+            html += `The top week is <strong>${bestLabel}</strong> \u2014 you\u2019re the only one free so far.`;
           }
         } else if (myStatus === "maybe") {
-          html += `The top week is <strong>${bestLabel}</strong> with <strong>${best.availableCount} of ${totalPeople}</strong> available (${bestPct}%). You marked this as tentative \u2014 confirm if you can make it.`;
-        } else {
-          html += `The top week is <strong>${bestLabel}</strong> with <strong>${best.availableCount} of ${totalPeople}</strong> available (${bestPct}%), but <strong>you\u2019re not free</strong> this week.`;
-          // Find the best week where the viewer IS available
+          html += `The top week is <strong>${bestLabel}</strong> with <strong>${bk.available.length}</strong> available. You marked this as tentative \u2014 confirm if you can make it.`;
+        } else if (mySubmitted) {
+          html += `The top week is <strong>${bestLabel}</strong> with <strong>${bk.available.length}</strong> available, but <strong>you\u2019re not free</strong> this week.`;
           const myBest = aggregates.find((a) => {
-            const s = state.groupSelections.length
-              ? state.groupSelections.find((gs) => gs.week_number === a.weekNumber && gs.participant_id === myId)
-              : state.selections[a.weekNumber - 1];
-            const st = s ? (s.status || s.status) : "unselected";
-            return st === "available" && a.availableCount > 0;
+            const me = a.people.find((p) => p.id === myId);
+            return me && me.status === "available" && a.availableCount > 0;
           });
           if (myBest && myBest.weekNumber !== best.weekNumber) {
             const myBestWeek = state.weeks[myBest.weekNumber - 1];
             html += ` Your best overlap is <strong>${myBestWeek ? myBestWeek.rangeText : `Week ${myBest.weekNumber}`}</strong> (${myBest.availableCount} available).`;
           }
+        } else {
+          html += `The top week is <strong>${bestLabel}</strong> with <strong>${bk.available.length}</strong> available (${bestPct}% of submitted).`;
         }
         html += `</p>`;
 
+        // Completeness indicator
+        if (submittedCount < totalPeople) {
+          html += `<p class="admin-narrative-pending">Based on <strong>${submittedCount} of ${totalPeople}</strong> submissions. Waiting on: <strong>${bk.notSubmitted.map((p) => escapeHtml(p.name)).join(", ") || participants.filter((p) => !p.submitted_at).map((p) => escapeHtml(p.name)).join(", ")}</strong>.</p>`;
+        } else if (totalPeople > 1) {
+          html += `<p class="admin-narrative-pending" style="color:var(--ok-text)">All ${totalPeople} participants have submitted.</p>`;
+        }
+
+        // People breakdown — submission-aware
         if (totalPeople > 1) {
           const parts = [];
-          if (availNames.length) parts.push(`<span class="wd-badge wd-badge-available">${availNames.join(", ")}</span> ${availNames.length === 1 ? "is" : "are"} free`);
-          if (maybeNames.length) parts.push(`<span class="wd-badge wd-badge-maybe">${maybeNames.join(", ")}</span> ${maybeNames.length === 1 ? "is" : "are"} tentative`);
-          if (unavailNames.length) parts.push(`<span class="wd-badge wd-badge-unselected">${unavailNames.join(", ")}</span> ${unavailNames.length === 1 ? "is" : "are"} unavailable`);
+          if (bk.available.length) parts.push(`<span class="wd-badge wd-badge-available">${bk.available.map((p) => escapeHtml(p.name)).join(", ")}</span> ${bk.available.length === 1 ? "is" : "are"} free`);
+          if (bk.maybe.length) parts.push(`<span class="wd-badge wd-badge-maybe">${bk.maybe.map((p) => escapeHtml(p.name)).join(", ")}</span> ${bk.maybe.length === 1 ? "is" : "are"} tentative`);
+          if (bk.unavailable.length) parts.push(`<span class="wd-badge wd-badge-unselected">${bk.unavailable.map((p) => escapeHtml(p.name)).join(", ")}</span> ${bk.unavailable.length === 1 ? "is" : "are"} unavailable`);
+          if (bk.notSubmitted.length) parts.push(`<span class="wd-badge" style="background:var(--surface-muted);color:var(--ink-soft);border:1px solid var(--border);">${bk.notSubmitted.map((p) => escapeHtml(p.name)).join(", ")}</span> haven\u2019t submitted yet`);
           if (parts.length) {
             html += `<p class="admin-narrative-detail">${parts.join(". ")}.</p>`;
           }
-        }
-
-        if (notSubmitted.length && totalPeople > 1) {
-          html += `<p class="admin-narrative-pending">Waiting on: <strong>${notSubmitted.join(", ")}</strong> (${submittedCount} of ${totalPeople} submitted).</p>`;
-        } else if (totalPeople > 1) {
-          html += `<p class="admin-narrative-pending">All ${totalPeople} participants have submitted.</p>`;
         }
 
         html += `</div>`;
@@ -2082,9 +2094,7 @@
       activeHeatDismiss = null;
     }
 
-    const availPeople = entry.people.filter((p) => p.status === "available");
-    const maybePeople = entry.people.filter((p) => p.status === "maybe");
-    const unavailPeople = entry.people.filter((p) => p.status !== "available" && p.status !== "maybe");
+    const bk = getWeekBreakdown(entry);
 
     const section = (label, people, cls) => {
       if (!people.length) return "";
@@ -2097,11 +2107,12 @@
     popover.innerHTML = `
       <div class="hp-header">
         <strong>${week.rangeText}</strong>
-        <span class="hp-meta">Week ${entry.weekNumber}</span>
+        <span class="hp-meta">W${entry.weekNumber}</span>
       </div>
-      ${section(`${availPeople.length} available`, availPeople, "hp-avail")}
-      ${section(`${maybePeople.length} maybe`, maybePeople, "hp-maybe")}
-      ${section(`${unavailPeople.length} unavailable`, unavailPeople, "hp-unavail")}
+      ${section(`${bk.available.length} available`, bk.available, "hp-avail")}
+      ${section(`${bk.maybe.length} maybe`, bk.maybe, "hp-maybe")}
+      ${section(`${bk.unavailable.length} unavailable`, bk.unavailable, "hp-unavail")}
+      ${section(`${bk.notSubmitted.length} pending`, bk.notSubmitted, "hp-pending")}
     `;
 
     // Position: show popover off-screen first to measure, then place
@@ -2150,10 +2161,13 @@
         return a.name.localeCompare(b.name);
       });
 
-    const statusBadge = (status) => {
-      const cls = status === "available" ? "wd-badge-available" : status === "maybe" ? "wd-badge-maybe" : "wd-badge-unselected";
+    const statusBadge = (person) => {
+      if (!person.submitted) {
+        return `<span class="wd-badge" style="background:var(--surface-muted);color:var(--ink-soft);border:1px solid var(--border);">Not submitted</span>`;
+      }
+      const cls = person.status === "available" ? "wd-badge-available" : person.status === "maybe" ? "wd-badge-maybe" : "wd-badge-unselected";
       const labels = { available: "Available", maybe: "Maybe", unselected: "Unavailable" };
-      return `<span class="wd-badge ${cls}">${labels[status] || "Unavailable"}</span>`;
+      return `<span class="wd-badge ${cls}">${labels[person.status] || "Unavailable"}</span>`;
     };
 
     const rankLabel = (rank) => {
@@ -2165,24 +2179,26 @@
     const peopleRows = sortedPeople.length
       ? sortedPeople
           .map((person) =>
-            `<div class="wd-person${person.rank ? " wd-person-ranked" : ""}">` +
+            `<div class="wd-person${person.rank ? " wd-person-ranked" : ""}${!person.submitted ? " wd-person-pending" : ""}">` +
               `<span class="wd-person-name">${avatarHtml(person.name)} ${escapeHtml(person.name)}</span>` +
               `<div class="wd-person-status">` +
                 `${rankLabel(person.rank)}` +
-                `${statusBadge(person.status)}` +
+                `${statusBadge(person)}` +
               `</div>` +
             `</div>`
           )
           .join("")
       : `<p class="wd-empty">No participant details yet.</p>`;
 
-    // Build a personalized insight sentence
+    // Build a personalized insight sentence using submission-aware breakdown
+    const wbk = getWeekBreakdown(target);
     const myName = state.participantName || "";
     const myPerson = sortedPeople.find((p) => p.name === myName);
     const myStatus = myPerson ? myPerson.status : "unselected";
+    const mySubmitted = myPerson ? myPerson.submitted : false;
     const myRank = myPerson ? myPerson.rank : null;
-    const otherAvail = sortedPeople.filter((p) => p.status === "available" && p.name !== myName);
-    const maybeNames = sortedPeople.filter((p) => p.status === "maybe").map((p) => escapeHtml(p.name));
+    const otherAvail = wbk.available.filter((p) => p.name !== myName);
+    const maybeNames = wbk.maybe.map((p) => escapeHtml(p.name));
     const rankedHere = sortedPeople.filter((p) => p.rank);
 
     let insight = "";
@@ -2200,11 +2216,15 @@
         if (otherAvail.length) {
           insight += ` <strong>${otherAvail.map((p) => escapeHtml(p.name)).join("</strong> and <strong>")}</strong> ${otherAvail.length === 1 ? "is" : "are"} free.`;
         }
+      } else if (!mySubmitted) {
+        insight = `You haven\u2019t submitted yet.`;
+        if (wbk.available.length) {
+          insight += ` <strong>${wbk.available.map((p) => escapeHtml(p.name)).join("</strong> and <strong>")}</strong> ${wbk.available.length === 1 ? "is" : "are"} free.`;
+        }
       } else {
         insight = `You\u2019re not available this week.`;
-        if (target.availableCount > 0) {
-          const freeNames = sortedPeople.filter((p) => p.status === "available").map((p) => escapeHtml(p.name));
-          insight += ` <strong>${freeNames.join("</strong> and <strong>")}</strong> ${freeNames.length === 1 ? "is" : "are"} free without you.`;
+        if (wbk.available.length) {
+          insight += ` <strong>${wbk.available.map((p) => escapeHtml(p.name)).join("</strong> and <strong>")}</strong> ${wbk.available.length === 1 ? "is" : "are"} free without you.`;
         }
       }
       if (maybeNames.length) {
@@ -2227,9 +2247,10 @@
         <span class="wd-dates">${week ? week.rangeText : ""}</span>
       </div>
       <div class="wd-summary">
-        <span class="lb-stat available">${target.availableCount} available</span>
-        <span class="lb-stat maybe">${target.maybeCount} maybe</span>
-        <span class="lb-stat">${target.unselectedCount} unavailable</span>
+        <span class="lb-stat available">${wbk.available.length} available</span>
+        <span class="lb-stat maybe">${wbk.maybe.length} maybe</span>
+        <span class="lb-stat">${wbk.unavailable.length} unavailable</span>
+        ${wbk.notSubmitted.length ? `<span class="lb-stat" style="border-style:dashed">${wbk.notSubmitted.length} pending</span>` : ""}
       </div>
       ${insight ? `<p class="wd-insight">${insight}</p>` : ""}
       <div class="wd-people">${peopleRows}</div>
