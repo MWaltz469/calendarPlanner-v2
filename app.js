@@ -64,7 +64,7 @@
   function avatarHtml(name) {
     const initial = (name || "?").charAt(0).toUpperCase();
     const bg = nameColor(name);
-    return `<span class="avatar" style="background:${bg}">${escapeHtml(initial)}</span>`;
+    return `<span class="inline-grid place-items-center w-[1.4rem] h-[1.4rem] rounded-full text-white font-display text-[0.65rem] font-extrabold leading-none shrink-0" style="background:${bg}">${escapeHtml(initial)}</span>`;
   }
 
   function safeSetItem(key, value) {
@@ -1644,10 +1644,13 @@
     state.realtimeChannel = null;
   }
 
+  const HINT_COLORS = { positive: "text-[--ok-text]", error: "text-[--danger]", muted: "text-[--ink-soft]" };
+  function clearHintColor(el) { Object.values(HINT_COLORS).forEach((c) => el.classList.remove(c)); }
+
   function setJoinState(message, positive) {
     els.joinState.textContent = message;
-    els.joinState.classList.remove("hint--positive", "hint--error", "hint--muted");
-    els.joinState.classList.add(positive ? "hint--positive" : "hint--muted");
+    clearHintColor(els.joinState);
+    els.joinState.classList.add(positive ? HINT_COLORS.positive : HINT_COLORS.muted);
   }
 
   function setSaveState(mode) {
@@ -1660,13 +1663,13 @@
       error: "Save failed."
     };
     els.saveState.textContent = text[mode] || text.idle;
-    els.saveState.classList.remove("hint--positive", "hint--error", "hint--muted");
+    clearHintColor(els.saveState);
     if (mode === "saved") {
-      els.saveState.classList.add("hint--positive");
+      els.saveState.classList.add(HINT_COLORS.positive);
     } else if (mode === "error") {
-      els.saveState.classList.add("hint--error");
+      els.saveState.classList.add(HINT_COLORS.error);
     } else {
-      els.saveState.classList.add("hint--muted");
+      els.saveState.classList.add(HINT_COLORS.muted);
     }
     if (mode === "dirty") {
       scheduleAutoSave();

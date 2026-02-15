@@ -356,17 +356,7 @@ body {
   border-color: var(--border);
 }
 
-.inline-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-}
-
-.inline-actions.wrap {
-  flex-wrap: wrap;
-}
-
-/* .inline-actions .btn.danger margin: migrated to Tailwind sm:ml-auto (Phase 4) */
+/* .inline-actions: migrated to Tailwind flex (Phase 4) */
 
 /* .btn base/primary/danger: migrated to Tailwind (Phase 4) */
 /* Keep .loading for spinner pseudo-element (can't be done with Tailwind utilities) */
@@ -395,23 +385,7 @@ body {
   }
 }
 
-.hint {
-  font-size: 0.84rem;
-  color: var(--ink-soft);
-  font-weight: 600;
-}
-
-.hint--positive {
-  color: var(--ok-text);
-}
-
-.hint--error {
-  color: var(--danger);
-}
-
-.hint--muted {
-  color: var(--ink-soft);
-}
+/* .hint: migrated to Tailwind (Phase 4) */
 
 .count-row {
   display: grid;
@@ -1349,23 +1323,7 @@ body {
   padding: var(--sp-1) 0;
 }
 
-/* --- Participant avatars --- */
-
-.avatar {
-  display: inline-grid;
-  place-items: center;
-  width: 1.4rem;
-  height: 1.4rem;
-  border-radius: 50%;
-  background: var(--accent);
-  color: #fff;
-  font-family: "Sora", sans-serif;
-  font-size: 0.65rem;
-  font-weight: 800;
-  line-height: 1;
-  flex-shrink: 0;
-  vertical-align: middle;
-}
+/* .avatar: migrated to Tailwind (Phase 4) — see avatarHtml() in app.js */
 
 .participant-name {
   display: flex;
@@ -2278,7 +2236,6 @@ body {
 /* lb-bar dark mode now handled by tokens (--surface-muted, --available, --accent) */
 
 :root[data-theme="dark"] .step-copy,
-:root[data-theme="dark"] .hint,
 :root[data-theme="dark"] .legend,
 :root[data-theme="dark"] .week-card .weekday-range {
   color: var(--ink-soft);
