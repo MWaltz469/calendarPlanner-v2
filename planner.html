@@ -105,36 +105,36 @@
         <h2 id="step2-heading" class="m-0 font-display text-[clamp(1.05rem,2vw,1.35rem)]">Step 2: Pick your available weeks</h2>
         <p class="m-0 text-[--ink-soft] text-[0.94rem]"><span class="touch-copy">Tap</span><span class="pointer-copy">Click</span> a week card to cycle status: <strong>Unselected &rarr; Available &rarr; Maybe</strong>.</p>
 
-        <div id="step2CountRow" class="count-row" aria-label="Selection counts">
-          <article class="count-card">
-            <span>Available</span>
-            <strong id="availableCount">0</strong>
+        <div id="step2CountRow" class="grid grid-cols-3 gap-2" aria-label="Selection counts">
+          <article class="rounded-xl bg-[--surface-muted] p-3 grid gap-1">
+            <span class="uppercase tracking-wide text-[0.73rem] text-[--ink-soft] font-bold">Available</span>
+            <strong id="availableCount" class="font-display text-[1.05rem]">0</strong>
           </article>
-          <article class="count-card">
-            <span>Maybe</span>
-            <strong id="maybeCount">0</strong>
+          <article class="rounded-xl bg-[--surface-muted] p-3 grid gap-1">
+            <span class="uppercase tracking-wide text-[0.73rem] text-[--ink-soft] font-bold">Maybe</span>
+            <strong id="maybeCount" class="font-display text-[1.05rem]">0</strong>
           </article>
-          <article class="count-card">
-            <span>Ranked</span>
-            <strong id="rankedCount">0 / 5</strong>
+          <article class="rounded-xl bg-[--surface-muted] p-3 grid gap-1">
+            <span class="uppercase tracking-wide text-[0.73rem] text-[--ink-soft] font-bold">Ranked</span>
+            <strong id="rankedCount" class="font-display text-[1.05rem]">0 / 5</strong>
           </article>
         </div>
 
-        <div class="legend">
-          <span><i class="dot neutral" aria-hidden="true"></i>Unselected</span>
-          <span><i class="dot available" aria-hidden="true"></i>Available</span>
-          <span><i class="dot maybe" aria-hidden="true"></i>Maybe</span>
+        <div class="flex flex-wrap gap-[0.45rem] text-[--ink-soft] text-[0.78rem] font-bold">
+          <span class="inline-flex items-center gap-[0.32rem]"><i class="w-[0.58rem] h-[0.58rem] rounded-full bg-[--neutral-text]" aria-hidden="true"></i>Unselected</span>
+          <span class="inline-flex items-center gap-[0.32rem]"><i class="w-[0.58rem] h-[0.58rem] rounded-full bg-[--available]" aria-hidden="true"></i>Available</span>
+          <span class="inline-flex items-center gap-[0.32rem]"><i class="w-[0.58rem] h-[0.58rem] rounded-full bg-[--maybe]" aria-hidden="true"></i>Maybe</span>
         </div>
         <p class="text-[0.84rem] text-[--ink-soft] font-semibold text-[0.78rem] italic touch-copy">Tip: Long-press a card to set status directly.</p>
         <p class="text-[0.84rem] text-[--ink-soft] font-semibold text-[0.78rem] italic pointer-copy">Tip: Right-click a card to set status directly. Focus a card and press 1&ndash;5 to rank, Delete to clear rank.</p>
 
         <aside id="selectionOverlay" class="selection-overlay" aria-live="polite" hidden>
-          <div class="ov-row ov-summary-row">
-            <span id="overlaySummary" class="ov-summary">0 selected</span>
-            <div class="ov-nav-compact">
-              <button id="overlayPrevStep" class="ov-nav-btn" type="button"><span class="ov-arrow">&larr;</span><span class="ov-label">Back</span></button>
-              <button id="overlayScrollTop" class="ov-nav-btn" type="button"><span class="ov-arrow">&uarr;</span><span class="ov-label">Top</span></button>
-              <button id="overlayNextStep" class="ov-nav-btn ov-nav-primary" type="button"><span class="ov-arrow">&rarr;</span><span class="ov-label">Next</span></button>
+          <div class="flex items-center gap-2 justify-between">
+            <span id="overlaySummary" class="text-sm font-bold text-[--ink] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">0 selected</span>
+            <div class="flex gap-1 shrink-0">
+              <button id="overlayPrevStep" class="ov-nav-btn" type="button"><span class="text-[0.9375rem] leading-none">&larr;</span><span class="text-[0.6875rem] leading-none">Back</span></button>
+              <button id="overlayScrollTop" class="ov-nav-btn" type="button"><span class="text-[0.9375rem] leading-none">&uarr;</span><span class="text-[0.6875rem] leading-none">Top</span></button>
+              <button id="overlayNextStep" class="ov-nav-btn ov-nav-primary" type="button"><span class="text-[0.9375rem] leading-none">&rarr;</span><span class="text-[0.6875rem] leading-none">Next</span></button>
             </div>
           </div>
           <nav id="monthBar" class="month-bar" aria-label="Jump to month"></nav>

@@ -1,3 +1,15 @@
+/*
+ * TripWeek — Component & State Styles
+ *
+ * Tailwind CDN handles: layout, typography, spacing for static pages +
+ * global chrome + base components (btn, field, badge, hint, avatar).
+ *
+ * This file handles: CSS custom properties (design tokens), state-dependent
+ * component styles (data-status, .month-active, .lb-active, .lb-item-open),
+ * pseudo-elements (::before collapsible arrows, ::after spinner), keyframes,
+ * color-mix() hover effects, and [hidden] display overrides.
+ */
+
 :root {
   /* Core palette */
   --bg: #f4fbff;
@@ -171,17 +183,6 @@ body {
   box-shadow: var(--shadow-md);
 }
 
-/* --- Hero card: migrated to Tailwind (Phase 2) --- */
-
-/* .badge: migrated to Tailwind (Phase 4) */
-
-/* .hero-controls: migrated to Tailwind (Phase 2) */
-
-/* .theme-picker: removed — dead CSS, replaced by #themeToggle button (Phase 2) */
-
-/* .wizard, .stepper, .stepper li: migrated to Tailwind (Phase 5) */
-
-/* .stepper-btn + states: migrated to Tailwind (Phase 5) — state toggling in renderStepper() */
 
 /* .step-panel: keep grid + hidden override (Tailwind grid class overrides [hidden] attribute) */
 .step-panel {
@@ -195,9 +196,6 @@ body {
   display: none;
 }
 
-/* .step-panel h2, .step-copy, .form-grid: migrated to Tailwind (Phase 5) */
-
-/* .field: migrated to Tailwind (Phase 4) */
 
 .rank-select {
   width: 100%;
@@ -249,16 +247,13 @@ body {
   display: none;
 }
 
-/* .window-config-details .form-grid: migrated to Tailwind (Phase 5) */
 
 :root[data-theme="dark"] .window-config-details {
   background: var(--surface-muted);
   border-color: var(--border);
 }
 
-/* .inline-actions: migrated to Tailwind flex (Phase 4) */
 
-/* .btn base/primary/danger: migrated to Tailwind (Phase 4) */
 /* Keep .loading for spinner pseudo-element (can't be done with Tailwind utilities) */
 
 .loading {
@@ -285,50 +280,6 @@ body {
   }
 }
 
-/* .hint: migrated to Tailwind (Phase 4) */
-
-.count-row {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.55rem;
-}
-
-.count-card {
-  border: none;
-  border-radius: var(--radius-md);
-  background: var(--surface-muted);
-  padding: var(--sp-3);
-  display: grid;
-  gap: var(--sp-1);
-}
-
-.count-card span {
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  font-size: 0.73rem;
-  color: var(--ink-soft);
-  font-weight: 700;
-}
-
-.count-card strong {
-  font-family: "Sora", sans-serif;
-  font-size: 1.05rem;
-}
-
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  color: var(--ink-soft);
-  font-size: 0.78rem;
-  font-weight: 700;
-}
-
-.legend span {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.32rem;
-}
 
 .selection-overlay {
   position: sticky;
@@ -344,31 +295,6 @@ body {
   backdrop-filter: blur(12px);
 }
 
-.ov-row {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-}
-
-.ov-summary-row {
-  justify-content: space-between;
-}
-
-.ov-summary {
-  font-size: var(--text-sm);
-  font-weight: 700;
-  color: var(--ink);
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.ov-nav-compact {
-  display: flex;
-  gap: var(--sp-1);
-  flex-shrink: 0;
-}
 
 .ov-nav-btn {
   min-width: 44px;
@@ -387,15 +313,6 @@ body {
   padding: 0 var(--sp-2);
 }
 
-.ov-arrow {
-  font-size: var(--text-base);
-  line-height: 1;
-}
-
-.ov-label {
-  font-size: var(--text-xs);
-  line-height: 1;
-}
 
 .ov-nav-btn:hover {
   background: color-mix(in srgb, var(--accent) 15%, var(--surface-muted));
@@ -473,28 +390,6 @@ body {
   background: var(--neutral-bg);
 }
 
-.dot {
-  width: 0.58rem;
-  height: 0.58rem;
-  border-radius: 50%;
-}
-
-.dot.neutral {
-  background: var(--neutral-text);
-}
-
-.dot.available {
-  background: var(--available);
-}
-
-.dot.maybe {
-  background: var(--maybe);
-}
-
-.keyboard-hint {
-  font-size: 0.78rem;
-  font-style: italic;
-}
 
 /* Pointer-aware help copy */
 .touch-copy { display: inline; }
@@ -1223,7 +1118,6 @@ body {
   padding: var(--sp-1) 0;
 }
 
-/* .avatar: migrated to Tailwind (Phase 4) — see avatarHtml() in app.js */
 
 .participant-name {
   display: flex;
@@ -1746,15 +1640,6 @@ body {
   background: var(--warn-text);
 }
 
-/* --- Global nav: migrated to Tailwind (Phase 2) --- */
-
-/* .btn-sm: migrated to Tailwind (Phase 4) */
-
-/* --- Global footer: migrated to Tailwind (Phase 2) --- */
-
-/* --- Landing page: migrated to Tailwind (Phase 3) --- */
-
-/* .btn-lg: migrated to Tailwind (Phase 4) */
 
 /* Keep for planner inline help */
 .wtf-inline {
@@ -1778,11 +1663,6 @@ body {
   line-height: 1.5;
 }
 
-/* .landing-input:focus-visible: migrated to Tailwind (Phase 3) */
-
-/* --- About page: migrated to Tailwind (Phase 3) --- */
-
-/* --- Changelog page: migrated to Tailwind (Phase 3) --- */
 
 /* --- Admin portal --- */
 
@@ -2086,7 +1966,6 @@ body {
   gap: var(--sp-1);
 }
 
-/* .admin-action-item .btn: migrated to Tailwind w-full (Phase 4) */
 
 .admin-action-hint {
   font-size: var(--text-xs);
@@ -2112,7 +1991,6 @@ body {
 
 :root[data-theme="dark"] .lb-row,
 :root[data-theme="dark"] .score-chip,
-:root[data-theme="dark"] .count-card,
 :root[data-theme="dark"] .participant-list li,
 :root[data-theme="dark"] .review-checklist li {
   background: var(--surface-muted);
@@ -2135,21 +2013,10 @@ body {
 
 /* lb-bar dark mode now handled by tokens (--surface-muted, --available, --accent) */
 
-:root[data-theme="dark"] .legend,
-:root[data-theme="dark"] .week-card .weekday-range {
-  color: var(--ink-soft);
-}
 
 /* hint dark mode now handled by tokens (--ok-text, --danger, --ink-soft) */
 
-/* dark .stepper-btn: migrated to Tailwind (Phase 5) */
 
-/* dark .badge.required: migrated to Tailwind (Phase 4) */
-
-/* dark .theme-picker: removed (Phase 2) */
-
-:root[data-theme="dark"] .field input,
-:root[data-theme="dark"] .field select,
 :root[data-theme="dark"] .rank-select {
   background: #1a2b3b;
   border-color: #34506a;
@@ -2174,7 +2041,6 @@ body {
   color: #fff;
 }
 
-/* dark .btn: migrated to Tailwind dark: prefix (Phase 4) */
 
 :root[data-theme="dark"] .selection-overlay,
 :root[data-theme="dark"] .results-locked,
@@ -2210,9 +2076,6 @@ body {
     padding-top: 0;
   }
 
-  /* landing responsive: migrated to Tailwind sm: breakpoint (Phase 3) */
-
-  /* .form-grid responsive: migrated to Tailwind sm:grid-cols-2 (Phase 5) */
 
   .selection-overlay {
     top: 0.72rem;
@@ -2238,7 +2101,6 @@ body {
 
   /* results now use single-column flow with collapsible sections */
 
-  /* .wizard responsive: migrated to Tailwind (Phase 5) */
 }
 
 @media (prefers-reduced-motion: reduce) {
