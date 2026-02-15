@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=20260215n" />
-  <script src="/theme-init.js?v=20260215n"></script>
-  <script defer src="/admin.js?v=20260215n"></script>
+  <link rel="stylesheet" href="/styles.css?v=20260215q" />
+  <script src="/theme-init.js?v=20260215q"></script>
+  <script defer src="/admin.js?v=20260215q"></script>
 </head>
 <body>
   <nav class="site-nav">
@@ -126,13 +126,17 @@
         <h2 id="tripDetailTitle">Trip Detail</h2>
       </div>
       <div id="tripDetailInfo" class="admin-trip-info"></div>
-      <div id="tripActions" class="inline-actions wrap"></div>
 
       <h3>Group Results</h3>
       <div id="adminResultsContainer" class="admin-results"></div>
 
       <h3>Participants</h3>
       <div id="participantsContainer" class="admin-participants"></div>
+
+      <details class="admin-actions-collapsible">
+        <summary class="admin-actions-toggle"><h3>Trip Actions</h3></summary>
+        <div id="tripActions" class="admin-actions-body"></div>
+      </details>
     </section>
   </main>
 

@@ -2633,6 +2633,58 @@ body {
   margin-left: auto;
 }
 
+.admin-participant-group-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) 0;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--sp-1);
+}
+
+.admin-participant-group-header:not(:first-child) {
+  margin-top: var(--sp-3);
+}
+
+.admin-actions-collapsible {
+  margin-top: var(--sp-3);
+  border-top: 1px solid var(--border);
+  padding-top: var(--sp-3);
+}
+
+.admin-actions-toggle {
+  cursor: pointer;
+  list-style: none;
+}
+
+.admin-actions-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.admin-actions-toggle h3 {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.admin-actions-toggle h3::before {
+  content: "\25B6";
+  font-size: 0.55rem;
+  margin-right: var(--sp-2);
+  color: var(--ink-soft);
+  transition: transform 0.15s ease;
+}
+
+.admin-actions-collapsible[open] > .admin-actions-toggle h3::before {
+  transform: rotate(90deg);
+}
+
+.admin-actions-body {
+  margin-top: var(--sp-3);
+}
+
 .admin-participant-info {
   display: grid;
   gap: 0.25rem;

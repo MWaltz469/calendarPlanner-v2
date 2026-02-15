@@ -265,7 +265,7 @@
       <div class="admin-detail-chips">
         <span class="lb-stat">${trip.trip_year}</span>
         <span class="lb-stat">${fmtConfig(trip.week_format, trip.trip_length)}</span>
-        <span class="lb-stat">${trip.timezone || "UTC"}</span>
+        <span class="lb-stat">TZ: ${trip.timezone || "UTC"}</span>
         <span class="lb-stat">Created ${formatShortDate(trip.created_at)}</span>
         ${locked ? `<span class="wd-badge wd-badge-maybe">Locked</span>` : `<span class="wd-badge wd-badge-available">Open</span>`}
       </div>
@@ -492,7 +492,26 @@
     els.participantsContainer.innerHTML = "";
     const stepLabels = { 1: "Join", 2: "Pick Weeks", 3: "Rank", 4: "Review" };
 
-    participants.forEach((p) => {
+    const submitted = participants.filter((p) => p.submitted_at);
+    const waiting = participants.filter((p) => !p.submitted_at);
+
+    if (waiting.length) {
+      const header = document.createElement("div");
+      header.className = "admin-participant-group-header admin-participant-group-waiting";
+      header.innerHTML = `<strong>Waiting (${waiting.length})</strong><span class="lb-stat" style="border-style:dashed">${waiting.length} not submitted</span>`;
+      els.participantsContainer.appendChild(header);
+    }
+    waiting.forEach((p) => renderParticipantRow(p));
+
+    if (submitted.length) {
+      const header = document.createElement("div");
+      header.className = "admin-participant-group-header admin-participant-group-submitted";
+      header.innerHTML = `<strong>Submitted (${submitted.length})</strong>`;
+      els.participantsContainer.appendChild(header);
+    }
+    submitted.forEach((p) => renderParticipantRow(p));
+
+    function renderParticipantRow(p) {
       const row = document.createElement("div");
       row.className = "admin-participant-row";
       const submitted = Boolean(p.submitted_at);
@@ -529,7 +548,7 @@
       if (resetBtn) resetBtn.addEventListener("click", () => resetSubmission(p.id, p.name));
       row.querySelector(".remove-btn").addEventListener("click", () => removeParticipant(p.id, p.name));
       els.participantsContainer.appendChild(row);
-    });
+    }
   }
 
   function showParticipantSelections(p, sels) {
