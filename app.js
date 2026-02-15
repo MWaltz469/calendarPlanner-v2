@@ -2081,11 +2081,15 @@
     els.leaderboard.innerHTML = "";
     aggregates.slice(0, 5).forEach((entry, index) => {
       const week = state.weeks[entry.weekNumber - 1];
+      const isActive = state.selectedDetailWeek === entry.weekNumber;
+      const wrapper = document.createElement("div");
+      wrapper.className = `lb-item${isActive ? " lb-item-open" : ""}`;
+
       const row = document.createElement("button");
       row.type = "button";
       row.className = "lb-row";
       if (index === 0 && entry.score > 0) row.classList.add("lb-top-pick");
-      if (state.selectedDetailWeek === entry.weekNumber) row.classList.add("lb-active");
+      if (isActive) row.classList.add("lb-active");
       const width = (entry.score / maxScore) * 100;
       const totalPeople = (state.participants.length || 1);
 
@@ -2113,6 +2117,7 @@
             <span class="lb-dates">${week ? `${week.startDisplay} \u2192 ${week.endDisplay}` : ""}</span>
             <span class="lb-meta">Week ${entry.weekNumber} \u00B7 ${week ? week.days : ""} days</span>
           </div>
+          <span class="lb-chevron">${isActive ? "\u25B2" : "\u25BC"}</span>
         </div>
         ${availNames.length ? `<div class="lb-who"><span class="lb-who-label">Available:</span> ${availNames.join(", ")}</div>` : ""}
         ${rankContext ? `<div class="lb-who lb-who-ranked"><span class="lb-who-label">Ranked:</span> ${rankContext}</div>` : ""}
@@ -2124,20 +2129,27 @@
         </div>
         <div class="lb-bar"><span style="width:${width.toFixed(1)}%"></span></div>
       `;
+
+      // Inline detail panel
+      const detail = document.createElement("div");
+      detail.className = "lb-detail";
+      detail.innerHTML = buildWeekDetailHtml(entry, aggregates);
+
+      wrapper.append(row, detail);
+
       row.addEventListener("click", () => {
-        state.selectedDetailWeek = entry.weekNumber;
+        const wasOpen = state.selectedDetailWeek === entry.weekNumber;
+        state.selectedDetailWeek = wasOpen ? null : entry.weekNumber;
         persistSession();
         renderResults();
-        flashWeekDetail();
       });
-      els.leaderboard.appendChild(row);
+
+      els.leaderboard.appendChild(wrapper);
     });
 
     if (!state.selectedDetailWeek && topWeek) {
       state.selectedDetailWeek = topWeek.weekNumber;
     }
-
-    renderWeekDetail(aggregates);
   }
 
   // --- Heatmap color scale (cool→warm) ---
@@ -2218,22 +2230,8 @@
     setTimeout(() => document.addEventListener("click", activeHeatDismiss), 50);
   }
 
-  function flashWeekDetail() {
-    if (!els.weekDetail || els.weekDetail.hidden) return;
-    els.weekDetail.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    els.weekDetail.classList.remove("wd-flash");
-    void els.weekDetail.offsetWidth;
-    els.weekDetail.classList.add("wd-flash");
-  }
-
-  function renderWeekDetail(aggregates) {
-    const target = aggregates.find((entry) => entry.weekNumber === state.selectedDetailWeek);
-    if (!target) {
-      els.weekDetail.hidden = true;
-      return;
-    }
-    els.weekDetail.hidden = false;
-
+  function buildWeekDetailHtml(entry) {
+    const target = entry;
     const week = state.weeks[target.weekNumber - 1];
     const sortedPeople = target.people
       .slice()
@@ -2328,11 +2326,7 @@
       }
     }
 
-    els.weekDetail.innerHTML = `
-      <div class="wd-header">
-        <strong>Week ${target.weekNumber}</strong>
-        <span class="wd-dates">${week ? week.rangeText : ""}</span>
-      </div>
+    return `
       <div class="wd-summary">
         <span class="lb-stat available">${wbk.available.length} available</span>
         <span class="lb-stat maybe">${wbk.maybe.length} maybe</span>
@@ -2342,7 +2336,6 @@
       ${insight ? `<p class="wd-insight">${insight}</p>` : ""}
       <div class="wd-people">${peopleRows}</div>
     `;
-
   }
 
   function renderAll() {

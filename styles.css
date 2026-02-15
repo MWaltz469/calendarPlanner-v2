@@ -1607,6 +1607,36 @@ body {
   gap: var(--sp-2);
 }
 
+.lb-item {
+  display: grid;
+}
+
+.lb-detail {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.25s ease;
+  opacity: 0;
+  padding: 0 var(--sp-3);
+  border-left: 3px solid var(--accent);
+  margin-left: var(--sp-2);
+  background: var(--surface);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+}
+
+.lb-item-open .lb-detail {
+  max-height: 600px;
+  opacity: 1;
+  padding: var(--sp-3);
+  margin-bottom: var(--sp-1);
+}
+
+.lb-chevron {
+  font-size: 0.6rem;
+  color: var(--ink-soft);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 .lb-row {
   border: 1px solid var(--border);
   border-left: 3px solid transparent;
@@ -1833,14 +1863,7 @@ body {
   opacity: 0.6;
 }
 
-.wd-flash {
-  animation: wd-flash-anim 0.6s ease;
-}
-
-@keyframes wd-flash-anim {
-  0% { box-shadow: 0 0 0 3px var(--accent); }
-  100% { box-shadow: none; }
-}
+/* wd-flash removed — detail is now inline accordion */
 
 .wd-insight {
   margin: 0;
