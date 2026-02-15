@@ -7,17 +7,15 @@ Continued the Tailwind CSS migration from where the previous session left off:
 
 2. **Tailwind Phase 3 — Static Pages:** Fully converted landing page (index.html), about page, and changelog page to Tailwind. This includes hero, eyebrow badge, stats bar, features grid, how-it-works steps, testimonials, final CTA, about card, and changelog entries. Deleted ~420 lines of landing/about/changelog CSS. Responsive breakpoints now use Tailwind `sm:` prefix instead of CSS `@media`.
 
+## Completed So Far
+- Phase 2: Global chrome (nav, hero, footer)
+- Phase 3: Static pages (landing, about, changelog)
+- Phase 4: Base components (.btn, .field, .badge, .hint, .avatar, .inline-actions)
+- Phase 5a: Wizard chrome, step panels, form grid
+- Phase 5b: Stepper-btn with state management (active/complete)
+
 ## Immediate Next Step
-**Tailwind Phase 4: Base Components** — see TAILWIND-MIGRATION-PLAN.md
-
-Migrate the shared component classes used in both HTML and JS template strings:
-- `.btn` / `.btn-sm` / `.btn-lg` / `.btn.primary` / `.btn.danger`
-- `.field` / `.field input` / `.field select`
-- `.badge` variants
-- `.avatar`, `.status-pill`, `.rank-pill`
-- `.review-checklist` / `.checklist-icon`
-
-**Important:** These are referenced in `app.js` and `admin.js` via innerHTML template literals. Both HTML files AND JS files must be updated together.
+Continue Phase 5-7: Migrate remaining planner components (count-row, legend, overlay, month-bar, week-card, day-strip, rank system, results, leaderboard, heatmap, admin portal).
 
 ## Files the Next Agent Should Read First
 1. `.ai-context/PROJECT-STATE.md` — what the project is
