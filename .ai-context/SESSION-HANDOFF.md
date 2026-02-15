@@ -1,47 +1,43 @@
 # Session Handoff — Feb 15, 2026
 
 ## What Happened This Session
-This was a marathon session (~50+ commits) covering:
-1. Fixed a critical null-guard crash on first visit via direct trip links
-2. Set up GitHub Actions CI/CD for auto-deploy on push to main
-3. Set up Cloudflare admin password via GitHub Actions
-4. Full design token sweep (95% tokenization)
-5. Enterprise UI overhaul: global nav bar, landing page redesign, SaaS-grade personality
-6. iOS double-tap fix (touch-action: manipulation)
-7. Submission-aware data integrity (not-submitted ≠ unavailable) on both planner and admin
-8. Personalized results narrative (tells viewer their own status)
-9. Warm heatmap with tap popovers and tier-based coloring
-10. Inline leaderboard accordion (week detail expands in-place)
-11. Admin overhaul: danger zones, participant grouping, results-first layout, trip search
-12. Participant avatars, ranking intent, copy reminder
-13. Theme toggle icon (sun/moon/auto)
-14. Changelog page
-15. Attempted CSS design system normalization (8 phases) — REVERTED due to visual regression
-16. Added Tailwind CSS CDN foundation for proper migration
+Continued the Tailwind CSS migration from where the previous session left off:
+
+1. **Tailwind Phase 2 — Global Chrome:** Migrated nav bar, hero card (planner/admin), and footer from custom CSS classes to Tailwind utility classes across all 5 HTML pages. Deleted ~80 lines of nav/footer/hero/theme-picker CSS. Uses CSS variable references (`--ink`, `--border`, `--accent-bg`, etc.) for seamless light/dark compatibility during migration.
+
+2. **Tailwind Phase 3 — Static Pages:** Fully converted landing page (index.html), about page, and changelog page to Tailwind. This includes hero, eyebrow badge, stats bar, features grid, how-it-works steps, testimonials, final CTA, about card, and changelog entries. Deleted ~420 lines of landing/about/changelog CSS. Responsive breakpoints now use Tailwind `sm:` prefix instead of CSS `@media`.
 
 ## Immediate Next Step
-**Tailwind Phase 2: Global chrome migration** — see TAILWIND-MIGRATION-PLAN.md
+**Tailwind Phase 4: Base Components** — see TAILWIND-MIGRATION-PLAN.md
 
-Start with the nav bar, hero, and footer. These are shared across all pages. Convert from `.site-nav` / `.hero` / `.site-footer` CSS classes to Tailwind utility classes. Delete the corresponding CSS.
+Migrate the shared component classes used in both HTML and JS template strings:
+- `.btn` / `.btn-sm` / `.btn-lg` / `.btn.primary` / `.btn.danger`
+- `.field` / `.field input` / `.field select`
+- `.badge` variants
+- `.avatar`, `.status-pill`, `.rank-pill`
+- `.review-checklist` / `.checklist-icon`
+
+**Important:** These are referenced in `app.js` and `admin.js` via innerHTML template literals. Both HTML files AND JS files must be updated together.
 
 ## Files the Next Agent Should Read First
 1. `.ai-context/PROJECT-STATE.md` — what the project is
-2. `.ai-context/TAILWIND-MIGRATION-PLAN.md` — the full Tailwind plan with code examples
+2. `.ai-context/TAILWIND-MIGRATION-PLAN.md` — the full Tailwind plan
 3. `.ai-context/DESIGN-DECISIONS.md` — decisions that must not be revisited
 4. `.ai-context/AUDIT-STATUS.md` — what's been done, what's remaining
-5. `ARCHITECTURE.md` — full technical context (written earlier, still mostly accurate)
+5. `ARCHITECTURE.md` — full technical context
 
 ## Key Warnings for Next Agent
-- **Do NOT rebuild DOM in polling callback when accordion is open** — this kills the CSS transition
+- **Do NOT rebuild DOM in polling callback when accordion is open** — kills CSS transition
 - **Do NOT use `hidden` attribute on elements with explicit CSS `display`** — add `[hidden]` override
-- **Do NOT make dates secondary to week numbers** — user explicitly wants dates-first
+- **Do NOT make dates secondary to week numbers** — user prefers dates-first
 - **Do NOT remove personality elements** — vibecoded copy, Vegeta, testimonials are the brand
 - **Do NOT touch the database or API** — testers are actively using it
 - **Always bump cache version** on HTML files when changing JS/CSS (format: `?v=YYYYMMDD[letter]`)
-- **Test dark mode** on every change — it's the primary theme for most users
+- **Test dark mode** on every change — primary theme for most users
+- **CSS variable references are intentional** — during migration, Tailwind classes use `text-[--ink]` etc. to stay compatible with the existing token system
 
 ## Git State
-- Branch: `main`
-- Latest commit: Tailwind Phase 1 (CDN + config added)
-- Previous commit: Revert of CSS Phases 1-8
+- Branch: `cursor/repository-context-files-d73d`
+- Latest commits: Tailwind Phase 2 (global chrome) + Phase 3 (static pages)
+- Cache version: `?v=20260215tw`
 - Deploy: auto on push to main via GitHub Actions

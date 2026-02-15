@@ -3,8 +3,10 @@
 ## Current State
 - Tailwind CDN play script added to all 5 HTML pages (Phase 1 complete)
 - `tailwind.config.js` configured with brand colors, fonts, dark mode via `[data-theme="dark"]`
-- `styles.css` (~3100 lines) still serves ALL styling — Tailwind is loaded but unused
-- Both coexist with no conflicts
+- **Phase 2 complete:** Nav bar, hero card, footer migrated to Tailwind across all pages (~80 lines CSS deleted)
+- **Phase 3 complete:** Landing, about, changelog pages fully migrated to Tailwind (~420 lines CSS deleted)
+- `styles.css` (~2550 lines) still serves planner/admin/component styling
+- Both coexist with CSS variable bridge (`text-[--ink]`, `bg-[--surface]`, etc.)
 
 ## Migration Strategy
 Incremental: migrate one section at a time, delete corresponding CSS as we go. Each phase is a commit. Old CSS and Tailwind coexist throughout migration.
@@ -51,34 +53,11 @@ const AVATAR_COLORS = [
 ];
 ```
 
-## Phase 2 — Global Chrome (NEXT)
-Files: all 5 HTML pages, styles.css
+## Phase 2 — Global Chrome (DONE)
+Nav bar, hero card, footer migrated to Tailwind on all 5 pages. Uses CSS variable bridge for colors.
 
-### Nav bar (`<nav class="site-nav">`)
-Replace with:
-```html
-<nav class="sticky top-0 z-50 flex items-center justify-between h-13 px-4 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
-  <a href="/" class="flex items-center gap-2 no-underline text-slate-900 dark:text-slate-100">
-    <span class="text-xl">📅</span>
-    <span class="font-display font-extrabold text-base tracking-tight">TripWeek</span>
-  </a>
-  <div class="flex items-center gap-2">
-    <a href="/planner.html" class="text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-brand px-2 py-1 rounded-lg">Planner</a>
-    <a href="/admin.html" class="text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-brand px-2 py-1 rounded-lg">Admin</a>
-    <button id="themeToggle" class="w-9 h-9 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-500 text-lg grid place-items-center cursor-pointer">◑</button>
-  </div>
-</nav>
-```
-Then delete `.site-nav`, `.site-brand`, `.site-wordmark`, `.site-logo`, `.site-nav-right`, `.site-nav-link`, `.theme-btn` from styles.css.
-
-### Hero
-Replace `.hero` card with Tailwind card pattern. Delete `.hero`, `.hero-top`, `.hero-title`, `.hero-controls`, `.hero p` from CSS.
-
-### Footer
-Replace `.site-footer` with Tailwind. Delete `.site-footer`, `.site-footer-links` from CSS.
-
-## Phase 3 — Landing + About + Changelog
-Full rewrite of static page markup. Delete all `.landing-*`, `.changelog-*`, `.about-*` CSS.
+## Phase 3 — Landing + About + Changelog (DONE)
+Full rewrite of static page markup to Tailwind. All `.landing-*`, `.changelog-*`, `.about-*` CSS deleted.
 
 ## Phase 4 — Base Components
 Rewrite in both HTML and JS template strings:
