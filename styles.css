@@ -1085,10 +1085,7 @@ body {
   padding: var(--sp-4);
 }
 
-.review-checklist h3 {
-  margin: 0 0 0.48rem;
-  font-size: 0.95rem;
-}
+/* h3 margin now handled by .review-checklist-toggle */
 
 .review-checklist ul {
   list-style: none;
@@ -1235,6 +1232,8 @@ body {
   display: flex;
   align-items: center;
   gap: var(--sp-2);
+  margin: 0;
+  font-size: 0.95rem;
 }
 
 .review-checklist-toggle h3::before {
@@ -1246,6 +1245,10 @@ body {
 
 .review-checklist[open] > .review-checklist-toggle h3::before {
   transform: rotate(90deg);
+}
+
+.review-checklist[open] > .review-checklist-toggle {
+  margin-bottom: var(--sp-3);
 }
 
 /* Score snapshot hidden on mobile, visible on desktop */

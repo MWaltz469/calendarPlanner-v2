@@ -2128,6 +2128,7 @@
         state.selectedDetailWeek = entry.weekNumber;
         persistSession();
         renderResults();
+        flashWeekDetail();
       });
       els.leaderboard.appendChild(row);
     });
@@ -2215,6 +2216,14 @@
       }
     };
     setTimeout(() => document.addEventListener("click", activeHeatDismiss), 50);
+  }
+
+  function flashWeekDetail() {
+    if (!els.weekDetail || els.weekDetail.hidden) return;
+    els.weekDetail.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    els.weekDetail.classList.remove("wd-flash");
+    void els.weekDetail.offsetWidth;
+    els.weekDetail.classList.add("wd-flash");
   }
 
   function renderWeekDetail(aggregates) {
@@ -2334,11 +2343,6 @@
       <div class="wd-people">${peopleRows}</div>
     `;
 
-    // Scroll into view and flash highlight
-    els.weekDetail.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    els.weekDetail.classList.remove("wd-flash");
-    void els.weekDetail.offsetWidth;
-    els.weekDetail.classList.add("wd-flash");
   }
 
   function renderAll() {
