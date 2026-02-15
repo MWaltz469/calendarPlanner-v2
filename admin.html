@@ -11,27 +11,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="/tailwind.config.js"></script>
-  <link rel="stylesheet" href="/styles.css?v=20260215s" />
-  <script src="/theme-init.js?v=20260215s"></script>
-  <script defer src="/admin.js?v=20260215s"></script>
+  <link rel="stylesheet" href="/styles.css?v=20260215tw" />
+  <script src="/theme-init.js?v=20260215tw"></script>
+  <script defer src="/admin.js?v=20260215tw"></script>
 </head>
 <body>
-  <nav class="site-nav">
-    <a href="/" class="site-brand">
-      <span class="site-logo" aria-hidden="true">📅</span>
-      <span class="site-wordmark">TripWeek</span>
+  <nav class="sticky top-0 z-50 flex items-center justify-between h-[52px] px-4 bg-white dark:bg-[#122130] border-b border-[--border]">
+    <a href="/" class="flex items-center gap-2 no-underline text-[--ink]">
+      <span class="text-xl leading-none" aria-hidden="true">📅</span>
+      <span class="font-display font-extrabold text-base tracking-tight">TripWeek</span>
     </a>
-    <div class="site-nav-right">
-      <a href="/planner.html" class="site-nav-link">Planner</a>
-      <button id="themeToggle" class="theme-btn" type="button" aria-label="Theme: Auto">&#9681;</button>
+    <div class="flex items-center gap-2">
+      <a href="/planner.html" class="text-sm font-bold text-[--ink-soft] hover:text-[--accent-text] hover:bg-[--accent-bg] px-2 py-1 rounded-lg no-underline transition-colors duration-100">Planner</a>
+      <button id="themeToggle" class="w-9 h-9 rounded-full border border-[--border] bg-[--surface-muted] text-[--ink-soft] text-lg leading-none grid place-items-center cursor-pointer hover:bg-[--accent-bg] hover:text-[--accent-text] transition-colors duration-100" type="button" aria-label="Theme: Auto">&#9681;</button>
       <button id="logoutBtn" class="btn danger btn-sm" type="button" hidden>Sign Out</button>
     </div>
   </nav>
 
   <main class="app-shell">
-    <header class="hero card">
-      <h2 class="hero-title">Admin Portal</h2>
-      <p>Manage trips, participants, and submissions.</p>
+    <header class="card p-4">
+      <h2 class="m-0 font-display font-extrabold text-[clamp(1.1rem,2vw,1.5rem)]">Admin Portal</h2>
+      <p class="mt-2 mb-0 text-[--ink-soft]">Manage trips, participants, and submissions.</p>
     </header>
 
     <!-- Login -->

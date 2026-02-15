@@ -148,8 +148,6 @@ body {
 :root.theme-ready .results-locked,
 :root.theme-ready .week-detail,
 :root.theme-ready .badge,
-:root.theme-ready .theme-picker,
-:root.theme-ready .theme-picker select,
 :root.theme-ready .field input,
 :root.theme-ready .field select,
 :root.theme-ready .rank-select,
@@ -178,30 +176,7 @@ body {
   box-shadow: var(--shadow-md);
 }
 
-.hero {
-  padding: 1rem;
-}
-
-.hero-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.7rem;
-  flex-wrap: wrap;
-}
-
-.hero h1,
-.hero-title {
-  margin: 0;
-  font-family: "Sora", sans-serif;
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
-  font-weight: 800;
-}
-
-.hero p {
-  margin: 0.5rem 0 0;
-  color: var(--ink-soft);
-}
+/* --- Hero card: migrated to Tailwind (Phase 2) --- */
 
 .badge {
   display: inline-flex;
@@ -245,45 +220,9 @@ body {
   color: var(--ink-soft);
 }
 
-.hero-controls {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  flex-wrap: wrap;
-}
+/* .hero-controls: migrated to Tailwind (Phase 2) */
 
-.theme-picker {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.38rem;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--surface-muted);
-  padding: 0.15rem 0.38rem;
-}
-
-.theme-picker span {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--ink-soft);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.theme-picker select {
-  border: 0;
-  background: transparent;
-  color: var(--ink);
-  font: inherit;
-  font-size: 0.79rem;
-  font-weight: 700;
-  padding: 0.2rem 0.25rem;
-}
-
-.theme-picker select:focus-visible {
-  outline: 2px solid rgba(15, 118, 110, 0.3);
-  outline-offset: 2px;
-}
+/* .theme-picker: removed — dead CSS, replaced by #themeToggle button (Phase 2) */
 
 .wizard {
   padding: 0.9rem;
@@ -2052,85 +1991,7 @@ body {
   background: var(--warn-text);
 }
 
-/* --- Global nav --- */
-
-.site-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 var(--sp-4);
-  height: 52px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
-
-.site-brand {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-  text-decoration: none;
-  color: var(--ink);
-}
-
-.site-logo {
-  font-size: 1.3rem;
-  line-height: 1;
-}
-
-.site-wordmark {
-  font-family: "Sora", sans-serif;
-  font-weight: 800;
-  font-size: var(--text-base);
-  letter-spacing: -0.01em;
-}
-
-.site-nav-right {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-}
-
-.site-nav-link {
-  text-decoration: none;
-  color: var(--ink-soft);
-  font-weight: 700;
-  font-size: var(--text-sm);
-  padding: var(--sp-1) var(--sp-2);
-  border-radius: var(--radius-sm);
-  transition: color 0.12s ease, background 0.12s ease;
-}
-
-@media (hover: hover) {
-  .site-nav-link:hover {
-    color: var(--accent-text);
-    background: var(--accent-bg);
-  }
-}
-
-.theme-btn {
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  background: var(--surface-muted);
-  color: var(--ink-soft);
-  font-size: 1.1rem;
-  line-height: 1;
-  cursor: pointer;
-  display: inline-grid;
-  place-items: center;
-  transition: background 0.12s ease, color 0.12s ease;
-}
-
-@media (hover: hover) {
-  .theme-btn:hover {
-    background: var(--accent-bg);
-    color: var(--accent-text);
-  }
-}
+/* --- Global nav: migrated to Tailwind (Phase 2) --- */
 
 .btn-sm {
   min-height: 36px;
@@ -2138,47 +1999,7 @@ body {
   font-size: var(--text-sm);
 }
 
-/* --- Global footer --- */
-
-.site-footer {
-  text-align: center;
-  padding: var(--sp-6) var(--sp-4);
-  color: var(--ink-soft);
-  font-size: var(--text-xs);
-  border-top: 1px solid var(--border);
-  margin-top: var(--sp-4);
-}
-
-.site-footer p {
-  margin: 0 0 var(--sp-2);
-}
-
-.site-footer-links {
-  display: flex;
-  justify-content: center;
-  gap: var(--sp-4);
-}
-
-.site-footer-links a {
-  color: var(--ink-soft);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: var(--text-sm);
-  padding: var(--sp-2) var(--sp-3);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  transition: color 0.12s ease, background 0.12s ease;
-}
-
-@media (hover: hover) {
-  .site-footer-links a:hover {
-    color: var(--accent-text);
-    background: var(--accent-bg);
-  }
-}
+/* --- Global footer: migrated to Tailwind (Phase 2) --- */
 
 /* --- Landing page --- */
 
@@ -2979,7 +2800,6 @@ body {
 
 /* lb-bar dark mode now handled by tokens (--surface-muted, --available, --accent) */
 
-:root[data-theme="dark"] .hero p,
 :root[data-theme="dark"] .step-copy,
 :root[data-theme="dark"] .hint,
 :root[data-theme="dark"] .legend,
@@ -3006,17 +2826,7 @@ body {
   color: var(--ink-soft);
 }
 
-:root[data-theme="dark"] .theme-picker {
-  background: #1a2b3b;
-}
-
-:root[data-theme="dark"] .theme-picker span {
-  color: #9fb4c5;
-}
-
-:root[data-theme="dark"] .theme-picker select {
-  color: #dbe8f2;
-}
+/* dark .theme-picker: removed (Phase 2) */
 
 :root[data-theme="dark"] .field input,
 :root[data-theme="dark"] .field select,
