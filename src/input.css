@@ -181,10 +181,7 @@
       box-shadow var(--theme-transition-ms) ease;
   }
 
-  /* Collapsible arrow rotation */
-  details[open] > summary h3::before {
-    transform: rotate(90deg);
-  }
+  /* Collapsible arrow rotation: now handled by Tailwind group-open:rotate-90 */
 }
 
 /* ===== 3. Component Utilities ===== */
