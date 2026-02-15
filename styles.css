@@ -1609,8 +1609,19 @@ body {
 
 .lb-item {
   display: grid;
+  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   overflow: hidden;
+  background: var(--surface);
+}
+
+.lb-item .lb-row {
+  border: none;
+  border-radius: 0;
+}
+
+.lb-item-open {
+  border-color: var(--accent-border);
 }
 
 .lb-detail {
@@ -1638,7 +1649,6 @@ body {
   opacity: 1;
   transition: opacity 0.2s ease 0.1s, padding 0.3s ease;
   border-top: 1px solid var(--border);
-  background: color-mix(in srgb, var(--accent) 4%, var(--surface));
 }
 
 .lb-chevron {
