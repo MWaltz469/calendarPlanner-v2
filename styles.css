@@ -496,6 +496,10 @@ body {
   flex-wrap: wrap;
 }
 
+.inline-actions .btn.danger {
+  margin-left: auto;
+}
+
 .btn {
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -1502,6 +1506,28 @@ body {
   display: flex;
   align-items: center;
   gap: var(--sp-2);
+}
+
+.participant-nudge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-sm);
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  margin-bottom: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.participant-nudge-text {
+  font-size: var(--text-sm);
+  color: var(--warn-text);
+}
+
+.participant-nudge-btn {
+  flex-shrink: 0;
 }
 
 .participant-list {

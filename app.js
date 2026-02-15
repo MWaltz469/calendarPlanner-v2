@@ -1421,10 +1421,10 @@
         text: `Trip window: ${getWindowConfigSummary(state.windowConfig)}.`
       },
       {
-        className: state.validation.missingRanks.length === 0 ? "ok" : "info",
+        className: state.validation.missingRanks.length === 0 ? "ok" : "ok",
         text: state.validation.missingRanks.length === 0
           ? "Top 5 ranks completed."
-          : `Ranking is optional \u2014 ${MAX_RANK - state.validation.missingRanks.length} of ${MAX_RANK} slots filled.`
+          : `Ranking is optional \u2014 ${MAX_RANK - state.validation.missingRanks.length} of ${MAX_RANK} slots filled. (not required)`
       },
       {
         className: state.hasSavedOnce ? "ok" : "warn",
@@ -2018,6 +2018,28 @@
     });
     if (els.participantSummary) {
       els.participantSummary.textContent = `${submittedCount} of ${totalPeople} submitted`;
+    }
+
+    // Add nudge button if there are pending participants
+    const pendingPeople = participants.filter((p) => !p.submitted_at);
+    if (pendingPeople.length > 0 && participants.length > 1) {
+      const nudge = document.createElement("div");
+      nudge.className = "participant-nudge";
+      const names = pendingPeople.map((p) => escapeHtml(p.name)).join(", ");
+      const tripLink = `${window.location.origin}/planner.html?trip=${encodeURIComponent(state.tripCode)}`;
+      const reminderText = `Hey! We\u2019re planning our trip on TripWeek \u2014 can you submit your availability? ${tripLink}`;
+      nudge.innerHTML = `
+        <span class="participant-nudge-text">Waiting on: <strong>${names}</strong></span>
+        <button class="btn btn-sm participant-nudge-btn" type="button">Copy reminder</button>
+      `;
+      nudge.querySelector(".participant-nudge-btn").addEventListener("click", () => {
+        navigator.clipboard.writeText(reminderText).then(() => {
+          showToast("Reminder copied to clipboard.", "good");
+        }).catch(() => {
+          showToast("Could not copy. Long-press to copy manually.", "warn");
+        });
+      });
+      els.participantList.parentElement.insertBefore(nudge, els.participantList);
     }
 
     els.leaderboard.innerHTML = "";
