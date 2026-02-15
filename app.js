@@ -1750,12 +1750,10 @@
     els.resultsLocked.hidden = unlocked;
     els.resultsSection.hidden = !unlocked;
 
-    // Auto-collapse checklist post-submission to save scroll space
-    const checklist = document.querySelector(".review-checklist");
+    // Auto-collapse checklist post-submission (user can re-expand)
+    const checklist = document.getElementById("checklistDetails");
     if (checklist && unlocked) {
-      checklist.classList.add("checklist-collapsed");
-    } else if (checklist) {
-      checklist.classList.remove("checklist-collapsed");
+      checklist.open = false;
     }
   }
 
@@ -2335,6 +2333,12 @@
       ${insight ? `<p class="wd-insight">${insight}</p>` : ""}
       <div class="wd-people">${peopleRows}</div>
     `;
+
+    // Scroll into view and flash highlight
+    els.weekDetail.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    els.weekDetail.classList.remove("wd-flash");
+    void els.weekDetail.offsetWidth;
+    els.weekDetail.classList.add("wd-flash");
   }
 
   function renderAll() {

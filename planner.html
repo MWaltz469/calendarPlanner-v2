@@ -9,11 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=20260215r" />
-  <script src="/theme-init.js?v=20260215r"></script>
-  <script defer src="/config.js?v=20260215r"></script>
-  <script defer src="/cloud-client.js?v=20260215r"></script>
-  <script defer src="/app.js?v=20260215r"></script>
+  <link rel="stylesheet" href="/styles.css?v=20260215s" />
+  <script src="/theme-init.js?v=20260215s"></script>
+  <script defer src="/config.js?v=20260215s"></script>
+  <script defer src="/cloud-client.js?v=20260215s"></script>
+  <script defer src="/app.js?v=20260215s"></script>
 </head>
 <body>
   <nav class="site-nav">
@@ -24,13 +24,12 @@
     <div class="site-nav-right">
       <span id="connectionBadge" class="badge" role="status" aria-live="polite" hidden>Connecting...</span>
       <a href="/admin.html" class="site-nav-link">Admin</a>
-      <label class="theme-toggle" aria-label="Theme mode">
-        <select id="themeSelect">
-          <option value="system">System</option>
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-        </select>
-      </label>
+      <select id="themeSelect" hidden>
+        <option value="system">System</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+      <button id="themeToggle" class="theme-btn" type="button" aria-label="Theme: Auto">&#9681;</button>
     </div>
   </nav>
 
@@ -161,10 +160,10 @@
         <h2 id="step4-heading">Step 4: Review and submit</h2>
         <p class="step-copy">You can submit now or go back to refine. Results unlock after your first submission.</p>
 
-        <article class="review-checklist" aria-label="Readiness checklist">
-          <h3>Readiness checklist</h3>
+        <details class="review-checklist" aria-label="Readiness checklist" id="checklistDetails" open>
+          <summary class="review-checklist-toggle"><h3>Readiness checklist</h3></summary>
           <ul id="reviewList"></ul>
-        </article>
+        </details>
 
         <div class="inline-actions wrap">
           <button id="submitButton" class="btn primary" type="button">Submit Availability</button>

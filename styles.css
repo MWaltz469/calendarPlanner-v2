@@ -1221,24 +1221,31 @@ body {
   margin-top: var(--sp-3);
 }
 
-/* Auto-collapse checklist post-submission */
-.checklist-collapsed {
-  padding: var(--sp-2) var(--sp-4);
+/* Checklist as collapsible details */
+.review-checklist-toggle {
+  cursor: pointer;
+  list-style: none;
 }
 
-.checklist-collapsed h3 {
-  font-size: var(--text-sm);
-  margin: 0;
-}
-
-.checklist-collapsed h3::after {
-  content: " \2714";
-  color: var(--ok-text);
-  font-size: var(--text-xs);
-}
-
-.checklist-collapsed ul {
+.review-checklist-toggle::-webkit-details-marker {
   display: none;
+}
+
+.review-checklist-toggle h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.review-checklist-toggle h3::before {
+  content: "\25B6";
+  font-size: 0.55rem;
+  color: var(--ink-soft);
+  transition: transform 0.15s ease;
+}
+
+.review-checklist[open] > .review-checklist-toggle h3::before {
+  transform: rotate(90deg);
 }
 
 /* Score snapshot hidden on mobile, visible on desktop */
@@ -1823,6 +1830,15 @@ body {
   opacity: 0.6;
 }
 
+.wd-flash {
+  animation: wd-flash-anim 0.6s ease;
+}
+
+@keyframes wd-flash-anim {
+  0% { box-shadow: 0 0 0 3px var(--accent); }
+  100% { box-shadow: none; }
+}
+
 .wd-insight {
   margin: 0;
   font-size: var(--text-sm);
@@ -2036,21 +2052,26 @@ body {
   }
 }
 
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-}
-
-.theme-toggle select {
+.theme-btn {
+  width: 36px;
+  height: 36px;
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: 50%;
   background: var(--surface-muted);
   color: var(--ink-soft);
-  font: inherit;
-  font-size: var(--text-xs);
-  font-weight: 700;
-  padding: var(--sp-1) var(--sp-2);
+  font-size: 1.1rem;
+  line-height: 1;
   cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+@media (hover: hover) {
+  .theme-btn:hover {
+    background: var(--accent-bg);
+    color: var(--accent-text);
+  }
 }
 
 .btn-sm {
@@ -2483,6 +2504,67 @@ body {
 
 .about-links .btn {
   text-decoration: none;
+}
+
+/* --- Changelog page --- */
+
+.changelog-header {
+  text-align: center;
+  padding: var(--sp-6) var(--sp-4) var(--sp-3);
+}
+
+.changelog-header h1 {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 800;
+}
+
+.changelog {
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.changelog-entry {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  padding: var(--sp-4);
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.changelog-date {
+  font-size: var(--text-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.changelog-entry h2 {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  font-size: var(--text-base);
+  font-weight: 800;
+}
+
+.changelog-entry ul {
+  margin: 0;
+  padding: 0 0 0 var(--sp-4);
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.changelog-entry li {
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+.changelog-entry li strong {
+  color: var(--ink);
 }
 
 /* --- Admin portal --- */

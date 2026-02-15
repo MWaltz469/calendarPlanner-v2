@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="TripWeek changelog — what's new and what changed." />
+  <title>What's New — TripWeek</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css?v=20260215s" />
+  <script src="/theme-init.js?v=20260215s"></script>
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="/" class="site-brand">
+      <span class="site-logo" aria-hidden="true">📅</span>
+      <span class="site-wordmark">TripWeek</span>
+    </a>
+    <div class="site-nav-right">
+      <a href="/planner.html" class="site-nav-link">Planner</a>
+      <a href="/admin.html" class="site-nav-link">Admin</a>
+      <button id="themeToggle" class="theme-btn" type="button" aria-label="Theme: Auto">&#9681;</button>
+    </div>
+  </nav>
+
+  <main class="app-shell landing-shell">
+    <header class="changelog-header">
+      <h1>What&rsquo;s New</h1>
+      <p class="landing-sub">Every feature, fix, and questionable design decision — in chronological order.</p>
+    </header>
+
+    <section class="changelog">
+
+      <article class="changelog-entry">
+        <div class="changelog-date">Feb 15, 2026</div>
+        <h2>Platform UX Overhaul</h2>
+        <ul>
+          <li><strong>Data integrity:</strong> Non-submitted participants now correctly show as &ldquo;Not submitted&rdquo; instead of &ldquo;Unavailable&rdquo; across both planner and admin.</li>
+          <li><strong>Warm heatmap:</strong> New amber &rarr; orange &rarr; red color scale with always-visible legend and tap-to-inspect popovers.</li>
+          <li><strong>Personalized results:</strong> The narrative summary tells you whether <em>you</em> are free for the top week, not just the group stats.</li>
+          <li><strong>Admin safety:</strong> Delete separated from View on trip cards. Danger zone labels. Reset styled as destructive.</li>
+          <li><strong>Admin layout:</strong> Group results promoted above actions. Participants grouped by status. Trip search added.</li>
+          <li><strong>Mobile polish:</strong> Leaderboard promoted to first section. Heatmap and participants collapsible. Compact unselected cards.</li>
+          <li><strong>Copy reminder:</strong> One-tap &ldquo;Copy reminder&rdquo; button to nudge friends who haven&rsquo;t submitted.</li>
+          <li><strong>Theme toggle:</strong> Sun/moon/auto icon replaces the confusing &ldquo;System&rdquo; dropdown.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry">
+        <div class="changelog-date">Feb 14, 2026</div>
+        <h2>Enterprise UI &amp; Landing Page</h2>
+        <ul>
+          <li><strong>Global nav bar:</strong> Consistent TripWeek wordmark, nav links, and theme toggle across all pages.</li>
+          <li><strong>Landing page:</strong> SaaS-grade redesign with hero, feature grid, stats bar, fictional testimonials, and dual CTAs.</li>
+          <li><strong>Design token sweep:</strong> ~95% of hardcoded colors replaced with semantic tokens. New accent, neutral, and danger token sets.</li>
+          <li><strong>Score snapshot:</strong> Accent-striped stat cards with Sora typography.</li>
+          <li><strong>Participant avatars:</strong> Colored initial badges across leaderboard, week detail, and participant list.</li>
+          <li><strong>Ranking intent:</strong> Leaderboard shows who&rsquo;s available and who ranked each week. &ldquo;Top pick&rdquo; / &ldquo;2nd pick&rdquo; labels.</li>
+          <li><strong>Natural language results:</strong> Both planner and admin show narrative summaries instead of raw numbers.</li>
+        </ul>
+      </article>
+
+      <article class="changelog-entry">
+        <div class="changelog-date">Feb 13, 2026</div>
+        <h2>Launch &amp; Core Fixes</h2>
+        <ul>
+          <li><strong>First deploy:</strong> Planner, admin portal, and API deployed to Cloudflare Pages.</li>
+          <li><strong>Auto-rejoin:</strong> Returning users reconnect silently from localStorage session.</li>
+          <li><strong>Crash fix:</strong> Fixed null-guard in <code>restoreProfile()</code> that crashed on first visit via direct trip links.</li>
+          <li><strong>CI/CD:</strong> GitHub Actions workflow for auto-deploy on push to main.</li>
+          <li><strong>iOS double-tap fix:</strong> <code>touch-action: manipulation</code> on all interactive elements.</li>
+          <li><strong>Month-row heatmap:</strong> Replaced W1-W52 grid with month-grouped layout showing calendar dates.</li>
+          <li><strong>Flexible trips:</strong> 2-14 day windows starting on any weekday.</li>
+        </ul>
+      </article>
+
+    </section>
+
+    <footer class="site-footer">
+      <p>100% vibecoded. <a href="/about.html">About</a></p>
+    </footer>
+  </main>
+</body>
+</html>
