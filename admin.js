@@ -218,8 +218,10 @@
           </div>
         </div>
         <div class="admin-trip-row-actions">
-          <button class="btn view-btn" type="button">View</button>
-          <button class="btn danger delete-trip-btn" type="button">Delete</button>
+          <button class="btn primary view-btn" type="button">View</button>
+        </div>
+        <div class="admin-trip-row-danger">
+          <button class="btn danger btn-sm delete-trip-btn" type="button">Delete trip</button>
         </div>
       `;
       card.querySelector(".view-btn").addEventListener("click", () => loadTripDetail(trip.id));
@@ -229,7 +231,7 @@
   }
 
   async function deleteTrip(tripId, code) {
-    if (!confirm(`Delete trip "${code}" and ALL its data? This cannot be undone.`)) return;
+    if (!confirm(`Permanently delete "${code}"? This will remove all participant data and submissions. This cannot be undone.`)) return;
     try { await apiRequest(`/trip?tripId=${enc(tripId)}`, { method: "DELETE" }); showToast(`"${code}" deleted.`, "good"); loadTrips(); }
     catch (e) { if (!handleAuthError(e)) showToast(`Delete failed: ${e.message}`, "warn"); }
   }
@@ -271,16 +273,16 @@
 
     // Actions with visible descriptions
     els.tripActions.innerHTML = "";
-    const actions = [
-      { label: locked ? "Unlock Trip" : "Lock Trip", cls: locked ? "btn" : "btn", hint: locked ? "Allow new joins and selection changes" : "Freeze joins and selection changes", handler: () => toggleLock(trip.id, !locked) },
+    // Safe actions
+    const safeActions = [
+      { label: locked ? "Unlock Trip" : "Lock Trip", cls: "btn", hint: locked ? "Allow new joins and selection changes" : "Freeze joins and selection changes", handler: () => toggleLock(trip.id, !locked) },
       { label: "Edit Name", cls: "btn", hint: "Change the display name (code stays the same)", handler: () => editTripName(trip.id, trip.name) },
       { label: "Clone Trip", cls: "btn", hint: "Copy settings to a new trip code", handler: () => cloneTrip(trip.id, trip.share_code) },
-      { label: "Export CSV", cls: "btn", hint: "Download selections as a spreadsheet", handler: () => exportCsv(trip, participants, selections) },
-      { label: "Delete Trip", cls: "btn danger", hint: "Permanently remove trip and all data", handler: () => { deleteTrip(trip.id, trip.share_code); showView("dashboard"); loadTrips(); } }
+      { label: "Export CSV", cls: "btn", hint: "Download selections as a spreadsheet", handler: () => exportCsv(trip, participants, selections) }
     ];
-    const actionsGrid = document.createElement("div");
-    actionsGrid.className = "admin-actions-grid";
-    actions.forEach((a) => {
+    const safeGrid = document.createElement("div");
+    safeGrid.className = "admin-actions-grid";
+    safeActions.forEach((a) => {
       const wrap = document.createElement("div");
       wrap.className = "admin-action-item";
       const btn = document.createElement("button");
@@ -290,9 +292,21 @@
       hint.className = "admin-action-hint";
       hint.textContent = a.hint;
       wrap.append(btn, hint);
-      actionsGrid.appendChild(wrap);
+      safeGrid.appendChild(wrap);
     });
-    els.tripActions.appendChild(actionsGrid);
+    els.tripActions.appendChild(safeGrid);
+
+    // Danger zone
+    const dangerZone = document.createElement("div");
+    dangerZone.className = "admin-danger-zone";
+    dangerZone.innerHTML = `<span class="admin-danger-label">Danger zone</span>`;
+    const deleteBtn = document.createElement("button");
+    deleteBtn.type = "button";
+    deleteBtn.className = "btn danger btn-sm";
+    deleteBtn.textContent = "Delete Trip";
+    deleteBtn.addEventListener("click", () => { deleteTrip(trip.id, trip.share_code); showView("dashboard"); loadTrips(); });
+    dangerZone.appendChild(deleteBtn);
+    els.tripActions.appendChild(dangerZone);
 
     // Aggregated results
     renderAdminResults(trip, participants, selections);
@@ -502,8 +516,10 @@
         </div>
         <div class="admin-participant-actions">
           ${hasSelections ? `<button class="btn view-sel-btn" type="button" title="View this person's week selections and rankings">View Selections</button>` : ""}
-          ${submitted ? `<button class="btn reset-btn" type="button" title="Clear their submission status so they can revise — keeps their selections intact">Reset Submission</button>` : ""}
-          <button class="btn danger remove-btn" type="button" title="Permanently remove this participant and all their data from the trip">Remove</button>
+          <span class="admin-participant-danger">
+            ${submitted ? `<button class="btn danger btn-sm reset-btn" type="button" title="Clear their submission status — they'll need to resubmit">Reset</button>` : ""}
+            <button class="btn danger btn-sm remove-btn" type="button" title="Permanently remove this participant and all their data">Remove</button>
+          </span>
         </div>
       `;
 

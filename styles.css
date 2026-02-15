@@ -2597,6 +2597,34 @@ body {
   flex-wrap: wrap;
 }
 
+.admin-trip-row-danger {
+  border-top: 1px dashed var(--border);
+  padding-top: var(--sp-2);
+}
+
+.admin-danger-zone {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding-top: var(--sp-3);
+  margin-top: var(--sp-2);
+  border-top: 1px dashed var(--danger);
+}
+
+.admin-danger-label {
+  font-size: var(--text-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--danger);
+}
+
+.admin-participant-danger {
+  display: flex;
+  gap: var(--sp-1);
+  margin-left: auto;
+}
+
 .admin-participant-info {
   display: grid;
   gap: 0.25rem;
