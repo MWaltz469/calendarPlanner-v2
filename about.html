@@ -13,15 +13,15 @@
   <script src="/theme-init.js"></script>
 </head>
 <body>
-  <nav class="sticky top-0 z-50 flex items-center justify-between h-[52px] px-4 bg-white dark:bg-[#122130] border-b border-[--border]">
-    <a href="/" class="flex items-center gap-2 no-underline text-[--ink]">
+  <nav class="sticky top-0 z-50 flex items-center justify-between h-[52px] px-4 bg-white dark:bg-[#122130] border-b border-[var(--border)]">
+    <a href="/" class="flex items-center gap-2 no-underline text-[var(--ink)]">
       <span class="text-xl leading-none" aria-hidden="true">📅</span>
       <span class="font-display font-extrabold text-base tracking-tight">TripWeek</span>
     </a>
     <div class="flex items-center gap-2">
-      <a href="/planner.html" class="text-sm font-bold text-[--ink-soft] hover:text-[--accent-text] hover:bg-[--accent-bg] px-2 py-1 rounded-lg no-underline transition-colors duration-100">Planner</a>
-      <a href="/admin.html" class="text-sm font-bold text-[--ink-soft] hover:text-[--accent-text] hover:bg-[--accent-bg] px-2 py-1 rounded-lg no-underline transition-colors duration-100">Admin</a>
-      <button id="themeToggle" class="w-9 h-9 rounded-full border border-[--border] bg-[--surface-muted] text-[--ink-soft] text-lg leading-none grid place-items-center cursor-pointer hover:bg-[--accent-bg] hover:text-[--accent-text] transition-colors duration-100" type="button" aria-label="Theme: Auto">&#9681;</button>
+      <a href="/planner.html" class="text-sm font-bold text-[var(--ink-soft)] hover:text-[var(--accent-text)] hover:bg-[var(--accent-bg)] px-2 py-1 rounded-lg no-underline transition-colors duration-100">Planner</a>
+      <a href="/admin.html" class="text-sm font-bold text-[var(--ink-soft)] hover:text-[var(--accent-text)] hover:bg-[var(--accent-bg)] px-2 py-1 rounded-lg no-underline transition-colors duration-100">Admin</a>
+      <button id="themeToggle" class="w-9 h-9 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] text-lg leading-none grid place-items-center cursor-pointer hover:bg-[var(--accent-bg)] hover:text-[var(--accent-text)] transition-colors duration-100" type="button" aria-label="Theme: Auto">&#9681;</button>
     </div>
   </nav>
 
@@ -31,24 +31,24 @@
 
       <h2 class="m-0 font-display text-xl">100% Vibecoded</h2>
 
-      <p class="m-0 text-[--ink-soft] text-[0.9375rem] leading-relaxed max-w-[540px] text-left">This entire application was vibecoded on hopes, dreams, and an unreasonable amount of caffeine.</p>
+      <p class="m-0 text-[var(--ink-soft)] text-[0.9375rem] leading-relaxed max-w-[540px] text-left">This entire application was vibecoded on hopes, dreams, and an unreasonable amount of caffeine.</p>
 
-      <p class="m-0 text-[--ink-soft] text-[0.9375rem] leading-relaxed max-w-[540px] text-left">Not a single line was written by human hands with full certainty of what it does. Every function, every CSS rule, every database query was conjured through the ancient art of describing what you want and trusting the machine to figure it out.</p>
+      <p class="m-0 text-[var(--ink-soft)] text-[0.9375rem] leading-relaxed max-w-[540px] text-left">Not a single line was written by human hands with full certainty of what it does. Every function, every CSS rule, every database query was conjured through the ancient art of describing what you want and trusting the machine to figure it out.</p>
 
-      <p class="m-0 text-[--ink-soft] text-[0.9375rem] leading-relaxed max-w-[540px] text-left">There was no Figma. There was no sprint planning. There was no QA team. There was just a person, an AI, and an increasingly ambitious TODO list that grew from "fix some bugs" into a full-featured trip coordination platform with an admin portal, real-time collaboration, and a design token system.</p>
+      <p class="m-0 text-[var(--ink-soft)] text-[0.9375rem] leading-relaxed max-w-[540px] text-left">There was no Figma. There was no sprint planning. There was no QA team. There was just a person, an AI, and an increasingly ambitious TODO list that grew from "fix some bugs" into a full-featured trip coordination platform with an admin portal, real-time collaboration, and a design token system.</p>
 
-      <p class="m-0 text-[--ink-soft] text-[0.9375rem] leading-relaxed max-w-[540px] text-left">And yet, here we are. It works. Probably.</p>
+      <p class="m-0 text-[var(--ink-soft)] text-[0.9375rem] leading-relaxed max-w-[540px] text-left">And yet, here we are. It works. Probably.</p>
 
       <div class="flex flex-wrap gap-2 justify-center">
-        <a href="https://github.com/MWaltz469/calendarPlanner" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-transparent bg-[--accent] text-white font-bold cursor-pointer hover:bg-[--accent-strong] no-underline" target="_blank" rel="noopener">View Source Code on GitHub</a>
+        <a href="https://github.com/MWaltz469/calendarPlanner" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)] no-underline" target="_blank" rel="noopener">View Source Code on GitHub</a>
       </div>
     </section>
 
-    <footer class="text-center py-6 px-4 text-[--ink-soft] text-xs border-t border-[--border] mt-4">
+    <footer class="text-center py-6 px-4 text-[var(--ink-soft)] text-xs border-t border-[var(--border)] mt-4">
       <p class="mb-2">Free and open source. Built on Cloudflare Pages + D1.</p>
       <div class="flex justify-center gap-4">
-        <a href="/" class="inline-flex items-center text-[--ink-soft] no-underline font-bold text-sm px-3 py-2 rounded-lg border border-[--border] min-h-[44px] hover:text-[--accent-text] hover:bg-[--accent-bg] transition-colors duration-100">Home</a>
-        <a href="https://github.com/MWaltz469/calendarPlanner" target="_blank" rel="noopener" class="inline-flex items-center text-[--ink-soft] no-underline font-bold text-sm px-3 py-2 rounded-lg border border-[--border] min-h-[44px] hover:text-[--accent-text] hover:bg-[--accent-bg] transition-colors duration-100">GitHub</a>
+        <a href="/" class="inline-flex items-center text-[var(--ink-soft)] no-underline font-bold text-sm px-3 py-2 rounded-lg border border-[var(--border)] min-h-[44px] hover:text-[var(--accent-text)] hover:bg-[var(--accent-bg)] transition-colors duration-100">Home</a>
+        <a href="https://github.com/MWaltz469/calendarPlanner" target="_blank" rel="noopener" class="inline-flex items-center text-[var(--ink-soft)] no-underline font-bold text-sm px-3 py-2 rounded-lg border border-[var(--border)] min-h-[44px] hover:text-[var(--accent-text)] hover:bg-[var(--accent-bg)] transition-colors duration-100">GitHub</a>
       </div>
     </footer>
   </main>

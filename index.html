@@ -13,15 +13,15 @@
   <script src="/theme-init.js"></script>
 </head>
 <body>
-  <nav class="sticky top-0 z-50 flex items-center justify-between h-[52px] px-4 bg-white dark:bg-[#122130] border-b border-[--border]">
-    <a href="/" class="flex items-center gap-2 no-underline text-[--ink]">
+  <nav class="sticky top-0 z-50 flex items-center justify-between h-[52px] px-4 bg-white dark:bg-[#122130] border-b border-[var(--border)]">
+    <a href="/" class="flex items-center gap-2 no-underline text-[var(--ink)]">
       <span class="text-xl leading-none" aria-hidden="true">📅</span>
       <span class="font-display font-extrabold text-base tracking-tight">TripWeek</span>
     </a>
     <div class="flex items-center gap-2">
-      <a href="/planner.html" class="text-sm font-bold text-[--ink-soft] hover:text-[--accent-text] hover:bg-[--accent-bg] px-2 py-1 rounded-lg no-underline transition-colors duration-100">Planner</a>
-      <a href="/admin.html" class="text-sm font-bold text-[--ink-soft] hover:text-[--accent-text] hover:bg-[--accent-bg] px-2 py-1 rounded-lg no-underline transition-colors duration-100">Admin</a>
-      <button id="themeToggle" class="w-9 h-9 rounded-full border border-[--border] bg-[--surface-muted] text-[--ink-soft] text-lg leading-none grid place-items-center cursor-pointer hover:bg-[--accent-bg] hover:text-[--accent-text] transition-colors duration-100" type="button" aria-label="Theme: Auto">&#9681;</button>
+      <a href="/planner.html" class="text-sm font-bold text-[var(--ink-soft)] hover:text-[var(--accent-text)] hover:bg-[var(--accent-bg)] px-2 py-1 rounded-lg no-underline transition-colors duration-100">Planner</a>
+      <a href="/admin.html" class="text-sm font-bold text-[var(--ink-soft)] hover:text-[var(--accent-text)] hover:bg-[var(--accent-bg)] px-2 py-1 rounded-lg no-underline transition-colors duration-100">Admin</a>
+      <button id="themeToggle" class="w-9 h-9 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] text-lg leading-none grid place-items-center cursor-pointer hover:bg-[var(--accent-bg)] hover:text-[var(--accent-text)] transition-colors duration-100" type="button" aria-label="Theme: Auto">&#9681;</button>
     </div>
   </nav>
 
@@ -29,39 +29,39 @@
 
     <!-- Hero -->
     <header class="text-center pt-8 pb-4 px-4">
-      <span class="inline-block text-[0.6875rem] font-extrabold uppercase tracking-[0.1em] text-[--accent] mb-3 border border-[--accent-border] bg-[--accent-bg] px-3 py-1 rounded-full">Free &middot; No sign-up &middot; 100% Vibecoded</span>
-      <h1 class="m-0 font-display font-extrabold text-[clamp(1.8rem,5vw,2.8rem)] leading-[1.1] tracking-tight">Find the week that<br>works for <span class="text-[--accent]">everyone</span></h1>
-      <p class="mt-3 mx-auto mb-0 text-[--ink-soft] text-[0.9375rem] max-w-[500px] leading-relaxed">Share a code. Pick your weeks. See the overlap. Book with confidence.<br>No accounts, no apps, no meetings about meetings.</p>
+      <span class="inline-block text-[0.6875rem] font-extrabold uppercase tracking-[0.1em] text-[var(--accent)] mb-3 border border-[var(--accent-border)] bg-[var(--accent-bg)] px-3 py-1 rounded-full">Free &middot; No sign-up &middot; 100% Vibecoded</span>
+      <h1 class="m-0 font-display font-extrabold text-[clamp(1.8rem,5vw,2.8rem)] leading-[1.1] tracking-tight">Find the week that<br>works for <span class="text-[var(--accent)]">everyone</span></h1>
+      <p class="mt-3 mx-auto mb-0 text-[var(--ink-soft)] text-[0.9375rem] max-w-[500px] leading-relaxed">Share a code. Pick your weeks. See the overlap. Book with confidence.<br>No accounts, no apps, no meetings about meetings.</p>
       <div class="flex justify-center gap-2 mt-5 flex-wrap">
-        <a href="/planner.html" class="inline-flex items-center justify-center min-h-[50px] px-5 py-3 rounded-full border border-transparent bg-[--accent] text-white font-bold cursor-pointer text-[0.9375rem] hover:bg-[--accent-strong] no-underline">Start Planning &rarr;</a>
-        <a href="/admin.html" class="inline-flex items-center justify-center min-h-[50px] px-5 py-3 rounded-full border border-[--border] bg-[--surface-muted] text-[--ink-soft] font-bold cursor-pointer text-[0.9375rem] dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2] no-underline">I&rsquo;m the Organizer</a>
+        <a href="/planner.html" class="inline-flex items-center justify-center min-h-[50px] px-5 py-3 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer text-[0.9375rem] hover:bg-[var(--accent-strong)] no-underline">Start Planning &rarr;</a>
+        <a href="/admin.html" class="inline-flex items-center justify-center min-h-[50px] px-5 py-3 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer text-[0.9375rem] dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2] no-underline">I&rsquo;m the Organizer</a>
       </div>
       <div class="mt-5 flex items-center justify-center gap-2 flex-wrap">
-        <span class="text-sm font-bold text-[--ink-soft]">Have a code?</span>
+        <span class="text-sm font-bold text-[var(--ink-soft)]">Have a code?</span>
         <div class="flex gap-2">
-          <input id="landingTripCode" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" class="flex-1 min-h-[44px] border border-[--border] rounded-lg bg-[--surface] text-[--ink] font-bold py-2 px-2.5 uppercase focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" aria-label="Trip code" style="text-transform:uppercase;" />
-          <button id="landingGoBtn" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-transparent bg-[--accent] text-white font-bold cursor-pointer hover:bg-[--accent-strong]" type="button" aria-label="Go to trip">Go &rarr;</button>
+          <input id="landingTripCode" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" class="flex-1 min-h-[44px] border border-[var(--border)] rounded-lg bg-[var(--surface)] text-[var(--ink)] font-bold py-2 px-2.5 uppercase focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" aria-label="Trip code" style="text-transform:uppercase;" />
+          <button id="landingGoBtn" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)]" type="button" aria-label="Go to trip">Go &rarr;</button>
         </div>
       </div>
     </header>
 
     <!-- Stats bar -->
-    <section class="grid grid-cols-2 sm:grid-cols-4 gap-3 gap-x-2 text-center py-4 px-2 border-y border-[--border]" aria-label="Product stats">
+    <section class="grid grid-cols-2 sm:grid-cols-4 gap-3 gap-x-2 text-center py-4 px-2 border-y border-[var(--border)]" aria-label="Product stats">
       <div>
-        <strong class="block font-display text-[clamp(1.2rem,3vw,1.6rem)] font-extrabold text-[--accent]">0</strong>
-        <span class="text-[0.6875rem] font-semibold text-[--ink-soft] leading-tight">meetings to plan a trip</span>
+        <strong class="block font-display text-[clamp(1.2rem,3vw,1.6rem)] font-extrabold text-[var(--accent)]">0</strong>
+        <span class="text-[0.6875rem] font-semibold text-[var(--ink-soft)] leading-tight">meetings to plan a trip</span>
       </div>
       <div>
-        <strong class="block font-display text-[clamp(1.2rem,3vw,1.6rem)] font-extrabold text-[--accent]">0</strong>
-        <span class="text-[0.6875rem] font-semibold text-[--ink-soft] leading-tight">accounts required</span>
+        <strong class="block font-display text-[clamp(1.2rem,3vw,1.6rem)] font-extrabold text-[var(--accent)]">0</strong>
+        <span class="text-[0.6875rem] font-semibold text-[var(--ink-soft)] leading-tight">accounts required</span>
       </div>
       <div>
-        <strong class="block font-display text-[clamp(1.2rem,3vw,1.6rem)] font-extrabold text-[--accent]">100%</strong>
-        <span class="text-[0.6875rem] font-semibold text-[--ink-soft] leading-tight">AI-generated codebase</span>
+        <strong class="block font-display text-[clamp(1.2rem,3vw,1.6rem)] font-extrabold text-[var(--accent)]">100%</strong>
+        <span class="text-[0.6875rem] font-semibold text-[var(--ink-soft)] leading-tight">AI-generated codebase</span>
       </div>
       <div>
-        <strong class="block font-display text-[clamp(1.2rem,3vw,1.6rem)] font-extrabold text-[--accent]">1</strong>
-        <span class="text-[0.6875rem] font-semibold text-[--ink-soft] leading-tight">Vegeta meme</span>
+        <strong class="block font-display text-[clamp(1.2rem,3vw,1.6rem)] font-extrabold text-[var(--accent)]">1</strong>
+        <span class="text-[0.6875rem] font-semibold text-[var(--ink-soft)] leading-tight">Vegeta meme</span>
       </div>
     </section>
 
@@ -70,24 +70,24 @@
       <h2 class="m-0 mb-4 font-display text-[clamp(1.1rem,2.5vw,1.4rem)] font-extrabold text-center tracking-tight">Everything your group chat can&rsquo;t do</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
-          <div class="row-span-2 w-10 h-10 rounded-lg bg-[--accent-bg] grid place-items-center text-xl leading-none">&#9201;</div>
+          <div class="row-span-2 w-10 h-10 rounded-lg bg-[var(--accent-bg)] grid place-items-center text-xl leading-none">&#9201;</div>
           <h3 class="m-0 text-sm font-extrabold">Real-time overlap</h3>
-          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-relaxed">See who&rsquo;s available as votes come in. No more &ldquo;can everyone fill out this spreadsheet&rdquo; energy.</p>
+          <p class="mt-1 mb-0 text-sm text-[var(--ink-soft)] leading-relaxed">See who&rsquo;s available as votes come in. No more &ldquo;can everyone fill out this spreadsheet&rdquo; energy.</p>
         </div>
         <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
-          <div class="row-span-2 w-10 h-10 rounded-lg bg-[--accent-bg] grid place-items-center text-xl leading-none">&#128274;</div>
+          <div class="row-span-2 w-10 h-10 rounded-lg bg-[var(--accent-bg)] grid place-items-center text-xl leading-none">&#128274;</div>
           <h3 class="m-0 text-sm font-extrabold">Zero accounts</h3>
-          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-relaxed">Trip code + name. That&rsquo;s it. No OAuth, no email confirmation, no password you&rsquo;ll forget in 3 minutes.</p>
+          <p class="mt-1 mb-0 text-sm text-[var(--ink-soft)] leading-relaxed">Trip code + name. That&rsquo;s it. No OAuth, no email confirmation, no password you&rsquo;ll forget in 3 minutes.</p>
         </div>
         <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
-          <div class="row-span-2 w-10 h-10 rounded-lg bg-[--accent-bg] grid place-items-center text-xl leading-none">&#128736;</div>
+          <div class="row-span-2 w-10 h-10 rounded-lg bg-[var(--accent-bg)] grid place-items-center text-xl leading-none">&#128736;</div>
           <h3 class="m-0 text-sm font-extrabold">Admin command center</h3>
-          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-relaxed">Create trips, monitor submissions, lock voting, export CSVs. All the control. None of the meetings.</p>
+          <p class="mt-1 mb-0 text-sm text-[var(--ink-soft)] leading-relaxed">Create trips, monitor submissions, lock voting, export CSVs. All the control. None of the meetings.</p>
         </div>
         <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
-          <div class="row-span-2 w-10 h-10 rounded-lg bg-[--accent-bg] grid place-items-center text-xl leading-none">&#127760;</div>
+          <div class="row-span-2 w-10 h-10 rounded-lg bg-[var(--accent-bg)] grid place-items-center text-xl leading-none">&#127760;</div>
           <h3 class="m-0 text-sm font-extrabold">Works everywhere</h3>
-          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-relaxed">Phone, tablet, desktop, your smart fridge if it has a browser. Responsive down to 320px because we care.</p>
+          <p class="mt-1 mb-0 text-sm text-[var(--ink-soft)] leading-relaxed">Phone, tablet, desktop, your smart fridge if it has a browser. Responsive down to 320px because we care.</p>
         </div>
       </div>
     </section>
@@ -97,73 +97,73 @@
       <h2 class="m-0 mb-4 font-display text-[clamp(1.1rem,2.5vw,1.4rem)] font-extrabold text-center tracking-tight">How it works</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
-          <span class="row-span-2 w-8 h-8 rounded-full bg-[--accent] text-white font-display font-extrabold text-sm inline-grid place-items-center">1</span>
-          <strong class="text-sm text-[--ink]">Create a trip</strong>
-          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-normal">The organizer picks a code, sets the trip window, and shares the link.</p>
+          <span class="row-span-2 w-8 h-8 rounded-full bg-[var(--accent)] text-white font-display font-extrabold text-sm inline-grid place-items-center">1</span>
+          <strong class="text-sm text-[var(--ink)]">Create a trip</strong>
+          <p class="mt-1 mb-0 text-sm text-[var(--ink-soft)] leading-normal">The organizer picks a code, sets the trip window, and shares the link.</p>
         </div>
         <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
-          <span class="row-span-2 w-8 h-8 rounded-full bg-[--accent] text-white font-display font-extrabold text-sm inline-grid place-items-center">2</span>
-          <strong class="text-sm text-[--ink]">Everyone joins</strong>
-          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-normal">Open the link, enter the code and your name. That&rsquo;s your whole onboarding.</p>
+          <span class="row-span-2 w-8 h-8 rounded-full bg-[var(--accent)] text-white font-display font-extrabold text-sm inline-grid place-items-center">2</span>
+          <strong class="text-sm text-[var(--ink)]">Everyone joins</strong>
+          <p class="mt-1 mb-0 text-sm text-[var(--ink-soft)] leading-normal">Open the link, enter the code and your name. That&rsquo;s your whole onboarding.</p>
         </div>
         <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
-          <span class="row-span-2 w-8 h-8 rounded-full bg-[--accent] text-white font-display font-extrabold text-sm inline-grid place-items-center">3</span>
-          <strong class="text-sm text-[--ink]">Pick your weeks</strong>
-          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-normal">Browse by month, tap available weeks, rank your top 5 if you&rsquo;re feeling decisive.</p>
+          <span class="row-span-2 w-8 h-8 rounded-full bg-[var(--accent)] text-white font-display font-extrabold text-sm inline-grid place-items-center">3</span>
+          <strong class="text-sm text-[var(--ink)]">Pick your weeks</strong>
+          <p class="mt-1 mb-0 text-sm text-[var(--ink-soft)] leading-normal">Browse by month, tap available weeks, rank your top 5 if you&rsquo;re feeling decisive.</p>
         </div>
         <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
-          <span class="row-span-2 w-8 h-8 rounded-full bg-[--accent] text-white font-display font-extrabold text-sm inline-grid place-items-center">4</span>
-          <strong class="text-sm text-[--ink]">Book it</strong>
-          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-normal">The heatmap shows the best overlap. The leaderboard ranks the top weeks. Argue less, travel more.</p>
+          <span class="row-span-2 w-8 h-8 rounded-full bg-[var(--accent)] text-white font-display font-extrabold text-sm inline-grid place-items-center">4</span>
+          <strong class="text-sm text-[var(--ink)]">Book it</strong>
+          <p class="mt-1 mb-0 text-sm text-[var(--ink-soft)] leading-normal">The heatmap shows the best overlap. The leaderboard ranks the top weeks. Argue less, travel more.</p>
         </div>
       </div>
     </section>
 
     <!-- Testimonials -->
     <section class="py-2">
-      <h2 class="m-0 mb-4 font-display text-[clamp(1.1rem,2.5vw,1.4rem)] font-extrabold text-center tracking-tight">What people are saying<span class="text-[--ink-soft] text-[0.7em] align-super">*</span></h2>
+      <h2 class="m-0 mb-4 font-display text-[clamp(1.1rem,2.5vw,1.4rem)] font-extrabold text-center tracking-tight">What people are saying<span class="text-[var(--ink-soft)] text-[0.7em] align-super">*</span></h2>
       <div class="grid gap-3">
-        <blockquote class="card m-0 p-4 border-l-4 border-l-[--accent]">
-          <p class="m-0 text-sm leading-relaxed text-[--ink] italic">&ldquo;We used to argue in the group chat for three weeks about which week to travel. Now we argue for three minutes. Marginal improvement, infinite value.&rdquo;</p>
+        <blockquote class="card m-0 p-4 border-l-4 border-l-[var(--accent)]">
+          <p class="m-0 text-sm leading-relaxed text-[var(--ink)] italic">&ldquo;We used to argue in the group chat for three weeks about which week to travel. Now we argue for three minutes. Marginal improvement, infinite value.&rdquo;</p>
           <footer class="mt-3 grid gap-0.5">
             <strong class="text-sm font-extrabold">Anonymous Group Chat Survivor</strong>
-            <span class="text-[0.6875rem] text-[--ink-soft]">Recovering from 47 unread messages</span>
+            <span class="text-[0.6875rem] text-[var(--ink-soft)]">Recovering from 47 unread messages</span>
           </footer>
         </blockquote>
-        <blockquote class="card m-0 p-4 border-l-4 border-l-[--accent]">
-          <p class="m-0 text-sm leading-relaxed text-[--ink] italic">&ldquo;I was told this was 100% vibecoded and honestly I don&rsquo;t know what that means but the heatmap is pretty and my friends stopped texting me about dates.&rdquo;</p>
+        <blockquote class="card m-0 p-4 border-l-4 border-l-[var(--accent)]">
+          <p class="m-0 text-sm leading-relaxed text-[var(--ink)] italic">&ldquo;I was told this was 100% vibecoded and honestly I don&rsquo;t know what that means but the heatmap is pretty and my friends stopped texting me about dates.&rdquo;</p>
           <footer class="mt-3 grid gap-0.5">
             <strong class="text-sm font-extrabold">Someone&rsquo;s Mom</strong>
-            <span class="text-[0.6875rem] text-[--ink-soft]">Surprisingly tech-forward</span>
+            <span class="text-[0.6875rem] text-[var(--ink-soft)]">Surprisingly tech-forward</span>
           </footer>
         </blockquote>
-        <blockquote class="card m-0 p-4 border-l-4 border-l-[--accent]">
-          <p class="m-0 text-sm leading-relaxed text-[--ink] italic">&ldquo;No login? No app download? No 14-day free trial of a premium tier? What&rsquo;s the catch?&rdquo;<br><em class="block mt-2 not-italic text-[0.6875rem] text-[--ink-soft]">There is no catch. The developer simply refused to learn authentication.</em></p>
+        <blockquote class="card m-0 p-4 border-l-4 border-l-[var(--accent)]">
+          <p class="m-0 text-sm leading-relaxed text-[var(--ink)] italic">&ldquo;No login? No app download? No 14-day free trial of a premium tier? What&rsquo;s the catch?&rdquo;<br><em class="block mt-2 not-italic text-[0.6875rem] text-[var(--ink-soft)]">There is no catch. The developer simply refused to learn authentication.</em></p>
           <footer class="mt-3 grid gap-0.5">
             <strong class="text-sm font-extrabold">A Suspicious Product Manager</strong>
-            <span class="text-[0.6875rem] text-[--ink-soft]">Still looking for the pricing page</span>
+            <span class="text-[0.6875rem] text-[var(--ink-soft)]">Still looking for the pricing page</span>
           </footer>
         </blockquote>
       </div>
-      <p class="mt-3 mb-0 text-center text-[0.6875rem] text-[--ink-soft] italic">* These testimonials are entirely fictional. Like the rest of this codebase, they were vibecoded into existence.</p>
+      <p class="mt-3 mb-0 text-center text-[0.6875rem] text-[var(--ink-soft)] italic">* These testimonials are entirely fictional. Like the rest of this codebase, they were vibecoded into existence.</p>
     </section>
 
     <!-- Final CTA -->
     <section class="card text-center py-6 px-4">
       <h2 class="m-0 font-display text-[clamp(1.2rem,3vw,1.8rem)] font-extrabold tracking-tight">Stop arguing about dates.</h2>
-      <p class="mt-2 mb-0 text-[--ink-soft] text-sm">It takes 30 seconds to join a trip. Less time than it took to read that last testimonial.</p>
+      <p class="mt-2 mb-0 text-[var(--ink-soft)] text-sm">It takes 30 seconds to join a trip. Less time than it took to read that last testimonial.</p>
       <div class="flex justify-center gap-2 mt-5 flex-wrap">
-        <a href="/planner.html" class="inline-flex items-center justify-center min-h-[50px] px-5 py-3 rounded-full border border-transparent bg-[--accent] text-white font-bold cursor-pointer text-[0.9375rem] hover:bg-[--accent-strong] no-underline">Start Planning &rarr;</a>
-        <a href="/about.html" class="inline-flex items-center justify-center min-h-[50px] px-5 py-3 rounded-full border border-[--border] bg-[--surface-muted] text-[--ink-soft] font-bold cursor-pointer text-[0.9375rem] dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2] no-underline">How is this free?</a>
+        <a href="/planner.html" class="inline-flex items-center justify-center min-h-[50px] px-5 py-3 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer text-[0.9375rem] hover:bg-[var(--accent-strong)] no-underline">Start Planning &rarr;</a>
+        <a href="/about.html" class="inline-flex items-center justify-center min-h-[50px] px-5 py-3 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer text-[0.9375rem] dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2] no-underline">How is this free?</a>
       </div>
     </section>
 
-    <footer class="text-center py-6 px-4 text-[--ink-soft] text-xs border-t border-[--border] mt-4">
+    <footer class="text-center py-6 px-4 text-[var(--ink-soft)] text-xs border-t border-[var(--border)] mt-4">
       <p class="mb-2">Free and open source. Built on Cloudflare Pages + D1. Vibecoded with unreasonable optimism.</p>
       <div class="flex justify-center gap-4">
-        <a href="/changelog.html" class="inline-flex items-center text-[--ink-soft] no-underline font-bold text-sm px-3 py-2 rounded-lg border border-[--border] min-h-[44px] hover:text-[--accent-text] hover:bg-[--accent-bg] transition-colors duration-100">What&rsquo;s new</a>
-        <a href="/about.html" class="inline-flex items-center text-[--ink-soft] no-underline font-bold text-sm px-3 py-2 rounded-lg border border-[--border] min-h-[44px] hover:text-[--accent-text] hover:bg-[--accent-bg] transition-colors duration-100">About</a>
-        <a href="https://github.com/MWaltz469/calendarPlanner" target="_blank" rel="noopener" class="inline-flex items-center text-[--ink-soft] no-underline font-bold text-sm px-3 py-2 rounded-lg border border-[--border] min-h-[44px] hover:text-[--accent-text] hover:bg-[--accent-bg] transition-colors duration-100">GitHub</a>
+        <a href="/changelog.html" class="inline-flex items-center text-[var(--ink-soft)] no-underline font-bold text-sm px-3 py-2 rounded-lg border border-[var(--border)] min-h-[44px] hover:text-[var(--accent-text)] hover:bg-[var(--accent-bg)] transition-colors duration-100">What&rsquo;s new</a>
+        <a href="/about.html" class="inline-flex items-center text-[var(--ink-soft)] no-underline font-bold text-sm px-3 py-2 rounded-lg border border-[var(--border)] min-h-[44px] hover:text-[var(--accent-text)] hover:bg-[var(--accent-bg)] transition-colors duration-100">About</a>
+        <a href="https://github.com/MWaltz469/calendarPlanner" target="_blank" rel="noopener" class="inline-flex items-center text-[var(--ink-soft)] no-underline font-bold text-sm px-3 py-2 rounded-lg border border-[var(--border)] min-h-[44px] hover:text-[var(--accent-text)] hover:bg-[var(--accent-bg)] transition-colors duration-100">GitHub</a>
       </div>
     </footer>
   </main>
