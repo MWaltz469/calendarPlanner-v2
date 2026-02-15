@@ -187,7 +187,9 @@
     try {
       const data = await apiRequest("/trips");
       renderStats(data.stats);
-      renderTrips(data.trips || []);
+      allTrips = data.trips || [];
+      const searchInput = document.getElementById("tripSearchInput");
+      if (searchInput && searchInput.value.trim()) { filterTrips(); } else { renderTrips(allTrips); }
     } catch (e) {
       if (!handleAuthError(e)) els.tripsContainer.innerHTML = `<p class="hint hint--error">Failed: ${escapeHtml(e.message)}</p>`;
     }
@@ -658,6 +660,19 @@
 
   // --- Init ---
 
+  let allTrips = [];
+
+  function filterTrips() {
+    const searchInput = document.getElementById("tripSearchInput");
+    const query = (searchInput ? searchInput.value : "").trim().toLowerCase();
+    if (!query) { renderTrips(allTrips); return; }
+    const filtered = allTrips.filter((t) =>
+      t.share_code.toLowerCase().includes(query) ||
+      (t.name && t.name.toLowerCase().includes(query))
+    );
+    renderTrips(filtered);
+  }
+
   function init() {
     els.loginBtn.addEventListener("click", handleLogin);
     els.passwordInput.addEventListener("keydown", (e) => { if (e.key === "Enter") handleLogin(); });
@@ -668,6 +683,9 @@
     els.createTripSubmit.addEventListener("click", handleCreateTrip);
     els.newTripCode.addEventListener("keydown", (e) => { if (e.key === "Enter") handleCreateTrip(); });
     els.backToTripsBtn.addEventListener("click", () => { showView("dashboard"); loadTrips(); });
+
+    const searchInput = document.getElementById("tripSearchInput");
+    if (searchInput) searchInput.addEventListener("input", filterTrips);
 
     if (getToken()) { showView("dashboard"); loadTrips(); }
     else { showView("login"); }

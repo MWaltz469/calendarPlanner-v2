@@ -1073,7 +1073,7 @@
       ).length;
 
       btn.textContent = selectedCount > 0 ? `${m.name} (${selectedCount})` : m.name;
-      btn.setAttribute("aria-label", `Show ${m.name} weeks`);
+      btn.setAttribute("aria-label", `${m.name}: ${selectedCount} week${selectedCount !== 1 ? "s" : ""} selected`);
       btn.addEventListener("click", () => {
         state.selectedMonth = m.monthIndex;
         renderMonthBar();
@@ -1251,7 +1251,21 @@
     renderAll();
   }
 
+  let longPressHintShown = false;
+
   function toggleWeekStatus(index) {
+    if (!longPressHintShown) {
+      try {
+        const key = `${STORAGE_PREFIX}:longpress_hint`;
+        if (!localStorage.getItem(key)) {
+          localStorage.setItem(key, "1");
+          const isTouch = "ontouchstart" in window;
+          showToast(isTouch ? "Tip: Long-press a card for a quick status menu." : "Tip: Right-click a card for a quick status menu.", "");
+        }
+        longPressHintShown = true;
+      } catch { longPressHintShown = true; }
+    }
+
     const current = state.selections[index].status;
     const next = STATUS_SEQUENCE[(STATUS_SEQUENCE.indexOf(current) + 1) % STATUS_SEQUENCE.length];
     state.selections[index].status = next;
