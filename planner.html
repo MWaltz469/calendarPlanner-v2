@@ -22,7 +22,7 @@
       <span class="font-display font-extrabold text-base tracking-tight">TripWeek</span>
     </a>
     <div class="flex items-center gap-2">
-      <span id="connectionBadge" class="inline-flex items-center min-h-[36px] rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] text-sm font-bold px-3 whitespace-nowrap" role="status" aria-live="polite" hidden>Connecting...</span>
+      <span id="connectionBadge" class="inline-flex items-center min-h-9 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] text-sm font-bold px-3 whitespace-nowrap" role="status" aria-live="polite" hidden>Connecting...</span>
       <a href="/admin.html" class="text-sm font-bold text-[var(--ink-soft)] hover:text-[var(--accent-text)] hover:bg-[var(--accent-bg)] px-2 py-1 rounded-lg no-underline transition-colors duration-100">Admin</a>
       <select id="themeSelect" hidden>
         <option value="system">System</option>
@@ -42,26 +42,26 @@
     <section class="card grid gap-4 p-3.5" aria-label="Availability wizard">
       <ol id="stepper" class="list-none m-0 p-0 flex gap-2 overflow-x-auto scrollbar-none" aria-label="Setup progress">
         <li class="m-0 p-0 flex-1 min-w-0">
-          <button class="stepper-btn w-full border-none rounded-lg bg-[var(--surface-muted)] text-[var(--ink-soft)] text-[0.625rem] font-bold leading-tight px-2 py-1.5 grid gap-0.5 text-center cursor-pointer whitespace-nowrap min-w-[3.5rem] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" data-step="1" type="button" aria-current="step">
-            <span class="stepper-num w-5 h-5 mx-auto rounded-full inline-grid place-items-center bg-[var(--surface)] text-[var(--ink-soft)] font-extrabold text-[0.625rem]">1</span>
+          <button class="stepper-btn w-full border-none rounded-lg bg-[var(--surface-muted)] text-[var(--ink-soft)] text-2xs font-bold leading-tight px-2 py-1.5 grid gap-0.5 text-center cursor-pointer whitespace-nowrap min-w-[3.5rem] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" data-step="1" type="button" aria-current="step">
+            <span class="stepper-num w-5 h-5 mx-auto rounded-full inline-grid place-items-center bg-[var(--surface)] text-[var(--ink-soft)] font-extrabold text-2xs">1</span>
             <span>Join Trip</span>
           </button>
         </li>
         <li class="m-0 p-0 flex-1 min-w-0">
-          <button class="stepper-btn w-full border-none rounded-lg bg-[var(--surface-muted)] text-[var(--ink-soft)] text-[0.625rem] font-bold leading-tight px-2 py-1.5 grid gap-0.5 text-center cursor-pointer whitespace-nowrap min-w-[3.5rem] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" data-step="2" type="button">
-            <span class="stepper-num w-5 h-5 mx-auto rounded-full inline-grid place-items-center bg-[var(--surface)] text-[var(--ink-soft)] font-extrabold text-[0.625rem]">2</span>
+          <button class="stepper-btn w-full border-none rounded-lg bg-[var(--surface-muted)] text-[var(--ink-soft)] text-2xs font-bold leading-tight px-2 py-1.5 grid gap-0.5 text-center cursor-pointer whitespace-nowrap min-w-[3.5rem] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" data-step="2" type="button">
+            <span class="stepper-num w-5 h-5 mx-auto rounded-full inline-grid place-items-center bg-[var(--surface)] text-[var(--ink-soft)] font-extrabold text-2xs">2</span>
             <span>Pick Weeks</span>
           </button>
         </li>
         <li class="m-0 p-0 flex-1 min-w-0">
-          <button class="stepper-btn w-full border-none rounded-lg bg-[var(--surface-muted)] text-[var(--ink-soft)] text-[0.625rem] font-bold leading-tight px-2 py-1.5 grid gap-0.5 text-center cursor-pointer whitespace-nowrap min-w-[3.5rem] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" data-step="3" type="button">
-            <span class="stepper-num w-5 h-5 mx-auto rounded-full inline-grid place-items-center bg-[var(--surface)] text-[var(--ink-soft)] font-extrabold text-[0.625rem]">3</span>
+          <button class="stepper-btn w-full border-none rounded-lg bg-[var(--surface-muted)] text-[var(--ink-soft)] text-2xs font-bold leading-tight px-2 py-1.5 grid gap-0.5 text-center cursor-pointer whitespace-nowrap min-w-[3.5rem] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" data-step="3" type="button">
+            <span class="stepper-num w-5 h-5 mx-auto rounded-full inline-grid place-items-center bg-[var(--surface)] text-[var(--ink-soft)] font-extrabold text-2xs">3</span>
             <span>Rank Top 5</span>
           </button>
         </li>
         <li class="m-0 p-0 flex-1 min-w-0">
-          <button class="stepper-btn w-full border-none rounded-lg bg-[var(--surface-muted)] text-[var(--ink-soft)] text-[0.625rem] font-bold leading-tight px-2 py-1.5 grid gap-0.5 text-center cursor-pointer whitespace-nowrap min-w-[3.5rem] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" data-step="4" type="button">
-            <span class="stepper-num w-5 h-5 mx-auto rounded-full inline-grid place-items-center bg-[var(--surface)] text-[var(--ink-soft)] font-extrabold text-[0.625rem]">4</span>
+          <button class="stepper-btn w-full border-none rounded-lg bg-[var(--surface-muted)] text-[var(--ink-soft)] text-2xs font-bold leading-tight px-2 py-1.5 grid gap-0.5 text-center cursor-pointer whitespace-nowrap min-w-[3.5rem] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" data-step="4" type="button">
+            <span class="stepper-num w-5 h-5 mx-auto rounded-full inline-grid place-items-center bg-[var(--surface)] text-[var(--ink-soft)] font-extrabold text-2xs">4</span>
             <span>Submit</span>
           </button>
         </li>
@@ -69,7 +69,7 @@
 
       <section id="step-1" class="step-panel" aria-labelledby="step1-heading">
         <h2 id="step1-heading" class="m-0 font-display text-[clamp(1.05rem,2vw,1.35rem)]">Step 1: Join your trip</h2>
-        <p class="m-0 text-[var(--ink-soft)] text-[0.94rem]">Enter the trip code your organizer shared with you and your name.</p>
+        <p class="m-0 text-[var(--ink-soft)] text-base">Enter the trip code your organizer shared with you and your name.</p>
         <details class="wtf-inline">
           <summary>New here? What is this?</summary>
           <p>Your trip organizer created a code for your group. Enter it below with your name, then you'll pick which weeks work for you. The app figures out the best overlap for everyone. That's it.</p>
@@ -94,45 +94,45 @@
         </div>
 
         <div class="flex items-center gap-2">
-          <button id="joinButton" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)] disabled:opacity-55 disabled:cursor-not-allowed" type="button">Join Trip</button>
-          <span id="joinState" class="text-[0.84rem] text-[var(--ink-soft)] font-semibold" aria-live="polite"></span>
+          <button id="joinButton" class="inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)] disabled:opacity-55 disabled:cursor-not-allowed" type="button">Join Trip</button>
+          <span id="joinState" class="text-sm text-[var(--ink-soft)] font-semibold" aria-live="polite"></span>
         </div>
       </section>
 
       <section id="step-2" class="step-panel" aria-labelledby="step2-heading" hidden>
         <h2 id="step2-heading" class="m-0 font-display text-[clamp(1.05rem,2vw,1.35rem)]">Step 2: Pick your available weeks</h2>
-        <p class="m-0 text-[var(--ink-soft)] text-[0.94rem]"><span class="touch-copy">Tap</span><span class="pointer-copy">Click</span> a week card to cycle status: <strong>Unselected &rarr; Available &rarr; Maybe</strong>.</p>
+        <p class="m-0 text-[var(--ink-soft)] text-base"><span class="touch-copy">Tap</span><span class="pointer-copy">Click</span> a week card to cycle status: <strong>Unselected &rarr; Available &rarr; Maybe</strong>.</p>
 
         <div id="step2CountRow" class="grid grid-cols-3 gap-2" aria-label="Selection counts">
           <article class="rounded-xl bg-[var(--surface-muted)] p-3 grid gap-1">
-            <span class="uppercase tracking-wide text-[0.73rem] text-[var(--ink-soft)] font-bold">Available</span>
-            <strong id="availableCount" class="font-display text-[1.05rem]">0</strong>
+            <span class="uppercase tracking-wide text-2xs text-[var(--ink-soft)] font-bold">Available</span>
+            <strong id="availableCount" class="font-display text-base">0</strong>
           </article>
           <article class="rounded-xl bg-[var(--surface-muted)] p-3 grid gap-1">
-            <span class="uppercase tracking-wide text-[0.73rem] text-[var(--ink-soft)] font-bold">Maybe</span>
-            <strong id="maybeCount" class="font-display text-[1.05rem]">0</strong>
+            <span class="uppercase tracking-wide text-2xs text-[var(--ink-soft)] font-bold">Maybe</span>
+            <strong id="maybeCount" class="font-display text-base">0</strong>
           </article>
           <article class="rounded-xl bg-[var(--surface-muted)] p-3 grid gap-1">
-            <span class="uppercase tracking-wide text-[0.73rem] text-[var(--ink-soft)] font-bold">Ranked</span>
-            <strong id="rankedCount" class="font-display text-[1.05rem]">0 / 5</strong>
+            <span class="uppercase tracking-wide text-2xs text-[var(--ink-soft)] font-bold">Ranked</span>
+            <strong id="rankedCount" class="font-display text-base">0 / 5</strong>
           </article>
         </div>
 
-        <div class="flex flex-wrap gap-[0.45rem] text-[var(--ink-soft)] text-[0.78rem] font-bold">
-          <span class="inline-flex items-center gap-[0.32rem]"><i class="w-[0.58rem] h-[0.58rem] rounded-full bg-[var(--neutral-text)]" aria-hidden="true"></i>Unselected</span>
-          <span class="inline-flex items-center gap-[0.32rem]"><i class="w-[0.58rem] h-[0.58rem] rounded-full bg-[var(--available)]" aria-hidden="true"></i>Available</span>
-          <span class="inline-flex items-center gap-[0.32rem]"><i class="w-[0.58rem] h-[0.58rem] rounded-full bg-[var(--maybe)]" aria-hidden="true"></i>Maybe</span>
+        <div class="flex flex-wrap gap-2 text-[var(--ink-soft)] text-xs font-bold">
+          <span class="inline-flex items-center gap-1.5"><i class="w-2.5 h-2.5 rounded-full bg-[var(--neutral-text)]" aria-hidden="true"></i>Unselected</span>
+          <span class="inline-flex items-center gap-1.5"><i class="w-2.5 h-2.5 rounded-full bg-[var(--available)]" aria-hidden="true"></i>Available</span>
+          <span class="inline-flex items-center gap-1.5"><i class="w-2.5 h-2.5 rounded-full bg-[var(--maybe)]" aria-hidden="true"></i>Maybe</span>
         </div>
-        <p class="text-[0.84rem] text-[var(--ink-soft)] font-semibold text-[0.78rem] italic touch-copy">Tip: Long-press a card to set status directly.</p>
-        <p class="text-[0.84rem] text-[var(--ink-soft)] font-semibold text-[0.78rem] italic pointer-copy">Tip: Right-click a card to set status directly. Focus a card and press 1&ndash;5 to rank, Delete to clear rank.</p>
+        <p class="text-sm text-[var(--ink-soft)] font-semibold text-xs italic touch-copy">Tip: Long-press a card to set status directly.</p>
+        <p class="text-sm text-[var(--ink-soft)] font-semibold text-xs italic pointer-copy">Tip: Right-click a card to set status directly. Focus a card and press 1&ndash;5 to rank, Delete to clear rank.</p>
 
         <aside id="selectionOverlay" class="selection-overlay" aria-live="polite" hidden>
           <div class="flex items-center gap-2 justify-between">
             <span id="overlaySummary" class="text-sm font-bold text-[var(--ink)] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">0 selected</span>
             <div class="flex gap-1 shrink-0">
-              <button id="overlayPrevStep" class="ov-nav-btn" type="button"><span class="text-[0.9375rem] leading-none">&larr;</span><span class="text-[0.6875rem] leading-none">Back</span></button>
-              <button id="overlayScrollTop" class="ov-nav-btn" type="button"><span class="text-[0.9375rem] leading-none">&uarr;</span><span class="text-[0.6875rem] leading-none">Top</span></button>
-              <button id="overlayNextStep" class="ov-nav-btn ov-nav-primary" type="button"><span class="text-[0.9375rem] leading-none">&rarr;</span><span class="text-[0.6875rem] leading-none">Next</span></button>
+              <button id="overlayPrevStep" class="ov-nav-btn" type="button"><span class="text-base leading-none">&larr;</span><span class="text-2xs leading-none">Back</span></button>
+              <button id="overlayScrollTop" class="ov-nav-btn" type="button"><span class="text-base leading-none">&uarr;</span><span class="text-2xs leading-none">Top</span></button>
+              <button id="overlayNextStep" class="ov-nav-btn ov-nav-primary" type="button"><span class="text-base leading-none">&rarr;</span><span class="text-2xs leading-none">Next</span></button>
             </div>
           </div>
           <nav id="monthBar" class="month-bar" aria-label="Jump to month"></nav>
@@ -142,38 +142,38 @@
 
       <section id="step-3" class="step-panel" aria-labelledby="step3-heading" hidden>
         <h2 id="step3-heading" class="m-0 font-display text-[clamp(1.05rem,2vw,1.35rem)]">Step 3: Rank your top 5 preferred weeks</h2>
-        <p class="m-0 text-[var(--ink-soft)] text-[0.94rem]">This step is <strong>optional</strong>. Ranking helps the organizer see your strongest preferences, but you can skip it if you have no preference.</p>
+        <p class="m-0 text-[var(--ink-soft)] text-base">This step is <strong>optional</strong>. Ranking helps the organizer see your strongest preferences, but you can skip it if you have no preference.</p>
         <details class="wtf-inline" id="rankingExplainer">
           <summary>How does ranking affect results?</summary>
           <p>Weeks are sorted by availability first &mdash; more people free = higher rank. When two weeks have the same overlap, your top picks break the tie. A #1 pick adds more weight than a #5, so the group&rsquo;s strongest preferences float to the top.</p>
         </details>
 
         <div id="rankRows" class="rank-rows" aria-label="Rank assignments"></div>
-        <p id="rankNote" class="text-[0.84rem] text-[var(--ink-soft)] font-semibold" aria-live="polite"></p>
+        <p id="rankNote" class="text-sm text-[var(--ink-soft)] font-semibold" aria-live="polite"></p>
         <div class="flex items-center gap-2">
-          <button id="skipToReviewBtn" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)]" type="button">Continue to Review &rarr;</button>
-          <span class="text-[0.84rem] text-[var(--ink-soft)] font-semibold">You can always come back to rank later.</span>
+          <button id="skipToReviewBtn" class="inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)]" type="button">Continue to Review &rarr;</button>
+          <span class="text-sm text-[var(--ink-soft)] font-semibold">You can always come back to rank later.</span>
         </div>
       </section>
 
       <section id="step-4" class="step-panel" aria-labelledby="step4-heading" hidden>
         <h2 id="step4-heading" class="m-0 font-display text-[clamp(1.05rem,2vw,1.35rem)]">Step 4: Review and submit</h2>
-        <p class="m-0 text-[var(--ink-soft)] text-[0.94rem]">You can submit now or go back to refine. Results unlock after your first submission.</p>
+        <p class="m-0 text-[var(--ink-soft)] text-base">You can submit now or go back to refine. Results unlock after your first submission.</p>
 
         <details class="group border-none bg-[var(--surface-muted)] rounded-xl p-4" aria-label="Readiness checklist" id="checklistDetails" open>
-          <summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden"><h3 class="m-0 text-[0.95rem] flex items-center gap-2"><span class="text-[0.75rem] text-[var(--ink-soft)] transition-transform duration-150 group-open:rotate-90 inline-block leading-none">&#9656;</span>Readiness checklist</h3></summary>
+          <summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden"><h3 class="m-0 text-base flex items-center gap-2"><span class="text-xs text-[var(--ink-soft)] transition-transform duration-150 group-open:rotate-90 inline-block leading-none">&#9656;</span>Readiness checklist</h3></summary>
           <ul id="reviewList" class="list-none p-0 m-0 mt-3 grid gap-1"></ul>
         </details>
 
         <div class="flex items-center gap-2 flex-wrap">
-          <button id="submitButton" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)] disabled:opacity-55 disabled:cursor-not-allowed" type="button">Submit Availability</button>
-          <button id="exportButton" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2]" type="button">Export Summary</button>
-          <button id="clearButton" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-[var(--danger-border)] bg-[var(--danger-soft)] text-[var(--danger)] font-bold cursor-pointer sm:ml-auto" type="button">Clear My Selections</button>
+          <button id="submitButton" class="inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)] disabled:opacity-55 disabled:cursor-not-allowed" type="button">Submit Availability</button>
+          <button id="exportButton" class="inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2]" type="button">Export Summary</button>
+          <button id="clearButton" class="inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-[var(--danger-border)] bg-[var(--danger-soft)] text-[var(--danger)] font-bold cursor-pointer sm:ml-auto" type="button">Clear My Selections</button>
         </div>
 
         <span id="saveState" class="text-sm text-[var(--ink-soft)] font-semibold" aria-live="polite">Not saved yet.</span>
 
-        <article id="resultsLocked" class="border border-dashed border-[var(--border)] rounded-xl bg-[var(--surface-muted)] text-[var(--ink-soft)] p-3 text-[0.86rem]" aria-live="polite">
+        <article id="resultsLocked" class="border border-dashed border-[var(--border)] rounded-xl bg-[var(--surface-muted)] text-[var(--ink-soft)] p-3 text-sm" aria-live="polite">
           Submit your availability to unlock group results.
         </article>
 
@@ -181,7 +181,7 @@
           <div id="resultsSummary"></div>
 
           <article class="border-none rounded-xl bg-[var(--surface)] shadow-sm p-4 grid gap-4">
-            <h3 class="m-0 font-display text-sm font-extrabold uppercase tracking-[0.06em] text-[var(--ink-soft)] pb-2 border-b border-[var(--border)]">Top Weeks <span class="font-body text-[0.6875rem] font-semibold text-[var(--ink-soft)] normal-case tracking-normal ml-2">Ranked by overlap and preference</span></h3>
+            <h3 class="m-0 font-display text-sm font-extrabold uppercase tracking-[0.06em] text-[var(--ink-soft)] pb-2 border-b border-[var(--border)]">Top Weeks <span class="font-body text-2xs font-semibold text-[var(--ink-soft)] normal-case tracking-normal ml-2">Ranked by overlap and preference</span></h3>
             <div id="leaderboard" class="grid gap-2"></div>
           </article>
 
@@ -192,23 +192,23 @@
 
           <details class="group border-none rounded-xl bg-[var(--surface)] shadow-sm p-4 grid gap-4 cursor-default" id="heatmapSection">
             <summary class="cursor-pointer list-none flex items-center [&::-webkit-details-marker]:hidden">
-              <h3 class="m-0 font-display text-sm font-extrabold uppercase tracking-[0.06em] text-[var(--ink-soft)] flex items-center gap-2"><span class="text-[0.75rem] text-[var(--ink-soft)] transition-transform duration-150 group-open:rotate-90 inline-block leading-none">&#9656;</span>Heatmap <span class="font-body text-[0.6875rem] font-semibold text-[var(--ink-soft)] normal-case tracking-normal ml-2">Explore all weeks by month</span></h3>
+              <h3 class="m-0 font-display text-sm font-extrabold uppercase tracking-[0.06em] text-[var(--ink-soft)] flex items-center gap-2"><span class="text-xs text-[var(--ink-soft)] transition-transform duration-150 group-open:rotate-90 inline-block leading-none">&#9656;</span>Heatmap <span class="font-body text-2xs font-semibold text-[var(--ink-soft)] normal-case tracking-normal ml-2">Explore all weeks by month</span></h3>
             </summary>
             <div class="mt-3">
               <div class="flex flex-wrap gap-2 items-center mb-3">
-                <span class="flex items-center gap-1 text-[0.6875rem] font-bold text-[var(--ink-soft)]"><span class="w-3 h-3 rounded-sm border border-[var(--border)] shrink-0" style="background:var(--surface-muted)"></span> No overlap</span>
-                <span class="flex items-center gap-1 text-[0.6875rem] font-bold text-[var(--ink-soft)]"><span class="w-3 h-3 rounded-sm border border-[var(--border)] shrink-0" style="background:#f59e0b"></span> Low</span>
-                <span class="flex items-center gap-1 text-[0.6875rem] font-bold text-[var(--ink-soft)]"><span class="w-3 h-3 rounded-sm border border-[var(--border)] shrink-0" style="background:#ea580c"></span> Medium</span>
-                <span class="flex items-center gap-1 text-[0.6875rem] font-bold text-[var(--ink-soft)]"><span class="w-3 h-3 rounded-sm border border-[var(--border)] shrink-0" style="background:#dc2626"></span> High</span>
-                <span class="flex items-center gap-1 text-[0.6875rem] font-semibold text-[var(--ink-soft)] italic">Tap a cell to see who</span>
+                <span class="flex items-center gap-1 text-2xs font-bold text-[var(--ink-soft)]"><span class="w-3 h-3 rounded-sm border border-[var(--border)] shrink-0" style="background:var(--surface-muted)"></span> No overlap</span>
+                <span class="flex items-center gap-1 text-2xs font-bold text-[var(--ink-soft)]"><span class="w-3 h-3 rounded-sm border border-[var(--border)] shrink-0" style="background:#f59e0b"></span> Low</span>
+                <span class="flex items-center gap-1 text-2xs font-bold text-[var(--ink-soft)]"><span class="w-3 h-3 rounded-sm border border-[var(--border)] shrink-0" style="background:#ea580c"></span> Medium</span>
+                <span class="flex items-center gap-1 text-2xs font-bold text-[var(--ink-soft)]"><span class="w-3 h-3 rounded-sm border border-[var(--border)] shrink-0" style="background:#dc2626"></span> High</span>
+                <span class="flex items-center gap-1 text-2xs font-semibold text-[var(--ink-soft)] italic">Tap a cell to see who</span>
               </div>
-              <div id="heatmap" class="grid gap-[3px] border border-[var(--border)] rounded-xl p-3 bg-[var(--surface)]" role="listbox" aria-label="Group overlap heatmap"></div>
+              <div id="heatmap" class="grid gap-0.5 border border-[var(--border)] rounded-xl p-3 bg-[var(--surface)]" role="listbox" aria-label="Group overlap heatmap"></div>
             </div>
           </details>
 
           <details class="group border-none rounded-xl bg-[var(--surface)] shadow-sm p-4 grid gap-4 cursor-default" id="participantSection">
             <summary class="cursor-pointer list-none flex items-center [&::-webkit-details-marker]:hidden">
-              <h3 class="m-0 font-display text-sm font-extrabold uppercase tracking-[0.06em] text-[var(--ink-soft)] flex items-center gap-2"><span class="text-[0.75rem] text-[var(--ink-soft)] transition-transform duration-150 group-open:rotate-90 inline-block leading-none">&#9656;</span>Participants <span id="participantSummary" class="font-body text-[0.6875rem] font-semibold text-[var(--ink-soft)] normal-case tracking-normal ml-2"></span></h3>
+              <h3 class="m-0 font-display text-sm font-extrabold uppercase tracking-[0.06em] text-[var(--ink-soft)] flex items-center gap-2"><span class="text-xs text-[var(--ink-soft)] transition-transform duration-150 group-open:rotate-90 inline-block leading-none">&#9656;</span>Participants <span id="participantSummary" class="font-body text-2xs font-semibold text-[var(--ink-soft)] normal-case tracking-normal ml-2"></span></h3>
             </summary>
             <div class="mt-3">
               <ul id="participantList" class="list-none m-0 p-0 grid gap-2"></ul>
@@ -223,10 +223,10 @@
   </main>
 
   <div id="heatPopover" class="fixed z-30 border border-[var(--border)] rounded-xl bg-[var(--surface)] shadow-lg p-3 min-w-[180px] max-w-[280px] grid gap-2" hidden></div>
-  <div id="weekContextMenu" class="fixed z-[25] border border-[var(--border)] rounded-lg bg-[var(--surface)] shadow-[0_10px_24px_rgba(0,0,0,0.18)] p-[0.3rem] grid gap-[0.15rem] min-w-[140px]" hidden>
-    <button type="button" data-status="available" class="border-none rounded-lg bg-transparent text-[var(--available)] text-sm font-bold p-3 px-4 min-h-[44px] text-left cursor-pointer hover:bg-[var(--accent-bg)]">Available</button>
-    <button type="button" data-status="maybe" class="border-none rounded-lg bg-transparent text-[var(--maybe)] text-sm font-bold p-3 px-4 min-h-[44px] text-left cursor-pointer hover:bg-[var(--accent-bg)]">Maybe</button>
-    <button type="button" data-status="unselected" class="border-none rounded-lg bg-transparent text-[var(--ink-soft)] text-sm font-bold p-3 px-4 min-h-[44px] text-left cursor-pointer hover:bg-[var(--accent-bg)]">Unselected</button>
+  <div id="weekContextMenu" class="fixed z-[25] border border-[var(--border)] rounded-lg bg-[var(--surface)] shadow-[0_10px_24px_rgba(0,0,0,0.18)] p-1 grid gap-0.5 min-w-[140px]" hidden>
+    <button type="button" data-status="available" class="border-none rounded-lg bg-transparent text-[var(--available)] text-sm font-bold p-3 px-4 min-h-11 text-left cursor-pointer hover:bg-[var(--accent-bg)]">Available</button>
+    <button type="button" data-status="maybe" class="border-none rounded-lg bg-transparent text-[var(--maybe)] text-sm font-bold p-3 px-4 min-h-11 text-left cursor-pointer hover:bg-[var(--accent-bg)]">Maybe</button>
+    <button type="button" data-status="unselected" class="border-none rounded-lg bg-transparent text-[var(--ink-soft)] text-sm font-bold p-3 px-4 min-h-11 text-left cursor-pointer hover:bg-[var(--accent-bg)]">Unselected</button>
   </div>
   <div id="toastArea" class="fixed right-3 bottom-3 w-[min(320px,calc(100vw-1.5rem))] grid gap-1.5 z-20" aria-live="polite" aria-atomic="true"></div>
 </body>

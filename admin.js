@@ -7,12 +7,12 @@
 
   /* Tailwind class constants — avoids repeating long utility strings */
   const TW = {
-    btn: "inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2] disabled:opacity-55 disabled:cursor-not-allowed",
-    btnPrimary: "inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)] disabled:opacity-55 disabled:cursor-not-allowed",
-    btnDanger: "inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-[var(--danger-border)] bg-[var(--danger-soft)] text-[var(--danger)] font-bold cursor-pointer",
-    btnSm: "inline-flex items-center justify-center min-h-[36px] px-3 py-1 text-sm rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2]",
-    btnDangerSm: "inline-flex items-center justify-center min-h-[36px] px-3 py-1 text-sm rounded-full border border-[var(--danger-border)] bg-[var(--danger-soft)] text-[var(--danger)] font-bold cursor-pointer",
-    btnDangerOutlineSm: "inline-flex items-center justify-center min-h-[36px] px-3 py-1 text-sm rounded-full border border-[var(--danger-border)] bg-transparent text-[var(--danger)] font-bold cursor-pointer",
+    btn: "inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2] disabled:opacity-55 disabled:cursor-not-allowed",
+    btnPrimary: "inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)] disabled:opacity-55 disabled:cursor-not-allowed",
+    btnDanger: "inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-[var(--danger-border)] bg-[var(--danger-soft)] text-[var(--danger)] font-bold cursor-pointer",
+    btnSm: "inline-flex items-center justify-center min-h-9 px-3 py-1 text-sm rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2]",
+    btnDangerSm: "inline-flex items-center justify-center min-h-9 px-3 py-1 text-sm rounded-full border border-[var(--danger-border)] bg-[var(--danger-soft)] text-[var(--danger)] font-bold cursor-pointer",
+    btnDangerOutlineSm: "inline-flex items-center justify-center min-h-9 px-3 py-1 text-sm rounded-full border border-[var(--danger-border)] bg-transparent text-[var(--danger)] font-bold cursor-pointer",
   };
 
   const els = {
@@ -70,7 +70,7 @@
   function showToast(message, tone) {
     const t = document.createElement("div");
     const tc = tone === "good" ? TW.btnPrimary.includes("bg") ? "bg-[var(--ok-text)]" : "" : tone === "warn" ? "bg-[var(--warn-text)]" : "";
-    t.className = `rounded-xl py-2 px-3 text-white bg-[var(--ink)] text-[0.81rem] shadow-[0_10px_24px_rgba(0,0,0,0.2)] toast-animate ${tc}`.trim();
+    t.className = `rounded-xl py-2 px-3 text-white bg-[var(--ink)] text-sm shadow-[0_10px_24px_rgba(0,0,0,0.2)] toast-animate ${tc}`.trim();
     t.textContent = message;
     els.toastArea.appendChild(t);
     setTimeout(() => t.remove(), 2500);
@@ -154,9 +154,9 @@
     if (!stats) { els.statsBar.innerHTML = ""; return; }
     els.statsBar.innerHTML = `
       <div class="grid grid-cols-3 gap-1.5 mb-2">
-        <div class="border border-[var(--border)] rounded-xl bg-[var(--surface)] p-3 px-4 grid gap-0.5 relative overflow-hidden"><span class="absolute top-0 left-0 right-0 h-[3px] bg-[var(--accent)] opacity-40"></span><span class="uppercase tracking-[0.06em] text-[0.6875rem] text-[var(--ink-soft)] font-bold">Trips</span><strong class="font-display text-[clamp(1rem,2.5vw,1.3rem)] font-extrabold text-[var(--ink)]">${stats.totalTrips}</strong></div>
-        <div class="border border-[var(--border)] rounded-xl bg-[var(--surface)] p-3 px-4 grid gap-0.5 relative overflow-hidden"><span class="absolute top-0 left-0 right-0 h-[3px] bg-[var(--accent)] opacity-40"></span><span class="uppercase tracking-[0.06em] text-[0.6875rem] text-[var(--ink-soft)] font-bold">Participants</span><strong class="font-display text-[clamp(1rem,2.5vw,1.3rem)] font-extrabold text-[var(--ink)]">${stats.totalParticipants}</strong><span class="text-[0.6875rem] font-semibold text-[var(--ink-soft)]">across all trips</span></div>
-        <div class="border border-[var(--border)] rounded-xl bg-[var(--surface)] p-3 px-4 grid gap-0.5 relative overflow-hidden"><span class="absolute top-0 left-0 right-0 h-[3px] bg-[var(--accent)] opacity-40"></span><span class="uppercase tracking-[0.06em] text-[0.6875rem] text-[var(--ink-soft)] font-bold">Submissions</span><strong class="font-display text-[clamp(1rem,2.5vw,1.3rem)] font-extrabold text-[var(--ink)]">${stats.totalSubmissions}</strong></div>
+        <div class="border border-[var(--border)] rounded-xl bg-[var(--surface)] p-3 px-4 grid gap-0.5 relative overflow-hidden"><span class="absolute top-0 left-0 right-0 h-[3px] bg-[var(--accent)] opacity-40"></span><span class="uppercase tracking-[0.06em] text-2xs text-[var(--ink-soft)] font-bold">Trips</span><strong class="font-display text-[clamp(1rem,2.5vw,1.3rem)] font-extrabold text-[var(--ink)]">${stats.totalTrips}</strong></div>
+        <div class="border border-[var(--border)] rounded-xl bg-[var(--surface)] p-3 px-4 grid gap-0.5 relative overflow-hidden"><span class="absolute top-0 left-0 right-0 h-[3px] bg-[var(--accent)] opacity-40"></span><span class="uppercase tracking-[0.06em] text-2xs text-[var(--ink-soft)] font-bold">Participants</span><strong class="font-display text-[clamp(1rem,2.5vw,1.3rem)] font-extrabold text-[var(--ink)]">${stats.totalParticipants}</strong><span class="text-2xs font-semibold text-[var(--ink-soft)]">across all trips</span></div>
+        <div class="border border-[var(--border)] rounded-xl bg-[var(--surface)] p-3 px-4 grid gap-0.5 relative overflow-hidden"><span class="absolute top-0 left-0 right-0 h-[3px] bg-[var(--accent)] opacity-40"></span><span class="uppercase tracking-[0.06em] text-2xs text-[var(--ink-soft)] font-bold">Submissions</span><strong class="font-display text-[clamp(1rem,2.5vw,1.3rem)] font-extrabold text-[var(--ink)]">${stats.totalSubmissions}</strong></div>
       </div>
     `;
   }
@@ -214,21 +214,21 @@
       card.className = "border border-[var(--border)] rounded-lg bg-[var(--surface)] p-2 grid gap-1.5";
       const allDone = trip.participant_count > 0 && trip.submitted_count === trip.participant_count;
       const locked = Boolean(trip.locked);
-      const lbStatBase = "rounded-full py-[0.15rem] px-[0.42rem] text-[0.68rem] font-bold border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)]";
+      const lbStatBase = "rounded-full py-0.5 px-1.5 text-2xs font-bold border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)]";
       const lbStatAvail = "border-[var(--ok-border)] bg-[var(--ok-bg)] text-[var(--ok-text)]";
       const lbStatMaybe = "border-[var(--warn-border)] bg-[var(--warn-bg)] text-[var(--warn-text)]";
 
       card.innerHTML = `
         <div class="flex justify-between items-start gap-2 flex-wrap">
-          <div class="grid gap-[0.15rem]">
+          <div class="grid gap-0.5">
             <div class="flex items-center gap-1.5 flex-wrap">
               <strong class="font-display text-base text-[var(--ink)]">${escapeHtml(trip.share_code)}</strong>
-              ${trip.name && trip.name !== `${trip.trip_year} Group Trip` ? `<span class="text-[0.82rem] font-semibold text-[var(--ink-soft)]">${escapeHtml(trip.name)}</span>` : ""}
-              ${locked ? `<span class="rounded-full py-[0.1rem] px-[0.36rem] text-[0.65rem] font-bold uppercase tracking-[0.03em] bg-[var(--warn-bg)] text-[var(--warn-text)] border border-[var(--warn-border)]">Locked</span>` : ""}
+              ${trip.name && trip.name !== `${trip.trip_year} Group Trip` ? `<span class="text-sm font-semibold text-[var(--ink-soft)]">${escapeHtml(trip.name)}</span>` : ""}
+              ${locked ? `<span class="rounded-full py-px px-1.5 text-2xs font-bold uppercase tracking-[0.03em] bg-[var(--warn-bg)] text-[var(--warn-text)] border border-[var(--warn-border)]">Locked</span>` : ""}
             </div>
-            <span class="text-[0.76rem] font-semibold text-[var(--ink-soft)]">${trip.trip_year} &middot; ${fmtConfig(trip.week_format, trip.trip_length)} &middot; Created ${formatShortDate(trip.created_at)}</span>
+            <span class="text-xs font-semibold text-[var(--ink-soft)]">${trip.trip_year} &middot; ${fmtConfig(trip.week_format, trip.trip_length)} &middot; Created ${formatShortDate(trip.created_at)}</span>
           </div>
-          <div class="flex gap-[0.28rem] flex-wrap self-center">
+          <div class="flex gap-1 flex-wrap self-center">
             <span class="${lbStatBase}">${trip.participant_count} participant${trip.participant_count !== 1 ? "s" : ""}</span>
             <span class="${lbStatBase} ${allDone && trip.participant_count > 0 ? lbStatAvail : trip.submitted_count > 0 ? lbStatMaybe : ""}">${trip.submitted_count} submitted</span>
           </div>
@@ -277,10 +277,10 @@
       ? `${trip.share_code} — ${trip.name}` : trip.share_code;
 
     const locked = Boolean(trip.locked);
-    const chipCls = "rounded-full py-[0.15rem] px-[0.42rem] text-[0.68rem] font-bold border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)]";
-    const badgeCls = "rounded-full py-[0.1rem] px-[0.36rem] text-[0.65rem] font-bold uppercase tracking-[0.03em]";
+    const chipCls = "rounded-full py-0.5 px-1.5 text-2xs font-bold border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)]";
+    const badgeCls = "rounded-full py-px px-1.5 text-2xs font-bold uppercase tracking-[0.03em]";
     els.tripDetailInfo.innerHTML = `
-      <div class="flex flex-wrap gap-[0.3rem] mb-[0.3rem]">
+      <div class="flex flex-wrap gap-1 mb-1">
         <span class="${chipCls}">${trip.trip_year}</span>
         <span class="${chipCls}">${fmtConfig(trip.week_format, trip.trip_length)}</span>
         <span class="${chipCls}">TZ: ${trip.timezone || "UTC"}</span>
@@ -307,7 +307,7 @@
       btn.type = "button"; btn.className = a.cls + " w-full text-center"; btn.textContent = a.label;
       btn.addEventListener("click", a.handler);
       const hint = document.createElement("span");
-      hint.className = "text-[0.6875rem] text-[var(--ink-soft)] text-center leading-tight";
+      hint.className = "text-2xs text-[var(--ink-soft)] text-center leading-tight";
       hint.textContent = a.hint;
       wrap.append(btn, hint);
       safeGrid.appendChild(wrap);
@@ -317,7 +317,7 @@
     // Danger zone
     const dangerZone = document.createElement("div");
     dangerZone.className = "flex items-center gap-3 pt-3 mt-2 border-t border-dashed border-[var(--danger)]";
-    dangerZone.innerHTML = `<span class="text-[0.6875rem] font-extrabold uppercase tracking-[0.06em] text-[var(--danger)]">Danger zone</span>`;
+    dangerZone.innerHTML = `<span class="text-2xs font-extrabold uppercase tracking-[0.06em] text-[var(--danger)]">Danger zone</span>`;
     const deleteBtn = document.createElement("button");
     deleteBtn.type = "button";
     deleteBtn.className = TW.btnDangerSm;
@@ -391,7 +391,7 @@
     const bestLabel = bestWeek ? bestWeek.rangeText : `Week ${best.weekNumber}`;
 
     let narrative = `<div class="rounded-xl bg-[var(--surface-muted)] p-4 grid gap-2 mb-3">`;
-    narrative += `<p class="m-0 text-[0.9375rem] font-semibold text-[var(--ink)] leading-normal">`;
+    narrative += `<p class="m-0 text-base font-semibold text-[var(--ink)] leading-normal">`;
     if (bestPct === 100 && submittedCount === totalPeople && totalPeople > 1) {
       narrative += `Everyone is available for <strong>${bestLabel}</strong>. You\u2019re good to book.`;
     } else if (bk.available.length > 1) {
@@ -412,7 +412,7 @@
 
     // Who's in, maybe, out — submission-aware
     const parts = [];
-    const wdB = "rounded-full py-[0.1rem] px-[0.36rem] text-[0.65rem] font-bold uppercase tracking-[0.03em] inline-block align-middle whitespace-nowrap";
+    const wdB = "rounded-full py-px px-1.5 text-2xs font-bold uppercase tracking-[0.03em] inline-block align-middle whitespace-nowrap";
     if (bk.available.length) parts.push(`${bk.available.map((p) => `<span class="${wdB} bg-[var(--ok-bg)] text-[var(--ok-text)] border border-[var(--ok-border)]">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.available.length === 1 ? "is" : "are"} available`);
     if (bk.maybe.length) parts.push(`${bk.maybe.map((p) => `<span class="${wdB} bg-[var(--warn-bg)] text-[var(--warn-text)] border border-[var(--warn-border)]">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.maybe.length === 1 ? "is" : "are"} maybe`);
     if (bk.unavailable.length) parts.push(`${bk.unavailable.map((p) => `<span class="${wdB} bg-[var(--neutral-bg)] text-[var(--neutral-text)] border border-solid border-[var(--neutral-border)]">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.unavailable.length === 1 ? "is" : "are"} unavailable`);
@@ -425,7 +425,7 @@
 
     // --- Leaderboard with dates (submission-aware) ---
     const maxScore = Math.max(1, top5[0].score);
-    const lbS = "rounded-full py-[0.15rem] px-[0.42rem] text-[0.68rem] font-bold border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)]";
+    const lbS = "rounded-full py-0.5 px-1.5 text-2xs font-bold border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)]";
     const lbSA = "border-[var(--ok-border)] bg-[var(--ok-bg)] text-[var(--ok-text)]";
     const lbSM = "border-[var(--warn-border)] bg-[var(--warn-bg)] text-[var(--warn-text)]";
     let leaderboard = `<div class="grid gap-1.5">`;
@@ -437,14 +437,14 @@
       const isTop = i === 0;
       leaderboard += `
         <div class="border ${isTop ? "border-2 border-[var(--accent)]" : "border-[var(--border)]"} rounded-lg p-3 grid gap-2 cursor-default text-left w-full bg-[var(--surface)]">
-          <div class="flex items-center gap-[0.45rem]">
-            <span class="w-8 h-8 rounded-lg ${isTop ? "bg-[var(--accent)] border-[var(--accent)] text-white" : "bg-[var(--accent-bg)] text-[var(--accent-text)] border border-[var(--accent-border)]"} inline-grid place-items-center font-display font-bold text-[0.78rem] shrink-0">#${i + 1}</span>
-            <div class="grid gap-[0.08rem] min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg ${isTop ? "bg-[var(--accent)] border-[var(--accent)] text-white" : "bg-[var(--accent-bg)] text-[var(--accent-text)] border border-[var(--accent-border)]"} inline-grid place-items-center font-display font-bold text-xs shrink-0">#${i + 1}</span>
+            <div class="grid gap-0.5 min-w-0">
               <span class="font-bold text-sm text-[var(--ink)]">${week ? `${week.startDisplay} \u2192 ${week.endDisplay}` : `Week ${w.weekNumber}`}</span>
-              <span class="text-[0.6875rem] font-semibold text-[var(--ink-soft)]">Week ${w.weekNumber} \u00B7 ${week ? week.days : ""} days</span>
+              <span class="text-2xs font-semibold text-[var(--ink-soft)]">Week ${w.weekNumber} \u00B7 ${week ? week.days : ""} days</span>
             </div>
           </div>
-          <div class="flex flex-wrap gap-[0.32rem]">
+          <div class="flex flex-wrap gap-1.5">
             ${wbk.available.length ? `<span class="${lbS} ${lbSA}">${wbk.available.length} of ${submittedCount} available</span>` : ""}
             ${wbk.maybe.length ? `<span class="${lbS} ${lbSM}">${wbk.maybe.length} maybe</span>` : ""}
             ${pct ? `<span class="${lbS}">${pct}%</span>` : ""}
@@ -521,7 +521,7 @@
     if (waiting.length) {
       const header = document.createElement("div");
       header.className = "flex items-center gap-2 py-2 text-sm text-[var(--ink-soft)] border-b border-[var(--border)] mb-1 flex-wrap";
-      header.innerHTML = `<strong>Waiting (${waiting.length})</strong><span class="rounded-full py-[0.15rem] px-[0.42rem] text-[0.68rem] font-bold border border-dashed border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)]">${waiting.length} not submitted</span>`;
+      header.innerHTML = `<strong>Waiting (${waiting.length})</strong><span class="rounded-full py-0.5 px-1.5 text-2xs font-bold border border-dashed border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)]">${waiting.length} not submitted</span>`;
       /* Copy reminder for admin nudge */
       const nudgeBtn = document.createElement("button");
       nudgeBtn.type = "button";
@@ -559,14 +559,14 @@
       const maybeCount = pSelections.filter((s) => s.status === "maybe").length;
       const rankedCount = pSelections.filter((s) => s.rank !== null).length;
       const hasSelections = availCount > 0 || maybeCount > 0;
-      const bdg = "rounded-full py-[0.1rem] px-[0.36rem] text-[0.65rem] font-bold uppercase tracking-[0.03em]";
+      const bdg = "rounded-full py-px px-1.5 text-2xs font-bold uppercase tracking-[0.03em]";
       const bdgCls = submitted ? `${bdg} bg-[var(--ok-bg)] text-[var(--ok-text)] border border-[var(--ok-border)]` : hasSelections ? `${bdg} bg-[var(--warn-bg)] text-[var(--warn-text)] border border-[var(--warn-border)]` : `${bdg} bg-[var(--neutral-bg)] text-[var(--neutral-text)] border border-[var(--neutral-border)]`;
-      const st = "rounded-full py-[0.15rem] px-[0.42rem] text-[0.68rem] font-bold border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)]";
+      const st = "rounded-full py-0.5 px-1.5 text-2xs font-bold border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)]";
 
       row.innerHTML = `
         <div class="grid gap-1">
-          <strong class="text-[0.9rem]">${escapeHtml(p.name)}</strong>
-          <div class="flex flex-wrap gap-[0.28rem] items-center">
+          <strong class="text-base">${escapeHtml(p.name)}</strong>
+          <div class="flex flex-wrap gap-1 items-center">
             <span class="${bdgCls}">${submitted ? "Submitted" : hasSelections ? "In progress" : "Not started"}</span>
             <span class="${st}">Step ${p.last_active_step}: ${stepLabels[p.last_active_step] || "?"}</span>
             <span class="${st}">${availCount} avail, ${maybeCount} maybe, ${rankedCount} ranked</span>

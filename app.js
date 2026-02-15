@@ -44,52 +44,52 @@
   /* Tailwind class constants — avoids repeating long utility strings */
   const TW = {
     /* Buttons */
-    btn: "inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2] disabled:opacity-55 disabled:cursor-not-allowed",
-    btnPrimary: "inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)] disabled:opacity-55 disabled:cursor-not-allowed",
-    btnDanger: "inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-[var(--danger-border)] bg-[var(--danger-soft)] text-[var(--danger)] font-bold cursor-pointer",
-    btnSm: "inline-flex items-center justify-center min-h-[36px] px-3 py-1 text-sm rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2]",
-    btnDangerSm: "inline-flex items-center justify-center min-h-[36px] px-3 py-1 text-sm rounded-full border border-[var(--danger-border)] bg-[var(--danger-soft)] text-[var(--danger)] font-bold cursor-pointer",
+    btn: "inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2] disabled:opacity-55 disabled:cursor-not-allowed",
+    btnPrimary: "inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)] disabled:opacity-55 disabled:cursor-not-allowed",
+    btnDanger: "inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-[var(--danger-border)] bg-[var(--danger-soft)] text-[var(--danger)] font-bold cursor-pointer",
+    btnSm: "inline-flex items-center justify-center min-h-9 px-3 py-1 text-sm rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2]",
+    btnDangerSm: "inline-flex items-center justify-center min-h-9 px-3 py-1 text-sm rounded-full border border-[var(--danger-border)] bg-[var(--danger-soft)] text-[var(--danger)] font-bold cursor-pointer",
     /* Week card */
     weekCard: "border-none border-l-4 border-l-transparent rounded-xl bg-[var(--surface)] shadow-sm min-w-0 overflow-hidden select-none",
-    wcRow: "flex items-center gap-3 w-full border-none bg-transparent px-4 py-3 text-left cursor-pointer min-h-[56px]",
-    wcRowCompact: "flex items-center gap-3 w-full border-none bg-transparent px-4 py-2 text-left cursor-pointer min-h-[44px]",
+    wcRow: "flex items-center gap-3 w-full border-none bg-transparent px-4 py-3 text-left cursor-pointer min-h-14",
+    wcRowCompact: "flex items-center gap-3 w-full border-none bg-transparent px-4 py-2 text-left cursor-pointer min-h-11",
     wcMain: "flex-1 min-w-0 grid gap-0.5",
-    wcHeadline: "font-extrabold text-[0.9375rem] text-[var(--ink)] leading-tight",
+    wcHeadline: "font-extrabold text-base text-[var(--ink)] leading-tight",
     wcDate: "font-semibold text-[var(--ink-soft)]",
-    wcSub: "text-[0.6875rem] font-semibold text-[var(--ink-soft)]",
+    wcSub: "text-2xs font-semibold text-[var(--ink-soft)]",
     wcBadges: "flex gap-1 items-center shrink-0",
     wcDetail: "px-4 py-2 pb-3 border-t border-[var(--border)] grid gap-2",
     /* Status pills */
-    statusPill: "self-start rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] uppercase tracking-wide text-[0.68rem] font-extrabold px-2 py-0.5",
+    statusPill: "self-start rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] uppercase tracking-wide text-2xs font-extrabold px-2 py-0.5",
     statusAvailable: "bg-[var(--ok-bg)] border-[var(--ok-border)] text-[var(--ok-text)]",
     statusMaybe: "bg-[var(--warn-bg)] border-[var(--warn-border)] text-[var(--warn-text)]",
-    rankPill: "self-start rounded-full bg-[var(--accent)] border border-[var(--accent)] text-white uppercase tracking-wide text-[0.68rem] font-extrabold px-2 py-0.5",
+    rankPill: "self-start rounded-full bg-[var(--accent)] border border-[var(--accent)] text-white uppercase tracking-wide text-2xs font-extrabold px-2 py-0.5",
     /* Week card state borders */
     wcBorderAvailable: "border-l-[var(--available)]",
     wcBorderMaybe: "border-l-[var(--maybe)]",
     wcBorderUnselected: "border-l-transparent opacity-70",
     /* Flow points */
-    flowPoint: "rounded-full border border-[var(--border)] bg-[var(--surface-muted)] px-2 py-1 text-[0.7rem] font-extrabold text-[var(--ink-soft)] flex items-center",
+    flowPoint: "rounded-full border border-[var(--border)] bg-[var(--surface-muted)] px-2 py-1 text-2xs font-extrabold text-[var(--ink-soft)] flex items-center",
     flowStart: "bg-[var(--info-bg)] border-[var(--info-border)] text-[var(--info-text)]",
     flowEnd: "bg-[var(--warn-bg)] border-[var(--warn-border)] text-[var(--warn-text)]",
-    flowArrow: "text-[var(--ink-soft)] font-extrabold text-[0.84rem]",
+    flowArrow: "text-[var(--ink-soft)] font-extrabold text-sm",
     /* Day strip */
-    daySpan: "border border-[var(--border)] rounded-[10px] bg-[var(--surface-muted)] text-[var(--ink-soft)] text-[clamp(0.66rem,1.7vw,0.74rem)] font-extrabold leading-none tracking-tight text-center min-h-[1.78rem] min-w-0 p-[0.3rem_0.1rem] whitespace-nowrap grid place-items-center",
+    daySpan: "border border-[var(--border)] rounded-lg bg-[var(--surface-muted)] text-[var(--ink-soft)] text-[clamp(0.66rem,1.7vw,0.74rem)] font-extrabold leading-none tracking-tight text-center min-h-[1.78rem] min-w-0 px-0.5 py-1 whitespace-nowrap grid place-items-center",
     dayStart: "bg-[var(--info-bg)] border-[var(--info-border)] text-[var(--info-text)]",
     dayEnd: "bg-[var(--warn-bg)] border-[var(--warn-border)] text-[var(--warn-text)]",
     /* Month button */
-    monthBtn: "border border-[var(--border)] rounded-full bg-[var(--surface-muted)] text-[var(--ink-soft)] text-[0.74rem] font-bold px-2.5 py-1 cursor-pointer min-h-[34px] dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#b6c7d5]",
+    monthBtn: "border border-[var(--border)] rounded-full bg-[var(--surface-muted)] text-[var(--ink-soft)] text-2xs font-bold px-2.5 py-1 cursor-pointer min-h-9 dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#b6c7d5]",
     monthActive: "bg-[var(--accent)] border-[var(--accent)] text-white dark:bg-[var(--accent)] dark:border-[var(--accent)] dark:text-white",
     /* Overlay items */
-    overlayItem: "border border-[var(--border)] rounded-[10px] bg-[var(--surface-muted)] p-[0.3rem_0.42rem] grid gap-[0.05rem]",
+    overlayItem: "border border-[var(--border)] rounded-lg bg-[var(--surface-muted)] px-1.5 py-1 grid gap-px",
     overlayAvailable: "border-[var(--ok-border)] bg-[var(--ok-bg)]",
     overlayMaybe: "border-[var(--warn-border)] bg-[var(--warn-bg)]",
     overlaySelected: "border-[var(--accent-border)] bg-[var(--accent-bg)]",
     overlayUnselected: "border-[var(--neutral-border)] bg-[var(--neutral-bg)]",
-    overlayLabel: "uppercase tracking-wide text-[0.67rem] text-[var(--ink-soft)] font-bold",
-    overlayValue: "font-display text-[0.94rem] text-[var(--ink)]",
+    overlayLabel: "uppercase tracking-wide text-2xs text-[var(--ink-soft)] font-bold",
+    overlayValue: "font-display text-base text-[var(--ink)]",
     /* Overlay nav */
-    ovNavBtn: "min-w-[44px] h-[44px] rounded-lg border-none bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer inline-grid grid-cols-[auto_auto] items-center justify-center gap-1 px-2",
+    ovNavBtn: "min-w-11 h-11 rounded-lg border-none bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer inline-grid grid-cols-[auto_auto] items-center justify-center gap-1 px-2",
     ovNavPrimary: "bg-[var(--accent)] text-white",
     /* Rank system */
     rankChip: "w-[46px] h-[46px] rounded-lg bg-[var(--accent-bg)] text-[var(--accent-text)] border border-[var(--accent-border)] inline-grid place-items-center font-display font-bold",
@@ -97,7 +97,7 @@
     rankFilled: "border-[var(--ok-border)] bg-[var(--ok-bg)] text-[var(--ok-text)]",
     /* Checklist */
     checklistItem: "border-none rounded-lg bg-[var(--surface)] p-3 text-sm text-[var(--ink)] flex items-center gap-3",
-    checklistIcon: "w-6 h-6 rounded-full inline-grid place-items-center text-[0.72rem] font-extrabold shrink-0 bg-[var(--neutral-bg)] text-[var(--neutral-text)]",
+    checklistIcon: "w-6 h-6 rounded-full inline-grid place-items-center text-2xs font-extrabold shrink-0 bg-[var(--neutral-bg)] text-[var(--neutral-text)]",
     checklistOk: "bg-[var(--available)] text-white",
     checklistWarn: "bg-[var(--maybe)] text-white",
     checklistInfo: "bg-[var(--info-text)] text-white",
@@ -107,32 +107,32 @@
     /* Results */
     resultsCard: "border-none rounded-xl bg-[var(--surface)] shadow-sm p-4 grid gap-4",
     resultsH3: "m-0 font-display text-sm font-extrabold uppercase tracking-[0.06em] text-[var(--ink-soft)] pb-2 border-b border-[var(--border)]",
-    resultsSubtitle: "font-body text-[0.6875rem] font-semibold text-[var(--ink-soft)] normal-case tracking-normal ml-2",
+    resultsSubtitle: "font-body text-2xs font-semibold text-[var(--ink-soft)] normal-case tracking-normal ml-2",
     /* Score chips */
     scoreChip: "border border-[var(--border)] rounded-xl bg-[var(--surface)] p-3 px-4 grid gap-0.5 relative overflow-hidden",
     scoreChipBar: "absolute top-0 left-0 right-0 h-[3px] bg-[var(--accent)] opacity-40",
-    scoreLabel: "uppercase tracking-[0.06em] text-[0.6875rem] text-[var(--ink-soft)] font-bold",
+    scoreLabel: "uppercase tracking-[0.06em] text-2xs text-[var(--ink-soft)] font-bold",
     scoreValue: "font-display text-[clamp(1rem,2.5vw,1.3rem)] font-extrabold text-[var(--ink)]",
-    scoreSub: "text-[0.6875rem] font-semibold text-[var(--ink-soft)] normal-case tracking-normal",
+    scoreSub: "text-2xs font-semibold text-[var(--ink-soft)] normal-case tracking-normal",
     /* Leaderboard */
     lbItem: "grid border border-[var(--border)] rounded-lg overflow-hidden bg-[var(--surface)] transition-colors",
     lbItemOpen: "border-[var(--accent-border)]",
     lbRow: "border-none rounded-none p-3 bg-[var(--surface)] grid gap-2 cursor-pointer text-left w-full font-inherit",
     lbRowTopPick: "bg-[var(--ok-bg)] p-4",
-    lbHeader: "flex items-center gap-[0.45rem]",
-    lbRank: "w-8 h-8 rounded-lg bg-[var(--accent-bg)] text-[var(--accent-text)] border border-[var(--accent-border)] inline-grid place-items-center font-display font-bold text-[0.78rem] shrink-0",
+    lbHeader: "flex items-center gap-2",
+    lbRank: "w-8 h-8 rounded-lg bg-[var(--accent-bg)] text-[var(--accent-text)] border border-[var(--accent-border)] inline-grid place-items-center font-display font-bold text-xs shrink-0",
     lbRankTop: "bg-[var(--accent)] border-[var(--accent)] text-white w-10 h-10 text-base",
-    lbInfo: "grid gap-[0.08rem] min-w-0",
+    lbInfo: "grid gap-0.5 min-w-0",
     lbDates: "font-bold text-sm text-[var(--ink)]",
-    lbMeta: "text-[0.6875rem] font-semibold text-[var(--ink-soft)]",
-    lbStats: "flex flex-wrap gap-[0.32rem]",
-    lbStat: "rounded-full py-[0.15rem] px-[0.42rem] text-[0.68rem] font-bold border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)]",
+    lbMeta: "text-2xs font-semibold text-[var(--ink-soft)]",
+    lbStats: "flex flex-wrap gap-1.5",
+    lbStat: "rounded-full py-0.5 px-1.5 text-2xs font-bold border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)]",
     lbStatAvail: "border-[var(--ok-border)] bg-[var(--ok-bg)] text-[var(--ok-text)]",
     lbStatMaybe: "border-[var(--warn-border)] bg-[var(--warn-bg)] text-[var(--warn-text)]",
     lbBar: "h-2 rounded-full bg-[var(--surface-muted)] overflow-hidden",
     lbBarFill: "block h-full rounded-full bg-gradient-to-r from-[var(--available)] to-[var(--accent)]",
-    lbChevron: "text-[0.75rem] text-[var(--ink-soft)] ml-auto shrink-0 transition-transform duration-200 inline-block leading-none",
-    lbWho: "text-[0.6875rem] text-[var(--ink-soft)] leading-[1.8] flex flex-wrap items-center gap-1",
+    lbChevron: "text-xs text-[var(--ink-soft)] ml-auto shrink-0 transition-transform duration-200 inline-block leading-none",
+    lbWho: "text-2xs text-[var(--ink-soft)] leading-[1.8] flex flex-wrap items-center gap-1",
     lbWhoLabel: "font-extrabold text-[var(--ink-soft)]",
     lbWhoRanked: "text-[var(--accent-text)]",
     lbDetail: "grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out",
@@ -141,55 +141,55 @@
     lbDetailInnerOpen: "py-3 pb-6 opacity-100",
     /* Heatmap */
     hmRow: "flex items-center gap-2",
-    hmLabel: "w-8 shrink-0 text-[0.6875rem] font-extrabold uppercase tracking-wide text-[var(--ink-soft)] text-right",
-    hmCells: "flex gap-[3px] flex-1",
-    hmCell: "flex-1 border-2 border-transparent rounded-md min-h-[42px] bg-[var(--surface-muted)] text-[var(--ink)] font-extrabold cursor-pointer grid place-items-center leading-tight text-center p-0.5 transition-shadow duration-100 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2",
+    hmLabel: "w-8 shrink-0 text-2xs font-extrabold uppercase tracking-wide text-[var(--ink-soft)] text-right",
+    hmCells: "flex gap-0.5 flex-1",
+    hmCell: "flex-1 border-2 border-transparent rounded-md min-h-11 bg-[var(--surface-muted)] text-[var(--ink)] font-extrabold cursor-pointer grid place-items-center leading-tight text-center p-0.5 transition-shadow duration-100 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2",
     hmCellActive: "border-[var(--accent)] shadow-[0_0_0_2px_color-mix(in_srgb,var(--accent)_40%,transparent)]",
     hmDay: "text-sm font-extrabold",
     hmCount: "text-[0.6rem] opacity-65",
     /* Heatmap popover */
     heatPopover: "fixed z-30 border border-[var(--border)] rounded-xl bg-[var(--surface)] shadow-lg p-3 min-w-[180px] max-w-[280px] grid gap-2",
     hpHeader: "grid gap-0.5",
-    hpMeta: "text-[0.6875rem] text-[var(--ink-soft)]",
+    hpMeta: "text-2xs text-[var(--ink-soft)]",
     hpGroup: "grid gap-1",
-    hpGroupLabel: "text-[0.6875rem] font-extrabold uppercase tracking-[0.06em]",
+    hpGroupLabel: "text-2xs font-extrabold uppercase tracking-[0.06em]",
     hpPerson: "flex items-center gap-1 text-sm font-semibold py-1",
     /* Week detail */
-    weekDetail: "border border-[var(--border)] border-l-[3px] border-l-[var(--accent)] rounded-xl bg-[var(--surface)] p-4 text-sm text-[var(--ink)] min-h-[78px] grid gap-2",
+    weekDetail: "border border-[var(--border)] border-l-[3px] border-l-[var(--accent)] rounded-xl bg-[var(--surface)] p-4 text-sm text-[var(--ink)] min-h-20 grid gap-2",
     wdHeader: "flex items-baseline gap-2 flex-wrap",
-    wdHeaderStrong: "font-display text-[0.9375rem] font-extrabold",
-    wdDates: "text-[0.6875rem] font-semibold text-[var(--ink-soft)]",
-    wdSummary: "flex flex-wrap gap-[0.28rem]",
-    wdPeople: "grid gap-[0.22rem]",
-    wdPerson: "flex items-center gap-[0.35rem] p-[0.28rem_0.38rem] border border-[var(--border)] rounded-lg bg-[var(--surface)] text-[0.78rem]",
+    wdHeaderStrong: "font-display text-base font-extrabold",
+    wdDates: "text-2xs font-semibold text-[var(--ink-soft)]",
+    wdSummary: "flex flex-wrap gap-1",
+    wdPeople: "grid gap-1",
+    wdPerson: "flex items-center gap-1.5 px-1.5 py-1 border border-[var(--border)] rounded-lg bg-[var(--surface)] text-xs",
     wdPersonName: "font-bold flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap",
     wdPersonStatus: "flex items-center gap-1 shrink-0",
-    wdPersonRank: "font-extrabold text-[0.6875rem] text-[var(--accent)] bg-[var(--accent-bg)] border border-[var(--accent-border)] py-[0.1rem] px-[0.35rem] rounded-full",
-    wdBadge: "rounded-full py-[0.1rem] px-[0.36rem] text-[0.65rem] font-bold uppercase tracking-[0.03em] shrink-0 whitespace-nowrap inline-block align-middle",
+    wdPersonRank: "font-extrabold text-2xs text-[var(--accent)] bg-[var(--accent-bg)] border border-[var(--accent-border)] py-px px-1.5 rounded-full",
+    wdBadge: "rounded-full py-px px-1.5 text-2xs font-bold uppercase tracking-[0.03em] shrink-0 whitespace-nowrap inline-block align-middle",
     wdBadgeAvail: "bg-[var(--ok-bg)] text-[var(--ok-text)] border border-[var(--ok-border)]",
     wdBadgeMaybe: "bg-[var(--warn-bg)] text-[var(--warn-text)] border border-[var(--warn-border)]",
     wdBadgeUnsel: "bg-[var(--neutral-bg)] text-[var(--neutral-text)] border border-solid border-[var(--neutral-border)]",
     wdBadgePending: "bg-transparent text-[var(--ink-soft)] border border-dashed border-[var(--ink-soft)] opacity-70",
     wdInsight: "m-0 text-sm text-[var(--ink)] leading-relaxed italic p-2 px-3 bg-[var(--accent-bg)] rounded-lg border-l-[3px] border-l-[var(--accent)]",
-    wdEmpty: "text-[0.8rem] text-[var(--ink-soft)] italic",
+    wdEmpty: "text-sm text-[var(--ink-soft)] italic",
     /* Participants */
     participantList: "list-none m-0 p-0 grid gap-2",
-    participantItem: "border border-[var(--border)] border-l-[3px] border-l-[var(--neutral-border)] rounded-lg bg-[var(--surface)] py-2 px-3 text-sm font-semibold flex justify-between items-center gap-2 min-h-[44px]",
+    participantItem: "border border-[var(--border)] border-l-[3px] border-l-[var(--neutral-border)] rounded-lg bg-[var(--surface)] py-2 px-3 text-sm font-semibold flex justify-between items-center gap-2 min-h-11",
     participantDone: "border-l-[var(--available)]",
-    participantStatus: "text-[0.6875rem] font-bold uppercase tracking-wide py-1 px-2 rounded-full bg-[var(--neutral-bg)] text-[var(--ink-soft)]",
+    participantStatus: "text-2xs font-bold uppercase tracking-wide py-1 px-2 rounded-full bg-[var(--neutral-bg)] text-[var(--ink-soft)]",
     participantDoneStatus: "bg-[var(--ok-bg)] text-[var(--ok-text)]",
-    participantNudge: "flex items-center justify-between gap-2 py-2 px-3 rounded-lg bg-[var(--warn-bg)] border border-[var(--warn-border)] mb-2 flex-wrap min-h-[44px]",
+    participantNudge: "flex items-center justify-between gap-2 py-2 px-3 rounded-lg bg-[var(--warn-bg)] border border-[var(--warn-border)] mb-2 flex-wrap min-h-11",
     participantNudgeText: "text-sm text-[var(--warn-text)]",
     /* Narrative */
     narrative: "rounded-xl bg-[var(--surface-muted)] p-4 grid gap-2 mb-3",
-    narrativeLead: "m-0 text-[0.9375rem] font-semibold text-[var(--ink)] leading-normal",
+    narrativeLead: "m-0 text-base font-semibold text-[var(--ink)] leading-normal",
     narrativeDetail: "m-0 text-sm text-[var(--ink)] leading-relaxed",
     narrativePending: "m-0 text-sm text-[var(--ink-soft)] italic",
     /* Context menu */
-    ctxMenu: "fixed z-[25] border border-[var(--border)] rounded-lg bg-[var(--surface)] shadow-[0_10px_24px_rgba(0,0,0,0.18)] p-[0.3rem] grid gap-[0.15rem] min-w-[140px]",
-    ctxBtn: "border-none rounded-lg bg-transparent text-[var(--ink)] text-sm font-bold p-3 px-4 min-h-[44px] text-left cursor-pointer hover:bg-[var(--accent-bg)] hover:text-[var(--accent-text)]",
+    ctxMenu: "fixed z-[25] border border-[var(--border)] rounded-lg bg-[var(--surface)] shadow-[0_10px_24px_rgba(0,0,0,0.18)] p-1 grid gap-0.5 min-w-[140px]",
+    ctxBtn: "border-none rounded-lg bg-transparent text-[var(--ink)] text-sm font-bold p-3 px-4 min-h-11 text-left cursor-pointer hover:bg-[var(--accent-bg)] hover:text-[var(--accent-text)]",
     /* Toast */
-    toast: "rounded-xl py-2 px-3 text-white bg-[var(--ink)] text-[0.81rem] shadow-[0_10px_24px_rgba(0,0,0,0.2)]",
+    toast: "rounded-xl py-2 px-3 text-white bg-[var(--ink)] text-sm shadow-[0_10px_24px_rgba(0,0,0,0.2)]",
     toastGood: "bg-[var(--ok-text)]",
     toastWarn: "bg-[var(--warn-text)]",
   };
@@ -208,7 +208,7 @@
   function avatarHtml(name) {
     const initial = (name || "?").charAt(0).toUpperCase();
     const bg = nameColor(name);
-    return `<span class="inline-grid place-items-center w-[1.4rem] h-[1.4rem] rounded-full text-white font-display text-[0.65rem] font-extrabold leading-none shrink-0" style="background:${bg}">${escapeHtml(initial)}</span>`;
+    return `<span class="inline-grid place-items-center w-[1.4rem] h-[1.4rem] rounded-full text-white font-display text-2xs font-extrabold leading-none shrink-0" style="background:${bg}">${escapeHtml(initial)}</span>`;
   }
 
   function safeSetItem(key, value) {
@@ -1270,12 +1270,12 @@
           </div>
         </button>
         <div class="${TW.wcDetail}" hidden>
-          <div class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-stretch gap-[0.3rem]">
+          <div class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-stretch gap-1">
             <span class="${TW.flowPoint} ${TW.flowStart}">From ${week.startDisplay}</span>
             <span class="${TW.flowArrow}" aria-hidden="true">&rarr;</span>
             <span class="${TW.flowPoint} ${TW.flowEnd}">To ${week.endDisplay}</span>
           </div>
-          <div class="grid ${dayCols} auto-rows-[minmax(1.78rem,auto)] gap-[0.26rem] w-full min-w-0 content-start" aria-hidden="true">${stripMarkup}</div>
+          <div class="grid ${dayCols} auto-rows-[minmax(1.78rem,auto)] gap-1 w-full min-w-0 content-start" aria-hidden="true">${stripMarkup}</div>
         </div>
       `;
 
@@ -1330,7 +1330,7 @@
       /* Compact row for unselected */
       const row = card.querySelector("button");
       if (row) {
-        row.className = status === "unselected" ? TW.wcRow.replace("py-3", "py-2").replace("min-h-[56px]", "min-h-[44px]") : TW.wcRow;
+        row.className = status === "unselected" ? TW.wcRow.replace("py-3", "py-2").replace("min-h-14", "min-h-11") : TW.wcRow;
       }
 
       const statusPill = card.querySelector(".status-pill");
@@ -1844,7 +1844,7 @@
     state.syncState = normalizedMode;
 
     /* Reset badge to base styling */
-    els.connectionBadge.className = "inline-flex items-center min-h-[36px] rounded-full border text-sm font-bold px-3 whitespace-nowrap";
+    els.connectionBadge.className = "inline-flex items-center min-h-9 rounded-full border text-sm font-bold px-3 whitespace-nowrap";
 
     if (normalizedMode === "live_ready" || normalizedMode === "cloud_checking") {
       els.connectionBadge.hidden = true;
@@ -2213,7 +2213,7 @@
         } else if (hasMaybeOnly) {
           btn.style.background = `color-mix(in srgb, var(--maybe) 12%, var(--surface-muted))`;
         }
-        if (!hasActivity) btn.classList.add("min-h-[28px]");
+        if (!hasActivity) btn.classList.add("min-h-7");
 
         const day = week.start.getDate();
         const countLabel = entry.availableCount ? entry.availableCount : (entry.maybeCount ? `${entry.maybeCount}?` : "");

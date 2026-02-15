@@ -24,6 +24,9 @@ export default {
           900: '#0f2b2a',
         }
       },
+      fontSize: {
+        '2xs': ['0.6875rem', { lineHeight: '1.2' }],
+      },
       fontFamily: {
         display: ['Sora', 'sans-serif'],
         body: ['Manrope', 'sans-serif'],

@@ -22,7 +22,7 @@
     <div class="flex items-center gap-2">
       <a href="/planner.html" class="text-sm font-bold text-[var(--ink-soft)] hover:text-[var(--accent-text)] hover:bg-[var(--accent-bg)] px-2 py-1 rounded-lg no-underline transition-colors duration-100">Planner</a>
       <button id="themeToggle" class="w-9 h-9 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] text-lg leading-none grid place-items-center cursor-pointer hover:bg-[var(--accent-bg)] hover:text-[var(--accent-text)] transition-colors duration-100" type="button" aria-label="Theme: Auto">&#9681;</button>
-      <button id="logoutBtn" class="inline-flex items-center justify-center min-h-[36px] px-3 py-1 text-sm rounded-full border border-[var(--danger-border)] bg-[var(--danger-soft)] text-[var(--danger)] font-bold cursor-pointer" type="button" hidden>Sign Out</button>
+      <button id="logoutBtn" class="inline-flex items-center justify-center min-h-9 px-3 py-1 text-sm rounded-full border border-[var(--danger-border)] bg-[var(--danger-soft)] text-[var(--danger)] font-bold cursor-pointer" type="button" hidden>Sign Out</button>
     </div>
   </nav>
 
@@ -35,14 +35,14 @@
     <!-- Login -->
     <section id="loginSection" class="card p-4 max-w-[400px] mx-auto">
       <h2 class="m-0 mb-1 font-display">Sign in</h2>
-      <p class="m-0 text-[var(--ink-soft)] text-[0.94rem]">Enter the admin password to continue.</p>
+      <p class="m-0 text-[var(--ink-soft)] text-base">Enter the admin password to continue.</p>
       <div class="grid gap-2.5 mt-2">
         <label class="grid gap-1">
           <span class="text-xs text-[var(--ink-soft)] uppercase font-bold tracking-wide">Password</span>
           <input id="passwordInput" class="w-full min-h-[46px] border border-[var(--border)] rounded-lg bg-[var(--surface)] text-[var(--ink)] py-2.5 px-3 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" type="password" placeholder="Admin password" autocomplete="current-password" />
         </label>
-        <button id="loginBtn" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)]" type="button">Sign In</button>
-        <span id="loginError" class="text-[0.84rem] text-[var(--danger)] font-semibold" hidden></span>
+        <button id="loginBtn" class="inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)]" type="button">Sign In</button>
+        <span id="loginError" class="text-sm text-[var(--danger)] font-semibold" hidden></span>
       </div>
     </section>
 
@@ -53,25 +53,25 @@
       <div class="flex items-center justify-between gap-2 flex-wrap mb-2">
         <h2 class="m-0 font-display text-[clamp(1rem,2vw,1.3rem)]">All Trips</h2>
         <div class="flex gap-1.5 flex-wrap items-center">
-          <input id="tripSearchInput" type="text" placeholder="Search trips..." class="border border-[var(--border)] rounded-lg bg-[var(--surface)] text-[var(--ink)] text-sm py-2 px-3 min-h-[40px] min-w-[140px]" autocomplete="off" />
-          <button id="createTripBtn" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)]" type="button" title="Create a new trip code that participants can join">+ Create Trip</button>
-          <button id="refreshBtn" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2]" type="button" title="Reload the trip list from the server">Refresh</button>
+          <input id="tripSearchInput" type="text" placeholder="Search trips..." class="border border-[var(--border)] rounded-lg bg-[var(--surface)] text-[var(--ink)] text-sm py-2 px-3 min-h-10 min-w-[140px]" autocomplete="off" />
+          <button id="createTripBtn" class="inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)]" type="button" title="Create a new trip code that participants can join">+ Create Trip</button>
+          <button id="refreshBtn" class="inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2]" type="button" title="Reload the trip list from the server">Refresh</button>
         </div>
       </div>
 
       <!-- Create Trip Form -->
       <div id="createTripForm" class="card p-3 mb-2.5 bg-[var(--surface-muted)]" hidden>
-        <h3 class="m-0 mb-1.5 text-[0.95rem]">Create a new trip</h3>
+        <h3 class="m-0 mb-1.5 text-base">Create a new trip</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <label class="grid gap-1">
             <span class="text-xs text-[var(--ink-soft)] uppercase font-bold tracking-wide">Trip code</span>
             <input id="newTripCode" class="w-full min-h-[46px] border border-[var(--border)] rounded-lg bg-[var(--surface)] text-[var(--ink)] py-2.5 px-3 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" style="text-transform:uppercase;" title="The unique code participants enter to join this trip. Letters, numbers, hyphens, and underscores only." />
-            <span class="text-[0.6875rem] font-semibold text-[var(--ink-soft)] normal-case tracking-normal italic">Share this code with your group so they can join.</span>
+            <span class="text-2xs font-semibold text-[var(--ink-soft)] normal-case tracking-normal italic">Share this code with your group so they can join.</span>
           </label>
           <label class="grid gap-1">
             <span class="text-xs text-[var(--ink-soft)] uppercase font-bold tracking-wide">Trip name (optional)</span>
             <input id="newTripName" class="w-full min-h-[46px] border border-[var(--border)] rounded-lg bg-[var(--surface)] text-[var(--ink)] py-2.5 px-3 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" type="text" maxlength="120" placeholder="Beach House August" autocomplete="off" title="A friendly name for this trip. Only visible in admin." />
-            <span class="text-[0.6875rem] font-semibold text-[var(--ink-soft)] normal-case tracking-normal italic">A label for your reference — participants won't see this.</span>
+            <span class="text-2xs font-semibold text-[var(--ink-soft)] normal-case tracking-normal italic">A label for your reference — participants won't see this.</span>
           </label>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -86,7 +86,7 @@
               <option value="sat" selected>Saturday</option>
               <option value="sun">Sunday</option>
             </select>
-            <span class="text-[0.6875rem] font-semibold text-[var(--ink-soft)] normal-case tracking-normal italic">Each week starts on this day (e.g., Sat → Sat–Fri windows).</span>
+            <span class="text-2xs font-semibold text-[var(--ink-soft)] normal-case tracking-normal italic">Each week starts on this day (e.g., Sat → Sat–Fri windows).</span>
           </label>
           <label class="grid gap-1">
             <span class="text-xs text-[var(--ink-soft)] uppercase font-bold tracking-wide">Window length</span>
@@ -102,12 +102,12 @@
               <option value="10">10 days</option>
               <option value="14">14 days</option>
             </select>
-            <span class="text-[0.6875rem] font-semibold text-[var(--ink-soft)] normal-case tracking-normal italic">Duration of each bookable window across the year.</span>
+            <span class="text-2xs font-semibold text-[var(--ink-soft)] normal-case tracking-normal italic">Duration of each bookable window across the year.</span>
           </label>
         </div>
         <div class="flex items-center gap-2">
-          <button id="createTripSubmit" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)]" type="button">Create</button>
-          <button id="createTripCancel" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2]" type="button">Cancel</button>
+          <button id="createTripSubmit" class="inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer hover:bg-[var(--accent-strong)]" type="button">Create</button>
+          <button id="createTripCancel" class="inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2]" type="button">Cancel</button>
         </div>
       </div>
 
@@ -117,7 +117,7 @@
     <!-- Trip Detail -->
     <section id="tripDetailSection" class="card p-4" hidden>
       <div class="flex items-center justify-between gap-2 flex-wrap mb-2">
-        <button id="backToTripsBtn" class="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2]" type="button">&larr; All Trips</button>
+        <button id="backToTripsBtn" class="inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2]" type="button">&larr; All Trips</button>
         <h2 id="tripDetailTitle" class="m-0 font-display text-[clamp(1rem,2vw,1.3rem)]">Trip Detail</h2>
       </div>
       <div id="tripDetailInfo" class="mb-2"></div>
@@ -129,7 +129,7 @@
       <div id="participantsContainer" class="grid gap-2"></div>
 
       <details class="group mt-3 border-t border-[var(--border)] pt-3">
-        <summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden"><h3 class="flex items-center gap-2 m-0"><span class="text-[0.75rem] text-[var(--ink-soft)] transition-transform duration-150 group-open:rotate-90 inline-block leading-none">&#9656;</span>Trip Actions</h3></summary>
+        <summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden"><h3 class="flex items-center gap-2 m-0"><span class="text-xs text-[var(--ink-soft)] transition-transform duration-150 group-open:rotate-90 inline-block leading-none">&#9656;</span>Trip Actions</h3></summary>
         <div id="tripActions" class="mt-3"></div>
       </details>
     </section>
