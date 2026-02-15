@@ -148,7 +148,6 @@ body {
 :root.theme-ready .results-locked,
 :root.theme-ready .week-detail,
 :root.theme-ready .rank-select,
-:root.theme-ready .stepper-btn,
 :root.theme-ready .day-strip span,
 :root.theme-ready .week-card .flow-point {
   transition:
@@ -182,62 +181,7 @@ body {
 
 /* .wizard, .stepper, .stepper li: migrated to Tailwind (Phase 5) */
 
-.stepper-btn {
-  width: 100%;
-  border: none;
-  border-radius: var(--radius-sm);
-  background: var(--surface-muted);
-  color: var(--ink-soft);
-  font: inherit;
-  font-size: var(--text-xs);
-  font-weight: 700;
-  line-height: 1.15;
-  padding: var(--sp-2) var(--sp-3);
-  display: grid;
-  gap: var(--sp-1);
-  text-align: center;
-  cursor: pointer;
-  white-space: nowrap;
-  min-width: 4.5rem;
-}
-
-.stepper-btn span:first-child {
-  width: 1.6rem;
-  height: 1.6rem;
-  margin: 0 auto;
-  border-radius: 50%;
-  display: inline-grid;
-  place-items: center;
-  background: var(--surface);
-  color: var(--ink-soft);
-  font-weight: 800;
-  font-size: var(--text-xs);
-}
-
-.stepper-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.stepper li.active .stepper-btn {
-  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
-  color: var(--accent);
-}
-
-.stepper li.active .stepper-btn span:first-child {
-  background: var(--accent);
-  color: #fff;
-}
-
-.stepper li.complete .stepper-btn {
-  background: var(--ok-bg);
-  color: var(--ok-text);
-}
-
-.stepper li.complete .stepper-btn span:first-child {
-  background: var(--available);
-  color: #fff;
-}
+/* .stepper-btn + states: migrated to Tailwind (Phase 5) — state toggling in renderStepper() */
 
 /* .step-panel: keep grid + hidden override (Tailwind grid class overrides [hidden] attribute) */
 .step-panel {
@@ -267,7 +211,6 @@ body {
 }
 
 .rank-select:focus-visible,
-.stepper-btn:focus-visible,
 .week-card:focus-visible,
 .hm-cell:focus-visible {
   outline: 3px solid rgba(15, 118, 110, 0.28);
@@ -2199,16 +2142,7 @@ body {
 
 /* hint dark mode now handled by tokens (--ok-text, --danger, --ink-soft) */
 
-:root[data-theme="dark"] .stepper-btn {
-  background: #1a2b3b;
-  border-color: #2a3f51;
-  color: #b6c7d5;
-}
-
-:root[data-theme="dark"] .stepper-btn span:first-child {
-  background: #22394c;
-  color: #d3e1ec;
-}
+/* dark .stepper-btn: migrated to Tailwind (Phase 5) */
 
 /* dark .badge.required: migrated to Tailwind (Phase 4) */
 

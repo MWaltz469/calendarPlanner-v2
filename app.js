@@ -1703,16 +1703,44 @@
     els.connectionBadge.textContent = "Connection required";
   }
 
+  /* Stepper state — Tailwind class sets for active/complete/default */
+  const STEPPER_STATES = {
+    defaultBtn: ["bg-[--surface-muted]", "text-[--ink-soft]"],
+    activeBtn: ["bg-[color-mix(in_srgb,var(--accent)_12%,var(--surface))]", "text-[--accent]"],
+    completeBtn: ["bg-[--ok-bg]", "text-[--ok-text]"],
+    defaultNum: ["bg-[--surface]", "text-[--ink-soft]"],
+    activeNum: ["bg-[--accent]", "text-white"],
+    completeNum: ["bg-[--available]", "text-white"],
+  };
+  const ALL_STEPPER_BTN = [...STEPPER_STATES.defaultBtn, ...STEPPER_STATES.activeBtn, ...STEPPER_STATES.completeBtn];
+  const ALL_STEPPER_NUM = [...STEPPER_STATES.defaultNum, ...STEPPER_STATES.activeNum, ...STEPPER_STATES.completeNum];
+
   function renderStepper() {
     const items = els.stepper.querySelectorAll("li");
     items.forEach((item) => {
       const button = item.querySelector(".stepper-btn");
       if (!button) return;
+      const num = button.querySelector(".stepper-num");
       const step = Number(button.dataset.step);
-      item.classList.toggle("active", step === state.currentStep);
-      item.classList.toggle("complete", step < state.currentStep && state.isJoined);
+      const isActive = step === state.currentStep;
+      const isComplete = step < state.currentStep && state.isJoined;
+
+      button.classList.remove(...ALL_STEPPER_BTN);
+      if (num) num.classList.remove(...ALL_STEPPER_NUM);
+
+      if (isActive) {
+        button.classList.add(...STEPPER_STATES.activeBtn);
+        if (num) num.classList.add(...STEPPER_STATES.activeNum);
+      } else if (isComplete) {
+        button.classList.add(...STEPPER_STATES.completeBtn);
+        if (num) num.classList.add(...STEPPER_STATES.completeNum);
+      } else {
+        button.classList.add(...STEPPER_STATES.defaultBtn);
+        if (num) num.classList.add(...STEPPER_STATES.defaultNum);
+      }
+
       button.disabled = !state.isJoined && step > 1;
-      button.setAttribute("aria-current", step === state.currentStep ? "step" : "false");
+      button.setAttribute("aria-current", isActive ? "step" : "false");
     });
   }
 
