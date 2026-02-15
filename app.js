@@ -1844,14 +1844,14 @@
     state.syncState = normalizedMode;
 
     /* Reset badge to base styling */
-    els.connectionBadge.className = "hidden inline-flex items-center min-h-[36px] rounded-full border text-sm font-bold px-3 whitespace-nowrap";
+    els.connectionBadge.className = "inline-flex items-center min-h-[36px] rounded-full border text-sm font-bold px-3 whitespace-nowrap";
 
     if (normalizedMode === "live_ready" || normalizedMode === "cloud_checking") {
-      els.connectionBadge.classList.add("hidden");
+      els.connectionBadge.hidden = true;
       return;
     }
 
-    els.connectionBadge.classList.remove("hidden");
+    els.connectionBadge.hidden = false;
 
     if (normalizedMode === "cloud_unavailable") {
       els.connectionBadge.classList.add("bg-[--warn-bg]", "border-[--warn-border]", "text-[--warn-text]");

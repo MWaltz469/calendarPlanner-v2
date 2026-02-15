@@ -1,4 +1,8 @@
 @import "tailwindcss";
+@config "../tailwind.config.js";
+
+/* Dark mode uses data-theme attribute, not prefers-color-scheme */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 /*
  * TripWeek — Tailwind Source CSS
