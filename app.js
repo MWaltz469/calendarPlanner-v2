@@ -1556,14 +1556,14 @@
         state.syncing = true;
         try {
           await refreshGroupData();
-          renderResults();
+          setSyncState("live_ready");
           const now = new Date();
           setJoinState(`Live update received at ${now.toLocaleTimeString()}.`, true);
-          setSyncState("live_ready");
         } catch (error) {
           console.error(error);
           setSyncState("cloud_unavailable");
-        } finally {
+        }
+        try { renderResults(); } catch (renderErr) { console.error("Render error:", renderErr); } finally {
           state.syncing = false;
         }
       }, 220);
@@ -2020,7 +2020,9 @@
       els.participantSummary.textContent = `${submittedCount} of ${totalPeople} submitted`;
     }
 
-    // Add nudge button if there are pending participants
+    // Add nudge button if there are pending participants (clear previous first)
+    const existingNudges = els.participantList.parentElement.querySelectorAll(".participant-nudge");
+    existingNudges.forEach((n) => n.remove());
     const pendingPeople = participants.filter((p) => !p.submitted_at);
     if (pendingPeople.length > 0 && participants.length > 1) {
       const nudge = document.createElement("div");

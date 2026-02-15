@@ -496,8 +496,10 @@ body {
   flex-wrap: wrap;
 }
 
-.inline-actions .btn.danger {
-  margin-left: auto;
+@media (min-width: 640px) {
+  .inline-actions .btn.danger {
+    margin-left: auto;
+  }
 }
 
 .btn {
