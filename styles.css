@@ -190,7 +190,7 @@ body {
   width: min(1040px, 100%);
   margin: 0 auto;
   display: grid;
-  gap: var(--sp-4);
+  gap: var(--sp-6);
 }
 
 .card {
@@ -1190,7 +1190,7 @@ body {
 
 .results {
   display: grid;
-  gap: var(--sp-3);
+  gap: var(--sp-6);
 }
 
 .results-narrative {
@@ -1619,7 +1619,7 @@ body {
 
 .leaderboard {
   display: grid;
-  gap: var(--sp-2);
+  gap: var(--sp-3);
 }
 
 .lb-item {
@@ -2719,7 +2719,7 @@ body {
 .admin-trips,
 .admin-participants {
   display: grid;
-  gap: var(--sp-2);
+  gap: var(--sp-3);
 }
 
 .admin-trip-row,
@@ -2898,10 +2898,10 @@ body {
 .admin-narrative {
   border-radius: var(--radius-md);
   background: var(--surface-muted);
-  padding: var(--sp-4);
+  padding: var(--sp-5);
   display: grid;
-  gap: var(--sp-2);
-  margin-bottom: var(--sp-3);
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
 }
 
 .admin-narrative-lead {
