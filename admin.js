@@ -68,7 +68,8 @@
 
   function showToast(message, tone) {
     const t = document.createElement("div");
-    t.className = `toast ${tone || ""}`.trim();
+    const tc = tone === "good" ? TW.btnPrimary.includes("bg") ? "bg-[--ok-text]" : "" : tone === "warn" ? "bg-[--warn-text]" : "";
+    t.className = `rounded-xl py-2 px-3 text-white bg-[--ink] text-[0.81rem] shadow-[0_10px_24px_rgba(0,0,0,0.2)] toast-animate ${tc}`.trim();
     t.textContent = message;
     els.toastArea.appendChild(t);
     setTimeout(() => t.remove(), 2500);
@@ -151,10 +152,10 @@
   function renderStats(stats) {
     if (!stats) { els.statsBar.innerHTML = ""; return; }
     els.statsBar.innerHTML = `
-      <div class="admin-stats">
-        <div class="score-chip"><span>Trips</span><strong>${stats.totalTrips}</strong></div>
-        <div class="score-chip"><span>Participants</span><strong>${stats.totalParticipants}</strong><span class="score-chip-sub">across all trips</span></div>
-        <div class="score-chip"><span>Submissions</span><strong>${stats.totalSubmissions}</strong></div>
+      <div class="grid grid-cols-3 gap-1.5 mb-2">
+        <div class="border border-[--border] rounded-xl bg-[--surface] p-3 px-4 grid gap-0.5 relative overflow-hidden"><span class="absolute top-0 left-0 right-0 h-[3px] bg-[--accent] opacity-40"></span><span class="uppercase tracking-[0.06em] text-[0.6875rem] text-[--ink-soft] font-bold">Trips</span><strong class="font-display text-[clamp(1rem,2.5vw,1.3rem)] font-extrabold text-[--ink]">${stats.totalTrips}</strong></div>
+        <div class="border border-[--border] rounded-xl bg-[--surface] p-3 px-4 grid gap-0.5 relative overflow-hidden"><span class="absolute top-0 left-0 right-0 h-[3px] bg-[--accent] opacity-40"></span><span class="uppercase tracking-[0.06em] text-[0.6875rem] text-[--ink-soft] font-bold">Participants</span><strong class="font-display text-[clamp(1rem,2.5vw,1.3rem)] font-extrabold text-[--ink]">${stats.totalParticipants}</strong><span class="text-[0.6875rem] font-semibold text-[--ink-soft]">across all trips</span></div>
+        <div class="border border-[--border] rounded-xl bg-[--surface] p-3 px-4 grid gap-0.5 relative overflow-hidden"><span class="absolute top-0 left-0 right-0 h-[3px] bg-[--accent] opacity-40"></span><span class="uppercase tracking-[0.06em] text-[0.6875rem] text-[--ink-soft] font-bold">Submissions</span><strong class="font-display text-[clamp(1rem,2.5vw,1.3rem)] font-extrabold text-[--ink]">${stats.totalSubmissions}</strong></div>
       </div>
     `;
   }
@@ -209,29 +210,32 @@
     els.tripsContainer.innerHTML = "";
     trips.forEach((trip) => {
       const card = document.createElement("div");
-      card.className = "admin-trip-row";
+      card.className = "border border-[--border] rounded-lg bg-[--surface] p-2 grid gap-1.5";
       const allDone = trip.participant_count > 0 && trip.submitted_count === trip.participant_count;
       const locked = Boolean(trip.locked);
+      const lbStatBase = "rounded-full py-[0.15rem] px-[0.42rem] text-[0.68rem] font-bold border border-[--border] bg-[--surface-muted] text-[--ink-soft]";
+      const lbStatAvail = "border-[--ok-border] bg-[--ok-bg] text-[--ok-text]";
+      const lbStatMaybe = "border-[--warn-border] bg-[--warn-bg] text-[--warn-text]";
 
       card.innerHTML = `
-        <div class="admin-trip-row-main">
-          <div class="admin-trip-row-info">
-            <div class="admin-trip-title-row">
-              <strong class="admin-trip-code">${escapeHtml(trip.share_code)}</strong>
-              ${trip.name && trip.name !== `${trip.trip_year} Group Trip` ? `<span class="admin-trip-name">${escapeHtml(trip.name)}</span>` : ""}
-              ${locked ? `<span class="wd-badge wd-badge-maybe">Locked</span>` : ""}
+        <div class="flex justify-between items-start gap-2 flex-wrap">
+          <div class="grid gap-[0.15rem]">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <strong class="font-display text-base text-[--ink]">${escapeHtml(trip.share_code)}</strong>
+              ${trip.name && trip.name !== `${trip.trip_year} Group Trip` ? `<span class="text-[0.82rem] font-semibold text-[--ink-soft]">${escapeHtml(trip.name)}</span>` : ""}
+              ${locked ? `<span class="rounded-full py-[0.1rem] px-[0.36rem] text-[0.65rem] font-bold uppercase tracking-[0.03em] bg-[--warn-bg] text-[--warn-text] border border-[--warn-border]">Locked</span>` : ""}
             </div>
-            <span class="admin-trip-meta">${trip.trip_year} &middot; ${fmtConfig(trip.week_format, trip.trip_length)} &middot; Created ${formatShortDate(trip.created_at)}</span>
+            <span class="text-[0.76rem] font-semibold text-[--ink-soft]">${trip.trip_year} &middot; ${fmtConfig(trip.week_format, trip.trip_length)} &middot; Created ${formatShortDate(trip.created_at)}</span>
           </div>
-          <div class="admin-trip-row-stats">
-            <span class="lb-stat">${trip.participant_count} participant${trip.participant_count !== 1 ? "s" : ""}</span>
-            <span class="lb-stat ${allDone && trip.participant_count > 0 ? "available" : trip.submitted_count > 0 ? "maybe" : ""}">${trip.submitted_count} submitted</span>
+          <div class="flex gap-[0.28rem] flex-wrap self-center">
+            <span class="${lbStatBase}">${trip.participant_count} participant${trip.participant_count !== 1 ? "s" : ""}</span>
+            <span class="${lbStatBase} ${allDone && trip.participant_count > 0 ? lbStatAvail : trip.submitted_count > 0 ? lbStatMaybe : ""}">${trip.submitted_count} submitted</span>
           </div>
         </div>
-        <div class="admin-trip-row-actions">
+        <div class="flex gap-1.5 flex-wrap">
           <button class="${TW.btnPrimary} view-btn" type="button">View</button>
         </div>
-        <div class="admin-trip-row-danger">
+        <div class="border-t border-dashed border-[--border] pt-2">
           <button class="${TW.btnDangerSm} delete-trip-btn" type="button">Delete trip</button>
         </div>
       `;
@@ -272,13 +276,15 @@
       ? `${trip.share_code} — ${trip.name}` : trip.share_code;
 
     const locked = Boolean(trip.locked);
+    const chipCls = "rounded-full py-[0.15rem] px-[0.42rem] text-[0.68rem] font-bold border border-[--border] bg-[--surface-muted] text-[--ink-soft]";
+    const badgeCls = "rounded-full py-[0.1rem] px-[0.36rem] text-[0.65rem] font-bold uppercase tracking-[0.03em]";
     els.tripDetailInfo.innerHTML = `
-      <div class="admin-detail-chips">
-        <span class="lb-stat">${trip.trip_year}</span>
-        <span class="lb-stat">${fmtConfig(trip.week_format, trip.trip_length)}</span>
-        <span class="lb-stat">TZ: ${trip.timezone || "UTC"}</span>
-        <span class="lb-stat">Created ${formatShortDate(trip.created_at)}</span>
-        ${locked ? `<span class="wd-badge wd-badge-maybe">Locked</span>` : `<span class="wd-badge wd-badge-available">Open</span>`}
+      <div class="flex flex-wrap gap-[0.3rem] mb-[0.3rem]">
+        <span class="${chipCls}">${trip.trip_year}</span>
+        <span class="${chipCls}">${fmtConfig(trip.week_format, trip.trip_length)}</span>
+        <span class="${chipCls}">TZ: ${trip.timezone || "UTC"}</span>
+        <span class="${chipCls}">Created ${formatShortDate(trip.created_at)}</span>
+        ${locked ? `<span class="${badgeCls} bg-[--warn-bg] text-[--warn-text] border border-[--warn-border]">Locked</span>` : `<span class="${badgeCls} bg-[--ok-bg] text-[--ok-text] border border-[--ok-border]">Open</span>`}
       </div>
     `;
 
@@ -292,15 +298,15 @@
       { label: "Export CSV", cls: TW.btn, hint: "Download selections as a spreadsheet", handler: () => exportCsv(trip, participants, selections) }
     ];
     const safeGrid = document.createElement("div");
-    safeGrid.className = "admin-actions-grid";
+    safeGrid.className = "grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-2";
     safeActions.forEach((a) => {
       const wrap = document.createElement("div");
-      wrap.className = "admin-action-item";
+      wrap.className = "grid gap-1";
       const btn = document.createElement("button");
       btn.type = "button"; btn.className = a.cls + " w-full text-center"; btn.textContent = a.label;
       btn.addEventListener("click", a.handler);
       const hint = document.createElement("span");
-      hint.className = "admin-action-hint";
+      hint.className = "text-[0.6875rem] text-[--ink-soft] text-center leading-tight";
       hint.textContent = a.hint;
       wrap.append(btn, hint);
       safeGrid.appendChild(wrap);
@@ -309,8 +315,8 @@
 
     // Danger zone
     const dangerZone = document.createElement("div");
-    dangerZone.className = "admin-danger-zone";
-    dangerZone.innerHTML = `<span class="admin-danger-label">Danger zone</span>`;
+    dangerZone.className = "flex items-center gap-3 pt-3 mt-2 border-t border-dashed border-[--danger]";
+    dangerZone.innerHTML = `<span class="text-[0.6875rem] font-extrabold uppercase tracking-[0.06em] text-[--danger]">Danger zone</span>`;
     const deleteBtn = document.createElement("button");
     deleteBtn.type = "button";
     deleteBtn.className = TW.btnDangerSm;
@@ -383,8 +389,8 @@
     const bestPct = submittedCount > 0 ? Math.round((bk.available.length / submittedCount) * 100) : 0;
     const bestLabel = bestWeek ? bestWeek.rangeText : `Week ${best.weekNumber}`;
 
-    let narrative = `<div class="admin-narrative">`;
-    narrative += `<p class="admin-narrative-lead">`;
+    let narrative = `<div class="rounded-xl bg-[--surface-muted] p-4 grid gap-2 mb-3">`;
+    narrative += `<p class="m-0 text-[0.9375rem] font-semibold text-[--ink] leading-normal">`;
     if (bestPct === 100 && submittedCount === totalPeople && totalPeople > 1) {
       narrative += `Everyone is available for <strong>${bestLabel}</strong>. You\u2019re good to book.`;
     } else if (bk.available.length > 1) {
@@ -398,47 +404,52 @@
 
     // Completeness indicator
     if (submittedCount < totalPeople) {
-      narrative += `<p class="admin-narrative-pending">Based on <strong>${submittedCount} of ${totalPeople}</strong> submissions. Waiting on: <strong>${bk.notSubmitted.map((p) => escapeHtml(p.name)).join(", ") || participants.filter((p) => !p.submitted_at).map((p) => escapeHtml(p.name)).join(", ")}</strong>.</p>`;
+      narrative += `<p class="m-0 text-sm text-[--ink-soft] italic">Based on <strong>${submittedCount} of ${totalPeople}</strong> submissions. Waiting on: <strong>${bk.notSubmitted.map((p) => escapeHtml(p.name)).join(", ") || participants.filter((p) => !p.submitted_at).map((p) => escapeHtml(p.name)).join(", ")}</strong>.</p>`;
     } else if (totalPeople > 1) {
-      narrative += `<p class="admin-narrative-pending" style="color:var(--ok-text)">All ${totalPeople} participants have submitted.</p>`;
+      narrative += `<p class="m-0 text-sm italic" style="color:var(--ok-text)">All ${totalPeople} participants have submitted.</p>`;
     }
 
     // Who's in, maybe, out — submission-aware
     const parts = [];
-    if (bk.available.length) parts.push(`${bk.available.map((p) => `<span class="wd-badge wd-badge-available">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.available.length === 1 ? "is" : "are"} available`);
-    if (bk.maybe.length) parts.push(`${bk.maybe.map((p) => `<span class="wd-badge wd-badge-maybe">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.maybe.length === 1 ? "is" : "are"} maybe`);
-    if (bk.unavailable.length) parts.push(`${bk.unavailable.map((p) => `<span class="wd-badge wd-badge-unselected">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.unavailable.length === 1 ? "is" : "are"} unavailable`);
-    if (bk.notSubmitted.length) parts.push(`${bk.notSubmitted.map((p) => `<span class="wd-badge wd-badge-pending">${escapeHtml(p.name)}</span>`).join(" ")} haven\u2019t submitted yet`);
+    const wdB = "rounded-full py-[0.1rem] px-[0.36rem] text-[0.65rem] font-bold uppercase tracking-[0.03em] inline-block align-middle whitespace-nowrap";
+    if (bk.available.length) parts.push(`${bk.available.map((p) => `<span class="${wdB} bg-[--ok-bg] text-[--ok-text] border border-[--ok-border]">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.available.length === 1 ? "is" : "are"} available`);
+    if (bk.maybe.length) parts.push(`${bk.maybe.map((p) => `<span class="${wdB} bg-[--warn-bg] text-[--warn-text] border border-[--warn-border]">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.maybe.length === 1 ? "is" : "are"} maybe`);
+    if (bk.unavailable.length) parts.push(`${bk.unavailable.map((p) => `<span class="${wdB} bg-[--neutral-bg] text-[--neutral-text] border border-[--neutral-border]">${escapeHtml(p.name)}</span>`).join(" ")} ${bk.unavailable.length === 1 ? "is" : "are"} unavailable`);
+    if (bk.notSubmitted.length) parts.push(`${bk.notSubmitted.map((p) => `<span class="${wdB} bg-[--surface-muted] text-[--ink-soft] border border-dashed border-[--border]">${escapeHtml(p.name)}</span>`).join(" ")} haven\u2019t submitted yet`);
     if (parts.length) {
-      narrative += `<p class="admin-narrative-detail">${parts.join(". ")}.</p>`;
+      narrative += `<p class="m-0 text-sm text-[--ink] leading-relaxed">${parts.join(". ")}.</p>`;
     }
 
     narrative += `</div>`;
 
     // --- Leaderboard with dates (submission-aware) ---
     const maxScore = Math.max(1, top5[0].score);
-    let leaderboard = `<div class="admin-leaderboard">`;
+    const lbS = "rounded-full py-[0.15rem] px-[0.42rem] text-[0.68rem] font-bold border border-[--border] bg-[--surface-muted] text-[--ink-soft]";
+    const lbSA = "border-[--ok-border] bg-[--ok-bg] text-[--ok-text]";
+    const lbSM = "border-[--warn-border] bg-[--warn-bg] text-[--warn-text]";
+    let leaderboard = `<div class="grid gap-1.5">`;
     top5.forEach((w, i) => {
       const week = weekDates[w.weekNumber];
       const wbk = getWeekBreakdown(w);
       const pct = submittedCount > 0 ? Math.round((wbk.available.length / submittedCount) * 100) : 0;
       const barW = (w.score / maxScore) * 100;
+      const isTop = i === 0;
       leaderboard += `
-        <div class="lb-row${i === 0 ? " lb-top-pick" : ""}">
-          <div class="lb-header">
-            <span class="lb-rank">#${i + 1}</span>
-            <div class="lb-info">
-              <span class="lb-dates">${week ? `${week.startDisplay} \u2192 ${week.endDisplay}` : `Week ${w.weekNumber}`}</span>
-              <span class="lb-meta">Week ${w.weekNumber} \u00B7 ${week ? week.days : ""} days</span>
+        <div class="border border-[--border] border-l-[3px] ${isTop ? "border-l-[--available] bg-[--ok-bg]" : "border-l-transparent bg-[--surface]"} rounded-lg p-3 grid gap-2 cursor-default text-left w-full">
+          <div class="flex items-center gap-[0.45rem]">
+            <span class="w-8 h-8 rounded-lg ${isTop ? "bg-[--accent] border-[--accent] text-white" : "bg-[--accent-bg] text-[--accent-text] border border-[--accent-border]"} inline-grid place-items-center font-display font-bold text-[0.78rem] shrink-0">#${i + 1}</span>
+            <div class="grid gap-[0.08rem] min-w-0">
+              <span class="font-bold text-sm text-[--ink]">${week ? `${week.startDisplay} \u2192 ${week.endDisplay}` : `Week ${w.weekNumber}`}</span>
+              <span class="text-[0.6875rem] font-semibold text-[--ink-soft]">Week ${w.weekNumber} \u00B7 ${week ? week.days : ""} days</span>
             </div>
           </div>
-          <div class="lb-stats">
-            ${wbk.available.length ? `<span class="lb-stat available">${wbk.available.length} of ${submittedCount} available</span>` : ""}
-            ${wbk.maybe.length ? `<span class="lb-stat maybe">${wbk.maybe.length} maybe</span>` : ""}
-            ${pct ? `<span class="lb-stat pct">${pct}%</span>` : ""}
-            ${wbk.notSubmitted.length ? `<span class="lb-stat" style="border-style:dashed">${wbk.notSubmitted.length} pending</span>` : ""}
+          <div class="flex flex-wrap gap-[0.32rem]">
+            ${wbk.available.length ? `<span class="${lbS} ${lbSA}">${wbk.available.length} of ${submittedCount} available</span>` : ""}
+            ${wbk.maybe.length ? `<span class="${lbS} ${lbSM}">${wbk.maybe.length} maybe</span>` : ""}
+            ${pct ? `<span class="${lbS}">${pct}%</span>` : ""}
+            ${wbk.notSubmitted.length ? `<span class="${lbS}" style="border-style:dashed">${wbk.notSubmitted.length} pending</span>` : ""}
           </div>
-          <div class="lb-bar"><span style="width:${barW.toFixed(1)}%"></span></div>
+          <div class="h-2 rounded-full bg-[--surface-muted] overflow-hidden"><span class="block h-full rounded-full bg-gradient-to-r from-[--available] to-[--accent]" style="width:${barW.toFixed(1)}%"></span></div>
         </div>`;
     });
     leaderboard += `</div>`;
@@ -508,15 +519,15 @@
 
     if (waiting.length) {
       const header = document.createElement("div");
-      header.className = "admin-participant-group-header admin-participant-group-waiting";
-      header.innerHTML = `<strong>Waiting (${waiting.length})</strong><span class="lb-stat" style="border-style:dashed">${waiting.length} not submitted</span>`;
+      header.className = "flex items-center gap-2 py-2 text-sm text-[--ink-soft] border-b border-[--border] mb-1";
+      header.innerHTML = `<strong>Waiting (${waiting.length})</strong><span class="rounded-full py-[0.15rem] px-[0.42rem] text-[0.68rem] font-bold border border-dashed border-[--border] bg-[--surface-muted] text-[--ink-soft]">${waiting.length} not submitted</span>`;
       els.participantsContainer.appendChild(header);
     }
     waiting.forEach((p) => renderParticipantRow(p));
 
     if (submitted.length) {
       const header = document.createElement("div");
-      header.className = "admin-participant-group-header admin-participant-group-submitted";
+      header.className = "flex items-center gap-2 py-2 text-sm text-[--ink-soft] border-b border-[--border] mb-1 mt-3";
       header.innerHTML = `<strong>Submitted (${submitted.length})</strong>`;
       els.participantsContainer.appendChild(header);
     }
@@ -524,29 +535,32 @@
 
     function renderParticipantRow(p) {
       const row = document.createElement("div");
-      row.className = "admin-participant-row";
+      row.className = "border border-[--border] rounded-lg bg-[--surface] p-2 grid gap-1.5";
       const submitted = Boolean(p.submitted_at);
       const pSelections = selections.filter((s) => s.participant_id === p.id);
       const availCount = pSelections.filter((s) => s.status === "available").length;
       const maybeCount = pSelections.filter((s) => s.status === "maybe").length;
       const rankedCount = pSelections.filter((s) => s.rank !== null).length;
       const hasSelections = availCount > 0 || maybeCount > 0;
+      const bdg = "rounded-full py-[0.1rem] px-[0.36rem] text-[0.65rem] font-bold uppercase tracking-[0.03em]";
+      const bdgCls = submitted ? `${bdg} bg-[--ok-bg] text-[--ok-text] border border-[--ok-border]` : hasSelections ? `${bdg} bg-[--warn-bg] text-[--warn-text] border border-[--warn-border]` : `${bdg} bg-[--neutral-bg] text-[--neutral-text] border border-[--neutral-border]`;
+      const st = "rounded-full py-[0.15rem] px-[0.42rem] text-[0.68rem] font-bold border border-[--border] bg-[--surface-muted] text-[--ink-soft]";
 
       row.innerHTML = `
-        <div class="admin-participant-info">
-          <strong>${escapeHtml(p.name)}</strong>
-          <div class="admin-participant-meta">
-            <span class="wd-badge ${submitted ? "wd-badge-available" : hasSelections ? "wd-badge-maybe" : "wd-badge-unselected"}">${submitted ? "Submitted" : hasSelections ? "In progress" : "Not started"}</span>
-            <span class="lb-stat">Step ${p.last_active_step}: ${stepLabels[p.last_active_step] || "?"}</span>
-            <span class="lb-stat">${availCount} avail, ${maybeCount} maybe, ${rankedCount} ranked</span>
-            <span class="lb-stat">Joined ${formatShortDate(p.created_at)}</span>
-            <span class="lb-stat">Active ${timeAgo(p.updated_at)}</span>
-            ${submitted ? `<span class="lb-stat">Submitted ${formatShortDate(p.submitted_at)}</span>` : ""}
+        <div class="grid gap-1">
+          <strong class="text-[0.9rem]">${escapeHtml(p.name)}</strong>
+          <div class="flex flex-wrap gap-[0.28rem] items-center">
+            <span class="${bdgCls}">${submitted ? "Submitted" : hasSelections ? "In progress" : "Not started"}</span>
+            <span class="${st}">Step ${p.last_active_step}: ${stepLabels[p.last_active_step] || "?"}</span>
+            <span class="${st}">${availCount} avail, ${maybeCount} maybe, ${rankedCount} ranked</span>
+            <span class="${st}">Joined ${formatShortDate(p.created_at)}</span>
+            <span class="${st}">Active ${timeAgo(p.updated_at)}</span>
+            ${submitted ? `<span class="${st}">Submitted ${formatShortDate(p.submitted_at)}</span>` : ""}
           </div>
         </div>
-        <div class="admin-participant-actions">
+        <div class="flex gap-1.5 flex-wrap">
           ${hasSelections ? `<button class="${TW.btn} view-sel-btn" type="button" title="View this person's week selections and rankings">View Selections</button>` : ""}
-          <span class="admin-participant-danger">
+          <span class="flex gap-1 ml-auto">
             ${submitted ? `<button class="${TW.btnDangerSm} reset-btn" type="button" title="Clear their submission status — they'll need to resubmit">Reset</button>` : ""}
             <button class="${TW.btnDangerSm} remove-btn" type="button" title="Permanently remove this participant and all their data">Remove</button>
           </span>
