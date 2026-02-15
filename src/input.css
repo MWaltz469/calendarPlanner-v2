@@ -134,6 +134,11 @@
     color-scheme: dark;
   }
 
+  /* Ensure [hidden] always wins over Tailwind display utilities */
+  [hidden] {
+    display: none !important;
+  }
+
   /* iOS double-tap prevention */
   a, button, select, input, [role="button"] {
     touch-action: manipulation;
@@ -203,10 +208,6 @@
   margin: 0 auto;
   display: grid;
   gap: 0.8rem;
-
-  &[hidden] {
-    display: none;
-  }
 }
 
 @utility selection-overlay {
@@ -221,10 +222,6 @@
   display: grid;
   gap: 0.5rem;
   backdrop-filter: blur(12px);
-
-  &[hidden] {
-    display: none;
-  }
 
   @media (min-width: 640px) {
     top: 0.72rem;
