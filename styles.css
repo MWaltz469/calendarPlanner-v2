@@ -1302,6 +1302,36 @@ body {
   letter-spacing: normal !important;
 }
 
+.hm-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  align-items: center;
+  margin-bottom: var(--sp-3);
+}
+
+.hm-legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.hm-legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.hm-legend-hint {
+  font-style: italic;
+  font-weight: 600;
+}
+
 .heatmap {
   display: grid;
   gap: 3px;
@@ -1370,6 +1400,14 @@ body {
 .hm-count {
   font-size: 0.6rem;
   opacity: 0.65;
+}
+
+.hm-row-empty {
+  opacity: 0.4;
+}
+
+.hm-row-empty .hm-cell {
+  min-height: 28px;
 }
 
 .hm-cell.hm-hot {

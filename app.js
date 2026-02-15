@@ -1949,8 +1949,9 @@
       });
 
     for (const [monthIdx, entries] of monthGroups) {
+      const hasActivity = entries.some((e) => e.availableCount > 0 || e.maybeCount > 0);
       const row = document.createElement("div");
-      row.className = "hm-row";
+      row.className = `hm-row${hasActivity ? "" : " hm-row-empty"}`;
 
       const label = document.createElement("span");
       label.className = "hm-label";
@@ -1973,14 +1974,14 @@
 
         if (hasAvailable) {
           btn.style.background = heatColor(intensity);
-          if (intensity >= 0.65) btn.classList.add("hm-hot");
+          if (intensity >= 0.6) btn.classList.add("hm-hot");
         } else if (hasMaybeOnly) {
-          btn.style.background = `color-mix(in srgb, var(--maybe) 15%, var(--surface-muted))`;
+          btn.style.background = `color-mix(in srgb, var(--maybe) 12%, var(--surface-muted))`;
         }
 
         const day = week.start.getDate();
         const countLabel = entry.availableCount ? entry.availableCount : (entry.maybeCount ? `${entry.maybeCount}?` : "");
-        btn.innerHTML = `<span class="hm-day">${day}</span>${countLabel ? `<span class="hm-count">${countLabel}</span>` : ""}`;
+        btn.innerHTML = `<span class="hm-day">${day}</span><span class="hm-count">${countLabel || "\u00B7"}</span>`;
         btn.setAttribute(
           "aria-label",
           `${MONTH_LABELS[monthIdx]} ${day}, Week ${entry.weekNumber}. ${entry.availableCount} available, ${entry.maybeCount} maybe`
@@ -2029,15 +2030,23 @@
       if (state.selectedDetailWeek === entry.weekNumber) row.classList.add("lb-active");
       const width = (entry.score / maxScore) * 100;
       const totalPeople = (state.participants.length || 1);
-      const availPct = totalPeople > 0 ? Math.round((entry.availableCount / totalPeople) * 100) : 0;
+      const availPct = submittedCount > 0 ? Math.round((lbk.available.length / submittedCount) * 100) : 0;
 
-      // Build people context for this week
-      const availPeople = entry.people.filter((p) => p.status === "available");
-      const rankedPeople = entry.people.filter((p) => p.rank);
+      // Build people context for this week (submission-aware)
+      const lbk = getWeekBreakdown(entry);
+      const availPeople = lbk.available;
+      const rankedPeople = entry.people.filter((p) => p.rank && p.submitted);
       const availNames = availPeople.map((p) => `${avatarHtml(p.name)} ${escapeHtml(p.name)}`);
-      const rankContext = rankedPeople.length
-        ? rankedPeople.sort((a, b) => a.rank - b.rank).map((p) => `${avatarHtml(p.name)} ${escapeHtml(p.name)}\u2019s #${p.rank}`).join(", ")
-        : "";
+
+      const myId = state.participantId || "local";
+      const MAX_RANK_VISIBLE = 2;
+      const sortedRanked = rankedPeople.slice().sort((a, b) => a.rank - b.rank);
+      const rankParts = sortedRanked.slice(0, MAX_RANK_VISIBLE).map((p) =>
+        p.id === myId ? `Your #${p.rank}` : `${avatarHtml(p.name)} ${escapeHtml(p.name)}\u2019s #${p.rank}`
+      );
+      const rankOverflow = sortedRanked.length - MAX_RANK_VISIBLE;
+      if (rankOverflow > 0) rankParts.push(`+${rankOverflow} more`);
+      const rankContext = rankParts.join(", ");
 
       row.innerHTML = `
         <div class="lb-header">
@@ -2050,9 +2059,10 @@
         ${availNames.length ? `<div class="lb-who"><span class="lb-who-label">Available:</span> ${availNames.join(", ")}</div>` : ""}
         ${rankContext ? `<div class="lb-who lb-who-ranked"><span class="lb-who-label">Ranked:</span> ${rankContext}</div>` : ""}
         <div class="lb-stats">
-          ${entry.availableCount ? `<span class="lb-stat available">${entry.availableCount} of ${totalPeople} available</span>` : ""}
-          ${entry.maybeCount ? `<span class="lb-stat maybe">${entry.maybeCount} maybe</span>` : ""}
-          ${availPct ? `<span class="lb-stat pct">${availPct}% overlap</span>` : ""}
+          ${lbk.available.length ? `<span class="lb-stat available">${lbk.available.length} of ${submittedCount} available</span>` : ""}
+          ${lbk.maybe.length ? `<span class="lb-stat maybe">${lbk.maybe.length} maybe</span>` : ""}
+          ${availPct ? `<span class="lb-stat pct">${availPct}%</span>` : ""}
+          ${lbk.notSubmitted.length ? `<span class="lb-stat" style="border-style:dashed">${lbk.notSubmitted.length} pending</span>` : ""}
         </div>
         <div class="lb-bar"><span style="width:${width.toFixed(1)}%"></span></div>
       `;
@@ -2073,23 +2083,20 @@
 
   // --- Heatmap color scale (cool→warm) ---
 
+  // Warm color scale: amber → orange → red-orange → red
   function heatColor(intensity) {
     const curved = Math.sqrt(intensity);
     if (intensity <= 0) return "var(--surface-muted)";
-    if (intensity <= 0.25) {
-      const pct = Math.round(15 + curved * 60);
-      return `color-mix(in srgb, #0ea5e9 ${pct}%, var(--surface-muted))`;
+    if (intensity <= 0.33) {
+      const pct = Math.round(15 + curved * 55);
+      return `color-mix(in srgb, #f59e0b ${pct}%, var(--surface-muted))`;
     }
-    if (intensity <= 0.5) {
-      const pct = Math.round(20 + curved * 65);
-      return `color-mix(in srgb, var(--accent) ${pct}%, var(--surface-muted))`;
+    if (intensity <= 0.66) {
+      const pct = Math.round(20 + curved * 60);
+      return `color-mix(in srgb, #ea580c ${pct}%, var(--surface-muted))`;
     }
-    if (intensity <= 0.75) {
-      const pct = Math.round(25 + curved * 65);
-      return `color-mix(in srgb, var(--available) ${pct}%, var(--surface-muted))`;
-    }
-    const pct = Math.round(35 + curved * 55);
-    return `color-mix(in srgb, #16a34a ${pct}%, var(--surface-muted))`;
+    const pct = Math.round(30 + curved * 55);
+    return `color-mix(in srgb, #dc2626 ${pct}%, var(--surface-muted))`;
   }
 
   // --- Heatmap popover ---
