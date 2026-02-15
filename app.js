@@ -1344,9 +1344,14 @@
     });
 
     const missing = state.validation.missingRanks;
-    els.rankNote.textContent = missing.length
-      ? `Open rank slots: ${missing.map((item) => `#${item}`).join(", ")}`
-      : "All rank slots are filled.";
+    const unrankedWeeks = state.weeks.filter((_, i) => state.selections[i].status === "available" && !state.selections[i].rank);
+    if (missing.length && unrankedWeeks.length) {
+      els.rankNote.textContent = `Open slots: ${missing.map((item) => `#${item}`).join(", ")} \u2014 ${unrankedWeeks.length} available week${unrankedWeeks.length !== 1 ? "s" : ""} not yet ranked.`;
+    } else if (missing.length) {
+      els.rankNote.textContent = `Open slots: ${missing.map((item) => `#${item}`).join(", ")}`;
+    } else {
+      els.rankNote.textContent = "All rank slots filled.";
+    }
   }
 
   function assignRank(weekNumber, rank) {

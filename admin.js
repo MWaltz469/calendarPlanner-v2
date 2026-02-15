@@ -144,7 +144,7 @@
     els.statsBar.innerHTML = `
       <div class="admin-stats">
         <div class="score-chip"><span>Trips</span><strong>${stats.totalTrips}</strong></div>
-        <div class="score-chip"><span>Participants</span><strong>${stats.totalParticipants}</strong></div>
+        <div class="score-chip"><span>Participants</span><strong>${stats.totalParticipants}</strong><span class="score-chip-sub">across all trips</span></div>
         <div class="score-chip"><span>Submissions</span><strong>${stats.totalSubmissions}</strong></div>
       </div>
     `;
