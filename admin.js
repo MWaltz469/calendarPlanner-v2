@@ -351,59 +351,52 @@
       return;
     }
 
-    // --- Narrative summary ---
+    // --- Narrative summary (submission-aware) ---
     const best = top5[0];
     const bestWeek = weekDates[best.weekNumber];
-    const bestPct = totalPeople > 0 ? Math.round((best.availableCount / totalPeople) * 100) : 0;
-
-    // Build per-person status for the best week
-    const bestSelections = selections.filter((s) => s.week_number === best.weekNumber);
-    const availableNames = [];
-    const maybeNames = [];
-    const unavailableNames = [];
-    participants.forEach((p) => {
-      const sel = bestSelections.find((s) => s.participant_id === p.id);
-      const status = sel ? sel.status : "unselected";
-      if (status === "available") availableNames.push(escapeHtml(p.name));
-      else if (status === "maybe") maybeNames.push(escapeHtml(p.name));
-      else unavailableNames.push(escapeHtml(p.name));
-    });
-
-    const notSubmitted = participants.filter((p) => !p.submitted_at).map((p) => escapeHtml(p.name));
+    const bk = getWeekBreakdown(best);
+    const bestPct = submittedCount > 0 ? Math.round((bk.available.length / submittedCount) * 100) : 0;
+    const bestLabel = bestWeek ? bestWeek.rangeText : `Week ${best.weekNumber}`;
 
     let narrative = `<div class="admin-narrative">`;
     narrative += `<p class="admin-narrative-lead">`;
-    if (bestPct === 100) {
-      narrative += `Everyone is available for <strong>${bestWeek ? bestWeek.rangeText : `Week ${best.weekNumber}`}</strong>. You're good to book.`;
-    } else if (best.availableCount > 1) {
-      narrative += `The best overlap is <strong>${bestWeek ? bestWeek.rangeText : `Week ${best.weekNumber}`}</strong> with <strong>${best.availableCount} of ${totalPeople}</strong> available (${bestPct}%).`;
+    if (bestPct === 100 && submittedCount === totalPeople && totalPeople > 1) {
+      narrative += `Everyone is available for <strong>${bestLabel}</strong>. You\u2019re good to book.`;
+    } else if (bk.available.length > 1) {
+      narrative += `The best overlap is <strong>${bestLabel}</strong> with <strong>${bk.available.length} of ${submittedCount}</strong> submitted available (${bestPct}%).`;
+    } else if (bk.available.length === 1) {
+      narrative += `Top window so far: <strong>${bestLabel}</strong> with 1 person available.`;
     } else {
-      narrative += `No strong consensus yet. The top window is <strong>${bestWeek ? bestWeek.rangeText : `Week ${best.weekNumber}`}</strong> with ${best.availableCount} available.`;
+      narrative += `No strong consensus yet. The top window is <strong>${bestLabel}</strong>.`;
     }
     narrative += `</p>`;
 
-    // Who's in, maybe, out
+    // Completeness indicator
+    if (submittedCount < totalPeople) {
+      narrative += `<p class="admin-narrative-pending">Based on <strong>${submittedCount} of ${totalPeople}</strong> submissions. Waiting on: <strong>${bk.notSubmitted.map((p) => escapeHtml(p.name)).join(", ") || participants.filter((p) => !p.submitted_at).map((p) => escapeHtml(p.name)).join(", ")}</strong>.</p>`;
+    } else if (totalPeople > 1) {
+      narrative += `<p class="admin-narrative-pending" style="color:var(--ok-text)">All ${totalPeople} participants have submitted.</p>`;
+    }
+
+    // Who's in, maybe, out — submission-aware
     const parts = [];
-    if (availableNames.length) parts.push(`<span class="wd-badge wd-badge-available">${availableNames.join(", ")}</span> ${availableNames.length === 1 ? "is" : "are"} available`);
-    if (maybeNames.length) parts.push(`<span class="wd-badge wd-badge-maybe">${maybeNames.join(", ")}</span> ${maybeNames.length === 1 ? "is" : "are"} tentative`);
-    if (unavailableNames.length) parts.push(`<span class="wd-badge wd-badge-unselected">${unavailableNames.join(", ")}</span> ${unavailableNames.length === 1 ? "is" : "are"} unavailable`);
+    if (bk.available.length) parts.push(`<span class="wd-badge wd-badge-available">${bk.available.map((p) => escapeHtml(p.name)).join(", ")}</span> ${bk.available.length === 1 ? "is" : "are"} available`);
+    if (bk.maybe.length) parts.push(`<span class="wd-badge wd-badge-maybe">${bk.maybe.map((p) => escapeHtml(p.name)).join(", ")}</span> ${bk.maybe.length === 1 ? "is" : "are"} maybe`);
+    if (bk.unavailable.length) parts.push(`<span class="wd-badge wd-badge-unselected">${bk.unavailable.map((p) => escapeHtml(p.name)).join(", ")}</span> ${bk.unavailable.length === 1 ? "is" : "are"} unavailable`);
+    if (bk.notSubmitted.length) parts.push(`<span class="wd-badge" style="background:var(--surface-muted);color:var(--ink-soft);border:1px solid var(--border);">${bk.notSubmitted.map((p) => escapeHtml(p.name)).join(", ")}</span> haven\u2019t submitted yet`);
     if (parts.length) {
       narrative += `<p class="admin-narrative-detail">${parts.join(". ")}.</p>`;
     }
 
-    if (notSubmitted.length) {
-      narrative += `<p class="admin-narrative-pending">Still waiting on: <strong>${notSubmitted.join(", ")}</strong> (${submittedCount} of ${totalPeople} submitted).</p>`;
-    } else {
-      narrative += `<p class="admin-narrative-pending">All ${totalPeople} participants have submitted.</p>`;
-    }
     narrative += `</div>`;
 
-    // --- Leaderboard with dates ---
+    // --- Leaderboard with dates (submission-aware) ---
     const maxScore = Math.max(1, top5[0].score);
     let leaderboard = `<div class="admin-leaderboard">`;
     top5.forEach((w, i) => {
       const week = weekDates[w.weekNumber];
-      const pct = totalPeople > 0 ? Math.round((w.availableCount / totalPeople) * 100) : 0;
+      const wbk = getWeekBreakdown(w);
+      const pct = submittedCount > 0 ? Math.round((wbk.available.length / submittedCount) * 100) : 0;
       const barW = (w.score / maxScore) * 100;
       leaderboard += `
         <div class="lb-row${i === 0 ? " lb-top-pick" : ""}">
@@ -415,9 +408,10 @@
             </div>
           </div>
           <div class="lb-stats">
-            ${w.availableCount ? `<span class="lb-stat available">${w.availableCount} of ${totalPeople} available</span>` : ""}
-            ${w.maybeCount ? `<span class="lb-stat maybe">${w.maybeCount} maybe</span>` : ""}
-            ${pct ? `<span class="lb-stat pct">${pct}% overlap</span>` : ""}
+            ${wbk.available.length ? `<span class="lb-stat available">${wbk.available.length} of ${submittedCount} available</span>` : ""}
+            ${wbk.maybe.length ? `<span class="lb-stat maybe">${wbk.maybe.length} maybe</span>` : ""}
+            ${pct ? `<span class="lb-stat pct">${pct}%</span>` : ""}
+            ${wbk.notSubmitted.length ? `<span class="lb-stat" style="border-style:dashed">${wbk.notSubmitted.length} pending</span>` : ""}
           </div>
           <div class="lb-bar"><span style="width:${barW.toFixed(1)}%"></span></div>
         </div>`;
@@ -428,21 +422,31 @@
   }
 
   function computeWeekAggregates(participants, selections) {
+    const STATUSES = ["available", "maybe", "unselected"];
+    const selIndex = new Map();
+    selections.forEach((s) => { selIndex.set(`${s.participant_id}:${s.week_number}`, s); });
+
     const map = new Map();
     for (let w = 1; w <= 52; w++) {
-      map.set(w, { weekNumber: w, availableCount: 0, maybeCount: 0, score: 0, rankTotal: 0, rankCount: 0, avgRank: null });
+      const entry = { weekNumber: w, availableCount: 0, maybeCount: 0, unavailableCount: 0, notSubmittedCount: 0, score: 0, rankTotal: 0, rankCount: 0, avgRank: null, people: [] };
+      participants.forEach((p) => {
+        const sel = selIndex.get(`${p.id}:${w}`);
+        const submitted = Boolean(p.submitted_at);
+        const status = sel && STATUSES.includes(sel.status) ? sel.status : "unselected";
+        const rank = sel && sel.rank ? sel.rank : null;
+        entry.people.push({ id: p.id, name: p.name, status, rank, submitted });
+        if (status === "available") entry.availableCount += 1;
+        else if (status === "maybe") entry.maybeCount += 1;
+        else if (submitted) entry.unavailableCount += 1;
+        else entry.notSubmittedCount += 1;
+        if (rank) { entry.rankTotal += rank; entry.rankCount += 1; }
+      });
+      map.set(w, entry);
     }
-    selections.forEach((s) => {
-      const agg = map.get(s.week_number);
-      if (!agg) return;
-      if (s.status === "available") agg.availableCount += 1;
-      if (s.status === "maybe") agg.maybeCount += 1;
-      if (s.rank) { agg.rankTotal += s.rank; agg.rankCount += 1; }
-    });
     const list = Array.from(map.values());
     list.forEach((e) => {
       let rb = 0;
-      selections.forEach((s) => { if (s.week_number === e.weekNumber && s.rank) rb += RANK_BONUS[s.rank] || 0; });
+      e.people.forEach((p) => { if (p.rank) rb += RANK_BONUS[p.rank] || 0; });
       e.score = e.availableCount * SCORE_MAP.available + e.maybeCount * SCORE_MAP.maybe + rb;
       e.avgRank = e.rankCount ? e.rankTotal / e.rankCount : null;
     });
@@ -452,6 +456,14 @@
       return a.weekNumber - b.weekNumber;
     });
     return list;
+  }
+
+  function getWeekBreakdown(entry) {
+    const available = entry.people.filter((p) => p.submitted && p.status === "available");
+    const maybe = entry.people.filter((p) => p.submitted && p.status === "maybe");
+    const unavailable = entry.people.filter((p) => p.submitted && p.status !== "available" && p.status !== "maybe");
+    const notSubmitted = entry.people.filter((p) => !p.submitted);
+    return { available, maybe, unavailable, notSubmitted };
   }
 
   // --- Participants ---
