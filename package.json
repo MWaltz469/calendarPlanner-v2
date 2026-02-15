@@ -4,17 +4,21 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "cf:dev": "wrangler pages dev .",
-    "cf:deploy": "wrangler pages deploy . --project-name trip-week-planner",
+    "build:css": "npx @tailwindcss/cli -i src/input.css -o styles.css --minify",
+    "dev:css": "npx @tailwindcss/cli -i src/input.css -o styles.css --watch",
+    "cf:dev": "npm run build:css && wrangler pages dev .",
+    "cf:deploy": "npm run build:css && wrangler pages deploy . --project-name trip-week-planner",
     "d1:migrate": "wrangler d1 migrations apply trip-week-planner --remote",
     "d1:migrate:local": "wrangler d1 migrations apply trip-week-planner --local",
     "deploy:cloud": "node ./scripts/deploy-cloudflare.mjs",
     "deploy:cloud:yes": "node ./scripts/deploy-cloudflare.mjs --yes",
-    "deploy:oneclick": "node ./scripts/deploy-cloudflare.mjs --yes",
+    "deploy:oneclick": "npm run build:css && node ./scripts/deploy-cloudflare.mjs --yes",
     "destroy:cloud": "node ./scripts/deploy-cloudflare.mjs --destroy",
     "destroy:cloud:yes": "node ./scripts/deploy-cloudflare.mjs --destroy --yes --force"
   },
   "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "tailwindcss": "^4.1.18",
     "wrangler": "^4.50.0"
   }
 }

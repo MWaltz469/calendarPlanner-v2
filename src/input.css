@@ -1,0 +1,330 @@
+@import "tailwindcss";
+
+/*
+ * TripWeek — Tailwind Source CSS
+ *
+ * This is the single source of truth for all styling.
+ * Tailwind CLI compiles this into styles.css (the build artifact).
+ *
+ * Sections:
+ *   1. Custom theme (design tokens registered as Tailwind values)
+ *   2. Base layer overrides (resets, body, dark mode)
+ *   3. Component utilities (@utility for classes toggled by JS)
+ *   4. Keyframes & animations
+ *   5. Media queries (pointer-aware, reduced motion)
+ */
+
+/* ===== 1. Custom Theme ===== */
+
+@theme {
+  /* Shadows */
+  --shadow-card: 0 8px 24px rgba(15, 31, 46, 0.08);
+  --shadow-card-sm: 0 2px 8px rgba(15, 31, 46, 0.05);
+  --shadow-card-lg: 0 16px 32px rgba(15, 31, 46, 0.12);
+
+  /* Fonts */
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+
+  /* Animations */
+  --animate-spin-fast: btn-spin 0.6s linear infinite;
+  --animate-toast-in: toast-in 0.28s ease-out;
+  --animate-toast-lifecycle: toast-in 0.28s ease-out, toast-out 0.32s ease-in 2.1s forwards;
+}
+
+/* ===== 2. Base Layer ===== */
+
+@layer base {
+  :root {
+    /* Core palette */
+    --bg: #f4fbff;
+    --surface: #ffffff;
+    --surface-muted: #f7fbfc;
+    --border: #d8e2e8;
+    --ink: #0f1f2e;
+    --ink-soft: #486276;
+    --accent: #0f766e;
+    --accent-strong: #115e59;
+
+    /* Semantic */
+    --available: #16a34a;
+    --available-soft: #dcfce7;
+    --maybe: #f59e0b;
+    --maybe-soft: #fef3c7;
+    --danger: #dc2626;
+    --danger-soft: #fff2f2;
+    --ok-bg: #ecfdf5;
+    --ok-border: #bbf7d0;
+    --ok-text: #166534;
+    --warn-bg: #fffbeb;
+    --warn-border: #fde68a;
+    --warn-text: #92400e;
+    --info-bg: #eff6ff;
+    --info-border: #bfdbfe;
+    --info-text: #1e40af;
+
+    /* Accent surface */
+    --accent-bg: #ecf7f6;
+    --accent-border: #b9e4df;
+    --accent-text: #145f58;
+
+    /* Neutral status */
+    --neutral-bg: #f3f4f6;
+    --neutral-border: #d1d5db;
+    --neutral-text: #6b7280;
+
+    /* Danger */
+    --danger-border: #fecaca;
+
+    /* Radius */
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+
+    /* Shadows (CSS var versions for inline use) */
+    --shadow-sm: 0 2px 8px rgba(15, 31, 46, 0.05);
+    --shadow-md: 0 8px 24px rgba(15, 31, 46, 0.08);
+    --shadow-lg: 0 16px 32px rgba(15, 31, 46, 0.12);
+
+    --theme-transition-ms: 220ms;
+    color-scheme: light;
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #0d1722;
+    --surface: #122130;
+    --surface-muted: #162838;
+    --border: #2a3f51;
+    --ink: #e4eef7;
+    --ink-soft: #9bb2c4;
+    --accent: #19a7a0;
+    --accent-strong: #27c3ba;
+    --available: #22c55e;
+    --available-soft: #103122;
+    --maybe: #f59e0b;
+    --maybe-soft: #392d10;
+    --danger: #f87171;
+    --danger-soft: #3a1f25;
+    --ok-bg: #113523;
+    --ok-border: #1f8d46;
+    --ok-text: #4ade80;
+    --warn-bg: #3d2d12;
+    --warn-border: #8f651a;
+    --warn-text: #fbbf24;
+    --info-bg: #172554;
+    --info-border: #1e3a5f;
+    --info-text: #93c5fd;
+
+    --accent-bg: #0f2b2a;
+    --accent-border: #25766f;
+    --accent-text: #5eead4;
+
+    --neutral-bg: #1f2f3f;
+    --neutral-border: #425b71;
+    --neutral-text: #9ca3af;
+
+    --danger-border: #7b303c;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.4);
+    color-scheme: dark;
+  }
+
+  /* iOS double-tap prevention */
+  a, button, select, input, [role="button"] {
+    touch-action: manipulation;
+  }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    color: var(--ink);
+    font-family: var(--font-body);
+    background: var(--bg);
+  }
+
+  body {
+    padding: 0.6rem 0.8rem 1.1rem;
+  }
+
+  @media (min-width: 640px) {
+    body {
+      padding: 1rem;
+      padding-top: 0;
+    }
+  }
+
+  :root[data-theme="dark"] body {
+    background: var(--bg);
+  }
+
+  :root[data-theme="dark"] .card {
+    background: var(--surface);
+  }
+
+  /* Theme transitions (activated after initial paint to prevent flash) */
+  :root.theme-ready body,
+  :root.theme-ready .card {
+    transition:
+      background-color var(--theme-transition-ms) ease,
+      color var(--theme-transition-ms) ease,
+      border-color var(--theme-transition-ms) ease,
+      box-shadow var(--theme-transition-ms) ease;
+  }
+
+  /* Collapsible arrow rotation */
+  details[open] > summary h3::before {
+    transform: rotate(90deg);
+  }
+}
+
+/* ===== 3. Component Utilities ===== */
+
+@utility app-shell {
+  width: min(1040px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 0.9rem;
+}
+
+@utility card {
+  border-radius: var(--radius-lg);
+  border: none;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+@utility step-panel {
+  width: min(920px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 0.8rem;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+@utility selection-overlay {
+  position: sticky;
+  top: 0.5rem;
+  z-index: 12;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  padding: 0.5rem 0.75rem;
+  display: grid;
+  gap: 0.5rem;
+  backdrop-filter: blur(12px);
+
+  &[hidden] {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    top: 0.72rem;
+  }
+}
+
+@utility loading {
+  position: relative;
+  pointer-events: none;
+
+  &::after {
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-left: 0.45em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    vertical-align: middle;
+    animation: var(--animate-spin-fast);
+  }
+}
+
+@utility toast-animate {
+  animation: var(--animate-toast-lifecycle);
+}
+
+@utility wtf-inline {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+  background: var(--surface-muted);
+
+  & summary {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+
+  & p {
+    margin: 0.5rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+}
+
+/* Pointer-aware help copy */
+@utility touch-copy {
+  display: inline;
+
+  @media (hover: hover) and (pointer: fine) {
+    display: none;
+  }
+}
+
+@utility pointer-copy {
+  display: none;
+
+  @media (hover: hover) and (pointer: fine) {
+    display: inline;
+  }
+}
+
+/* ===== 4. Keyframes ===== */
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+}
+
+/* ===== 5. Reduced Motion ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

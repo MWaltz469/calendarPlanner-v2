@@ -1,5 +1,9 @@
-// TripWeek Tailwind configuration — loaded by CDN play script
-tailwind.config = {
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    './*.html',
+    './*.js',
+  ],
   darkMode: ['selector', '[data-theme="dark"]'],
   theme: {
     extend: {

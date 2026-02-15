@@ -16,6 +16,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Build Tailwind CSS
+        run: npm run build:css
+
       - name: Apply D1 migrations
         run: npx wrangler d1 migrations apply trip-week-planner --remote
         continue-on-error: true
