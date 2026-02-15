@@ -27,134 +27,134 @@
     </div>
   </nav>
 
-  <main class="app-shell landing-shell">
+  <main class="app-shell max-w-[760px]">
 
     <!-- Hero -->
-    <header class="landing-hero">
-      <span class="landing-eyebrow">Free &middot; No sign-up &middot; 100% Vibecoded</span>
-      <h1>Find the week that<br>works for <span class="hero-accent">everyone</span></h1>
-      <p class="landing-sub">Share a code. Pick your weeks. See the overlap. Book with confidence.<br>No accounts, no apps, no meetings about meetings.</p>
-      <div class="hero-ctas">
+    <header class="text-center pt-8 pb-4 px-4">
+      <span class="inline-block text-[0.6875rem] font-extrabold uppercase tracking-[0.1em] text-[--accent] mb-3 border border-[--accent-border] bg-[--accent-bg] px-3 py-1 rounded-full">Free &middot; No sign-up &middot; 100% Vibecoded</span>
+      <h1 class="m-0 font-display font-extrabold text-[clamp(1.8rem,5vw,2.8rem)] leading-[1.1] tracking-tight">Find the week that<br>works for <span class="text-[--accent]">everyone</span></h1>
+      <p class="mt-3 mx-auto mb-0 text-[--ink-soft] text-[0.9375rem] max-w-[500px] leading-relaxed">Share a code. Pick your weeks. See the overlap. Book with confidence.<br>No accounts, no apps, no meetings about meetings.</p>
+      <div class="flex justify-center gap-2 mt-5 flex-wrap">
         <a href="/planner.html" class="btn primary btn-lg">Start Planning &rarr;</a>
         <a href="/admin.html" class="btn btn-lg">I&rsquo;m the Organizer</a>
       </div>
-      <div class="hero-quick">
-        <span class="hero-quick-label">Have a code?</span>
-        <div class="landing-join-form">
-          <input id="landingTripCode" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" class="landing-input" aria-label="Trip code" style="text-transform:uppercase;" />
+      <div class="mt-5 flex items-center justify-center gap-2 flex-wrap">
+        <span class="text-sm font-bold text-[--ink-soft]">Have a code?</span>
+        <div class="flex gap-2">
+          <input id="landingTripCode" type="text" maxlength="18" placeholder="SQUAD2026" autocomplete="off" class="flex-1 min-h-[44px] border border-[--border] rounded-lg bg-[--surface] text-[--ink] font-bold py-2 px-2.5 uppercase focus-visible:outline-[3px] focus-visible:outline-[rgba(15,118,110,0.28)] focus-visible:outline-offset-2" aria-label="Trip code" style="text-transform:uppercase;" />
           <button id="landingGoBtn" class="btn primary" type="button" aria-label="Go to trip">Go &rarr;</button>
         </div>
       </div>
     </header>
 
     <!-- Stats bar -->
-    <section class="landing-stats" aria-label="Product stats">
-      <div class="landing-stat">
-        <strong>0</strong>
-        <span>meetings to plan a trip</span>
+    <section class="grid grid-cols-2 sm:grid-cols-4 gap-3 gap-x-2 text-center py-4 px-2 border-y border-[--border]" aria-label="Product stats">
+      <div>
+        <strong class="block font-display text-[clamp(1.2rem,3vw,1.6rem)] font-extrabold text-[--accent]">0</strong>
+        <span class="text-[0.6875rem] font-semibold text-[--ink-soft] leading-tight">meetings to plan a trip</span>
       </div>
-      <div class="landing-stat">
-        <strong>0</strong>
-        <span>accounts required</span>
+      <div>
+        <strong class="block font-display text-[clamp(1.2rem,3vw,1.6rem)] font-extrabold text-[--accent]">0</strong>
+        <span class="text-[0.6875rem] font-semibold text-[--ink-soft] leading-tight">accounts required</span>
       </div>
-      <div class="landing-stat">
-        <strong>100%</strong>
-        <span>AI-generated codebase</span>
+      <div>
+        <strong class="block font-display text-[clamp(1.2rem,3vw,1.6rem)] font-extrabold text-[--accent]">100%</strong>
+        <span class="text-[0.6875rem] font-semibold text-[--ink-soft] leading-tight">AI-generated codebase</span>
       </div>
-      <div class="landing-stat">
-        <strong>1</strong>
-        <span>Vegeta meme</span>
+      <div>
+        <strong class="block font-display text-[clamp(1.2rem,3vw,1.6rem)] font-extrabold text-[--accent]">1</strong>
+        <span class="text-[0.6875rem] font-semibold text-[--ink-soft] leading-tight">Vegeta meme</span>
       </div>
     </section>
 
     <!-- Features -->
-    <section class="landing-features card">
-      <h2 class="landing-section-title">Everything your group chat can&rsquo;t do</h2>
-      <div class="landing-features-grid">
-        <div class="landing-feature">
-          <div class="landing-feature-icon">&#9201;</div>
-          <h3>Real-time overlap</h3>
-          <p>See who&rsquo;s available as votes come in. No more &ldquo;can everyone fill out this spreadsheet&rdquo; energy.</p>
+    <section class="card p-5">
+      <h2 class="m-0 mb-4 font-display text-[clamp(1.1rem,2.5vw,1.4rem)] font-extrabold text-center tracking-tight">Everything your group chat can&rsquo;t do</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
+          <div class="row-span-2 w-10 h-10 rounded-lg bg-[--accent-bg] grid place-items-center text-xl leading-none">&#9201;</div>
+          <h3 class="m-0 text-sm font-extrabold">Real-time overlap</h3>
+          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-relaxed">See who&rsquo;s available as votes come in. No more &ldquo;can everyone fill out this spreadsheet&rdquo; energy.</p>
         </div>
-        <div class="landing-feature">
-          <div class="landing-feature-icon">&#128274;</div>
-          <h3>Zero accounts</h3>
-          <p>Trip code + name. That&rsquo;s it. No OAuth, no email confirmation, no password you&rsquo;ll forget in 3 minutes.</p>
+        <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
+          <div class="row-span-2 w-10 h-10 rounded-lg bg-[--accent-bg] grid place-items-center text-xl leading-none">&#128274;</div>
+          <h3 class="m-0 text-sm font-extrabold">Zero accounts</h3>
+          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-relaxed">Trip code + name. That&rsquo;s it. No OAuth, no email confirmation, no password you&rsquo;ll forget in 3 minutes.</p>
         </div>
-        <div class="landing-feature">
-          <div class="landing-feature-icon">&#128736;</div>
-          <h3>Admin command center</h3>
-          <p>Create trips, monitor submissions, lock voting, export CSVs. All the control. None of the meetings.</p>
+        <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
+          <div class="row-span-2 w-10 h-10 rounded-lg bg-[--accent-bg] grid place-items-center text-xl leading-none">&#128736;</div>
+          <h3 class="m-0 text-sm font-extrabold">Admin command center</h3>
+          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-relaxed">Create trips, monitor submissions, lock voting, export CSVs. All the control. None of the meetings.</p>
         </div>
-        <div class="landing-feature">
-          <div class="landing-feature-icon">&#127760;</div>
-          <h3>Works everywhere</h3>
-          <p>Phone, tablet, desktop, your smart fridge if it has a browser. Responsive down to 320px because we care.</p>
+        <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
+          <div class="row-span-2 w-10 h-10 rounded-lg bg-[--accent-bg] grid place-items-center text-xl leading-none">&#127760;</div>
+          <h3 class="m-0 text-sm font-extrabold">Works everywhere</h3>
+          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-relaxed">Phone, tablet, desktop, your smart fridge if it has a browser. Responsive down to 320px because we care.</p>
         </div>
       </div>
     </section>
 
     <!-- How it works -->
-    <section class="landing-how card">
-      <h2 class="landing-section-title">How it works</h2>
-      <div class="landing-how-grid">
-        <div class="landing-how-step">
-          <span class="landing-how-num">1</span>
-          <strong>Create a trip</strong>
-          <p>The organizer picks a code, sets the trip window, and shares the link.</p>
+    <section class="card p-4">
+      <h2 class="m-0 mb-4 font-display text-[clamp(1.1rem,2.5vw,1.4rem)] font-extrabold text-center tracking-tight">How it works</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
+          <span class="row-span-2 w-8 h-8 rounded-full bg-[--accent] text-white font-display font-extrabold text-sm inline-grid place-items-center">1</span>
+          <strong class="text-sm text-[--ink]">Create a trip</strong>
+          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-normal">The organizer picks a code, sets the trip window, and shares the link.</p>
         </div>
-        <div class="landing-how-step">
-          <span class="landing-how-num">2</span>
-          <strong>Everyone joins</strong>
-          <p>Open the link, enter the code and your name. That&rsquo;s your whole onboarding.</p>
+        <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
+          <span class="row-span-2 w-8 h-8 rounded-full bg-[--accent] text-white font-display font-extrabold text-sm inline-grid place-items-center">2</span>
+          <strong class="text-sm text-[--ink]">Everyone joins</strong>
+          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-normal">Open the link, enter the code and your name. That&rsquo;s your whole onboarding.</p>
         </div>
-        <div class="landing-how-step">
-          <span class="landing-how-num">3</span>
-          <strong>Pick your weeks</strong>
-          <p>Browse by month, tap available weeks, rank your top 5 if you&rsquo;re feeling decisive.</p>
+        <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
+          <span class="row-span-2 w-8 h-8 rounded-full bg-[--accent] text-white font-display font-extrabold text-sm inline-grid place-items-center">3</span>
+          <strong class="text-sm text-[--ink]">Pick your weeks</strong>
+          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-normal">Browse by month, tap available weeks, rank your top 5 if you&rsquo;re feeling decisive.</p>
         </div>
-        <div class="landing-how-step">
-          <span class="landing-how-num">4</span>
-          <strong>Book it</strong>
-          <p>The heatmap shows the best overlap. The leaderboard ranks the top weeks. Argue less, travel more.</p>
+        <div class="grid grid-cols-[auto_1fr] gap-x-3 items-start">
+          <span class="row-span-2 w-8 h-8 rounded-full bg-[--accent] text-white font-display font-extrabold text-sm inline-grid place-items-center">4</span>
+          <strong class="text-sm text-[--ink]">Book it</strong>
+          <p class="mt-1 mb-0 text-sm text-[--ink-soft] leading-normal">The heatmap shows the best overlap. The leaderboard ranks the top weeks. Argue less, travel more.</p>
         </div>
       </div>
     </section>
 
     <!-- Testimonials -->
-    <section class="landing-testimonials">
-      <h2 class="landing-section-title">What people are saying<span class="landing-asterisk">*</span></h2>
-      <div class="landing-testimonials-grid">
-        <blockquote class="landing-testimonial card">
-          <p>&ldquo;We used to argue in the group chat for three weeks about which week to travel. Now we argue for three minutes. Marginal improvement, infinite value.&rdquo;</p>
-          <footer>
-            <strong>Anonymous Group Chat Survivor</strong>
-            <span>Recovering from 47 unread messages</span>
+    <section class="py-2">
+      <h2 class="m-0 mb-4 font-display text-[clamp(1.1rem,2.5vw,1.4rem)] font-extrabold text-center tracking-tight">What people are saying<span class="text-[--ink-soft] text-[0.7em] align-super">*</span></h2>
+      <div class="grid gap-3">
+        <blockquote class="card m-0 p-4 border-l-4 border-l-[--accent]">
+          <p class="m-0 text-sm leading-relaxed text-[--ink] italic">&ldquo;We used to argue in the group chat for three weeks about which week to travel. Now we argue for three minutes. Marginal improvement, infinite value.&rdquo;</p>
+          <footer class="mt-3 grid gap-0.5">
+            <strong class="text-sm font-extrabold">Anonymous Group Chat Survivor</strong>
+            <span class="text-[0.6875rem] text-[--ink-soft]">Recovering from 47 unread messages</span>
           </footer>
         </blockquote>
-        <blockquote class="landing-testimonial card">
-          <p>&ldquo;I was told this was 100% vibecoded and honestly I don&rsquo;t know what that means but the heatmap is pretty and my friends stopped texting me about dates.&rdquo;</p>
-          <footer>
-            <strong>Someone&rsquo;s Mom</strong>
-            <span>Surprisingly tech-forward</span>
+        <blockquote class="card m-0 p-4 border-l-4 border-l-[--accent]">
+          <p class="m-0 text-sm leading-relaxed text-[--ink] italic">&ldquo;I was told this was 100% vibecoded and honestly I don&rsquo;t know what that means but the heatmap is pretty and my friends stopped texting me about dates.&rdquo;</p>
+          <footer class="mt-3 grid gap-0.5">
+            <strong class="text-sm font-extrabold">Someone&rsquo;s Mom</strong>
+            <span class="text-[0.6875rem] text-[--ink-soft]">Surprisingly tech-forward</span>
           </footer>
         </blockquote>
-        <blockquote class="landing-testimonial card">
-          <p>&ldquo;No login? No app download? No 14-day free trial of a premium tier? What&rsquo;s the catch?&rdquo;<br><em>There is no catch. The developer simply refused to learn authentication.</em></p>
-          <footer>
-            <strong>A Suspicious Product Manager</strong>
-            <span>Still looking for the pricing page</span>
+        <blockquote class="card m-0 p-4 border-l-4 border-l-[--accent]">
+          <p class="m-0 text-sm leading-relaxed text-[--ink] italic">&ldquo;No login? No app download? No 14-day free trial of a premium tier? What&rsquo;s the catch?&rdquo;<br><em class="block mt-2 not-italic text-[0.6875rem] text-[--ink-soft]">There is no catch. The developer simply refused to learn authentication.</em></p>
+          <footer class="mt-3 grid gap-0.5">
+            <strong class="text-sm font-extrabold">A Suspicious Product Manager</strong>
+            <span class="text-[0.6875rem] text-[--ink-soft]">Still looking for the pricing page</span>
           </footer>
         </blockquote>
       </div>
-      <p class="landing-disclaimer">* These testimonials are entirely fictional. Like the rest of this codebase, they were vibecoded into existence.</p>
+      <p class="mt-3 mb-0 text-center text-[0.6875rem] text-[--ink-soft] italic">* These testimonials are entirely fictional. Like the rest of this codebase, they were vibecoded into existence.</p>
     </section>
 
     <!-- Final CTA -->
-    <section class="landing-cta card">
-      <h2>Stop arguing about dates.</h2>
-      <p>It takes 30 seconds to join a trip. Less time than it took to read that last testimonial.</p>
-      <div class="hero-ctas">
+    <section class="card text-center py-6 px-4">
+      <h2 class="m-0 font-display text-[clamp(1.2rem,3vw,1.8rem)] font-extrabold tracking-tight">Stop arguing about dates.</h2>
+      <p class="mt-2 mb-0 text-[--ink-soft] text-sm">It takes 30 seconds to join a trip. Less time than it took to read that last testimonial.</p>
+      <div class="flex justify-center gap-2 mt-5 flex-wrap">
         <a href="/planner.html" class="btn primary btn-lg">Start Planning &rarr;</a>
         <a href="/about.html" class="btn btn-lg">How is this free?</a>
       </div>

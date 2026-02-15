@@ -27,54 +27,54 @@
     </div>
   </nav>
 
-  <main class="app-shell landing-shell">
-    <header class="changelog-header">
-      <h1>What&rsquo;s New</h1>
-      <p class="landing-sub">Every feature, fix, and questionable design decision — in chronological order.</p>
+  <main class="app-shell max-w-[760px]">
+    <header class="text-center py-6 px-4 pb-3">
+      <h1 class="m-0 font-display text-[clamp(1.4rem,3vw,2rem)] font-extrabold">What&rsquo;s New</h1>
+      <p class="mt-3 mx-auto mb-0 text-[--ink-soft] text-[0.9375rem] max-w-[500px] leading-relaxed">Every feature, fix, and questionable design decision — in chronological order.</p>
     </header>
 
-    <section class="changelog">
+    <section class="grid gap-4">
 
-      <article class="changelog-entry">
-        <div class="changelog-date">Feb 15, 2026</div>
-        <h2>Platform UX Overhaul</h2>
-        <ul>
-          <li><strong>Data integrity:</strong> Non-submitted participants now correctly show as &ldquo;Not submitted&rdquo; instead of &ldquo;Unavailable&rdquo; across both planner and admin.</li>
-          <li><strong>Warm heatmap:</strong> New amber &rarr; orange &rarr; red color scale with always-visible legend and tap-to-inspect popovers.</li>
-          <li><strong>Personalized results:</strong> The narrative summary tells you whether <em>you</em> are free for the top week, not just the group stats.</li>
-          <li><strong>Admin safety:</strong> Delete separated from View on trip cards. Danger zone labels. Reset styled as destructive.</li>
-          <li><strong>Admin layout:</strong> Group results promoted above actions. Participants grouped by status. Trip search added.</li>
-          <li><strong>Mobile polish:</strong> Leaderboard promoted to first section. Heatmap and participants collapsible. Compact unselected cards.</li>
-          <li><strong>Copy reminder:</strong> One-tap &ldquo;Copy reminder&rdquo; button to nudge friends who haven&rsquo;t submitted.</li>
-          <li><strong>Theme toggle:</strong> Sun/moon/auto icon replaces the confusing &ldquo;System&rdquo; dropdown.</li>
+      <article class="border border-[--border] border-l-4 border-l-[--accent] rounded-xl bg-[--surface] p-4 grid gap-2">
+        <div class="text-[0.6875rem] font-extrabold uppercase tracking-[0.06em] text-[--accent]">Feb 15, 2026</div>
+        <h2 class="m-0 font-display text-[0.9375rem] font-extrabold">Platform UX Overhaul</h2>
+        <ul class="m-0 pl-4 grid gap-2 list-disc">
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Data integrity:</strong> Non-submitted participants now correctly show as &ldquo;Not submitted&rdquo; instead of &ldquo;Unavailable&rdquo; across both planner and admin.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Warm heatmap:</strong> New amber &rarr; orange &rarr; red color scale with always-visible legend and tap-to-inspect popovers.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Personalized results:</strong> The narrative summary tells you whether <em>you</em> are free for the top week, not just the group stats.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Admin safety:</strong> Delete separated from View on trip cards. Danger zone labels. Reset styled as destructive.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Admin layout:</strong> Group results promoted above actions. Participants grouped by status. Trip search added.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Mobile polish:</strong> Leaderboard promoted to first section. Heatmap and participants collapsible. Compact unselected cards.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Copy reminder:</strong> One-tap &ldquo;Copy reminder&rdquo; button to nudge friends who haven&rsquo;t submitted.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Theme toggle:</strong> Sun/moon/auto icon replaces the confusing &ldquo;System&rdquo; dropdown.</li>
         </ul>
       </article>
 
-      <article class="changelog-entry">
-        <div class="changelog-date">Feb 14, 2026</div>
-        <h2>Enterprise UI &amp; Landing Page</h2>
-        <ul>
-          <li><strong>Global nav bar:</strong> Consistent TripWeek wordmark, nav links, and theme toggle across all pages.</li>
-          <li><strong>Landing page:</strong> SaaS-grade redesign with hero, feature grid, stats bar, fictional testimonials, and dual CTAs.</li>
-          <li><strong>Design token sweep:</strong> ~95% of hardcoded colors replaced with semantic tokens. New accent, neutral, and danger token sets.</li>
-          <li><strong>Score snapshot:</strong> Accent-striped stat cards with Sora typography.</li>
-          <li><strong>Participant avatars:</strong> Colored initial badges across leaderboard, week detail, and participant list.</li>
-          <li><strong>Ranking intent:</strong> Leaderboard shows who&rsquo;s available and who ranked each week. &ldquo;Top pick&rdquo; / &ldquo;2nd pick&rdquo; labels.</li>
-          <li><strong>Natural language results:</strong> Both planner and admin show narrative summaries instead of raw numbers.</li>
+      <article class="border border-[--border] border-l-4 border-l-[--accent] rounded-xl bg-[--surface] p-4 grid gap-2">
+        <div class="text-[0.6875rem] font-extrabold uppercase tracking-[0.06em] text-[--accent]">Feb 14, 2026</div>
+        <h2 class="m-0 font-display text-[0.9375rem] font-extrabold">Enterprise UI &amp; Landing Page</h2>
+        <ul class="m-0 pl-4 grid gap-2 list-disc">
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Global nav bar:</strong> Consistent TripWeek wordmark, nav links, and theme toggle across all pages.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Landing page:</strong> SaaS-grade redesign with hero, feature grid, stats bar, fictional testimonials, and dual CTAs.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Design token sweep:</strong> ~95% of hardcoded colors replaced with semantic tokens. New accent, neutral, and danger token sets.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Score snapshot:</strong> Accent-striped stat cards with Sora typography.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Participant avatars:</strong> Colored initial badges across leaderboard, week detail, and participant list.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Ranking intent:</strong> Leaderboard shows who&rsquo;s available and who ranked each week. &ldquo;Top pick&rdquo; / &ldquo;2nd pick&rdquo; labels.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Natural language results:</strong> Both planner and admin show narrative summaries instead of raw numbers.</li>
         </ul>
       </article>
 
-      <article class="changelog-entry">
-        <div class="changelog-date">Feb 13, 2026</div>
-        <h2>Launch &amp; Core Fixes</h2>
-        <ul>
-          <li><strong>First deploy:</strong> Planner, admin portal, and API deployed to Cloudflare Pages.</li>
-          <li><strong>Auto-rejoin:</strong> Returning users reconnect silently from localStorage session.</li>
-          <li><strong>Crash fix:</strong> Fixed null-guard in <code>restoreProfile()</code> that crashed on first visit via direct trip links.</li>
-          <li><strong>CI/CD:</strong> GitHub Actions workflow for auto-deploy on push to main.</li>
-          <li><strong>iOS double-tap fix:</strong> <code>touch-action: manipulation</code> on all interactive elements.</li>
-          <li><strong>Month-row heatmap:</strong> Replaced W1-W52 grid with month-grouped layout showing calendar dates.</li>
-          <li><strong>Flexible trips:</strong> 2-14 day windows starting on any weekday.</li>
+      <article class="border border-[--border] border-l-4 border-l-[--accent] rounded-xl bg-[--surface] p-4 grid gap-2">
+        <div class="text-[0.6875rem] font-extrabold uppercase tracking-[0.06em] text-[--accent]">Feb 13, 2026</div>
+        <h2 class="m-0 font-display text-[0.9375rem] font-extrabold">Launch &amp; Core Fixes</h2>
+        <ul class="m-0 pl-4 grid gap-2 list-disc">
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">First deploy:</strong> Planner, admin portal, and API deployed to Cloudflare Pages.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Auto-rejoin:</strong> Returning users reconnect silently from localStorage session.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Crash fix:</strong> Fixed null-guard in <code>restoreProfile()</code> that crashed on first visit via direct trip links.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">CI/CD:</strong> GitHub Actions workflow for auto-deploy on push to main.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">iOS double-tap fix:</strong> <code>touch-action: manipulation</code> on all interactive elements.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Month-row heatmap:</strong> Replaced W1-W52 grid with month-grouped layout showing calendar dates.</li>
+          <li class="text-sm text-[--ink-soft] leading-relaxed"><strong class="text-[--ink]">Flexible trips:</strong> 2-14 day windows starting on any weekday.</li>
         </ul>
       </article>
 
