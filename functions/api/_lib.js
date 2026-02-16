@@ -3,6 +3,16 @@ const WINDOW_DAYS_MAX = 14;
 const VALID_START_DAYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 const MAX_STEP = 4;
 const STATUSES = new Set(["available", "maybe", "unselected"]);
+const MODULE_TYPES = new Set(["when", "budget", "preferences", "destination", "book-it", "split"]);
+const MODULE_STATUSES = new Set(["open", "locked", "decided"]);
+export const DEFAULT_MODULES = [
+  { type: "when", sort_order: 0 },
+  { type: "budget", sort_order: 1 },
+  { type: "preferences", sort_order: 2 },
+  { type: "destination", sort_order: 3 },
+  { type: "book-it", sort_order: 4 },
+  { type: "split", sort_order: 5 }
+];
 
 export class HttpError extends Error {
   constructor(message, status = 400) {
@@ -136,6 +146,70 @@ export function normalizeSelections(input) {
       rank
     };
   });
+}
+
+export function normalizeModuleId(value) {
+  const id = String(value || "").trim();
+  if (!id) {
+    throw new HttpError("moduleId is required.", 400);
+  }
+  return id;
+}
+
+export function normalizeModuleType(value) {
+  const v = String(value || "").trim().toLowerCase();
+  if (!MODULE_TYPES.has(v)) {
+    throw new HttpError(`Invalid module type "${v}".`, 400);
+  }
+  return v;
+}
+
+export function normalizeModuleStatus(value) {
+  const v = String(value || "").trim().toLowerCase();
+  if (!MODULE_STATUSES.has(v)) {
+    throw new HttpError(`Invalid module status "${v}".`, 400);
+  }
+  return v;
+}
+
+export function normalizeJsonPayload(value) {
+  if (value === null || value === undefined) {
+    return "{}";
+  }
+  if (typeof value === "string") {
+    try {
+      JSON.parse(value);
+      return value;
+    } catch {
+      throw new HttpError("payload must be valid JSON.", 400);
+    }
+  }
+  if (typeof value === "object") {
+    return JSON.stringify(value);
+  }
+  throw new HttpError("payload must be a JSON object or string.", 400);
+}
+
+export async function seedTripModules(db, tripId, now) {
+  const existing = await db
+    .prepare("SELECT type FROM modules WHERE trip_id = ?")
+    .bind(tripId)
+    .all();
+
+  const existingTypes = new Set((existing.results || []).map((r) => r.type));
+  const toInsert = DEFAULT_MODULES.filter((m) => !existingTypes.has(m.type));
+
+  if (!toInsert.length) return;
+
+  const stmts = toInsert.map((m) =>
+    db
+      .prepare(
+        "INSERT OR IGNORE INTO modules (id, trip_id, type, status, config, sort_order, created_at) VALUES (?, ?, ?, 'open', '{}', ?, ?)"
+      )
+      .bind(newId(), tripId, m.type, m.sort_order, now)
+  );
+
+  await db.batch(stmts);
 }
 
 export function nowIso() {

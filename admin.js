@@ -51,9 +51,12 @@
 
   async function apiRequest(path, options) {
     const opts = options || {};
-    const response = await fetch(`${API_BASE}${path}`, {
+    const baseUrl = opts.usePublicApi ? "/api" : API_BASE;
+    const headers = { "content-type": "application/json" };
+    if (!opts.usePublicApi) headers.authorization = `Bearer ${getToken()}`;
+    const response = await fetch(`${baseUrl}${path}`, {
       method: opts.method || "GET",
-      headers: { "content-type": "application/json", "authorization": `Bearer ${getToken()}` },
+      headers,
       body: opts.body ? JSON.stringify(opts.body) : undefined
     });
     let payload = {};
@@ -326,11 +329,84 @@
     dangerZone.appendChild(deleteBtn);
     els.tripActions.appendChild(dangerZone);
 
+    // Modules
+    renderAdminModules(trip);
+
     // Aggregated results
     renderAdminResults(trip, participants, selections);
 
     // Participants
     renderParticipants(trip, participants, selections);
+  }
+
+  // --- Module management ---
+
+  async function renderAdminModules(trip) {
+    const container = document.getElementById("adminModulesContainer");
+    if (!container) return;
+
+    try {
+      const response = await apiRequest("/modules?tripId=" + encodeURIComponent(trip.id), { method: "GET", usePublicApi: true });
+      const modules = response.modules || [];
+      if (!modules.length) {
+        container.innerHTML = "<p class=\"text-sm text-[var(--ink-soft)]\">No modules found for this trip.</p>";
+        return;
+      }
+
+      const statusLabels = { open: "Open", locked: "Locked", decided: "Decided" };
+      const statusColors = {
+        open: "bg-[var(--ok-bg)] text-[var(--ok-text)] border-[var(--ok-border)]",
+        locked: "bg-[var(--warn-bg)] text-[var(--warn-text)] border-[var(--warn-border)]",
+        decided: "bg-[var(--accent-bg)] text-[var(--accent-text)] border-[var(--accent-border)]"
+      };
+
+      const icons = { when: "\uD83D\uDCC5", budget: "\uD83D\uDCB0", preferences: "\u2728", destination: "\uD83C\uDF0D", "book-it": "\u2705", split: "\uD83D\uDCB3" };
+      const labels = { when: "When", budget: "Budget", preferences: "Preferences", destination: "Destination", "book-it": "Book It", split: "Trip Split" };
+
+      let html = '<div class="grid gap-2">';
+      modules.forEach((mod) => {
+        const icon = icons[mod.type] || "\uD83D\uDCE6";
+        const label = labels[mod.type] || mod.type;
+        const statusCls = statusColors[mod.status] || statusColors.open;
+        const statusLabel = statusLabels[mod.status] || mod.status;
+        const subs = mod.submitted_count || 0;
+        const total = mod.submission_count || 0;
+
+        html += '<div class="flex items-center gap-3 border border-[var(--border)] rounded-lg bg-[var(--surface)] p-3">' +
+          '<span class="text-lg leading-none">' + icon + '</span>' +
+          '<div class="flex-1 min-w-0">' +
+            '<span class="font-bold text-sm">' + escapeHtml(label) + '</span>' +
+            '<span class="text-2xs text-[var(--ink-soft)] ml-2">' + subs + '/' + total + ' submissions</span>' +
+          '</div>' +
+          '<span class="rounded-full py-0.5 px-2 text-2xs font-bold border ' + statusCls + '">' + escapeHtml(statusLabel) + '</span>' +
+          '<select class="module-status-select min-h-9 border border-[var(--border)] rounded-lg bg-[var(--surface)] text-sm font-bold px-2 py-1" data-module-id="' + escapeHtml(mod.id) + '">' +
+            '<option value="open"' + (mod.status === "open" ? " selected" : "") + '>Open</option>' +
+            '<option value="locked"' + (mod.status === "locked" ? " selected" : "") + '>Locked</option>' +
+            '<option value="decided"' + (mod.status === "decided" ? " selected" : "") + '>Decided</option>' +
+          '</select>' +
+        '</div>';
+      });
+      html += '</div>';
+      container.innerHTML = html;
+
+      container.querySelectorAll(".module-status-select").forEach((select) => {
+        select.addEventListener("change", async function () {
+          const moduleId = this.getAttribute("data-module-id");
+          const newStatus = this.value;
+          try {
+            await apiRequest("/module?moduleId=" + encodeURIComponent(moduleId), {
+              method: "PATCH",
+              body: { status: newStatus }
+            });
+            showToast("Module status updated.", "good");
+          } catch (err) {
+            showToast("Failed to update: " + (err.message || "Unknown error"), "warn");
+          }
+        });
+      });
+    } catch (err) {
+      container.innerHTML = "<p class=\"text-sm text-[var(--danger)]\">Could not load modules: " + escapeHtml(err.message || "") + "</p>";
+    }
   }
 
   // --- Week date helper ---

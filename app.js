@@ -1,4 +1,4 @@
-(function () {
+(function (global) {
   "use strict";
 
   /**
@@ -273,58 +273,115 @@
     }
   };
 
-  const els = {
-    connectionBadge: document.getElementById("connectionBadge"),
-    themeSelect: document.getElementById("themeSelect"),
-    stepper: document.getElementById("stepper"),
-    stepButtons: Array.from(document.querySelectorAll("#stepper .stepper-btn")),
-    joinState: document.getElementById("joinState"),
-    tripCodeInput: document.getElementById("tripCodeInput"),
-    nameInput: document.getElementById("nameInput"),
-    windowStartInput: document.getElementById("windowStartInput"),
-    windowDaysInput: document.getElementById("windowDaysInput"),
-    windowConfigDetails: document.getElementById("windowConfigDetails"),
-    windowConfigState: document.getElementById("windowConfigState"),
-    joinButton: document.getElementById("joinButton"),
-    submitButton: document.getElementById("submitButton"),
-    exportButton: document.getElementById("exportButton"),
-    clearButton: document.getElementById("clearButton"),
-    saveState: document.getElementById("saveState"),
-    availableCount: document.getElementById("availableCount"),
-    maybeCount: document.getElementById("maybeCount"),
-    rankedCount: document.getElementById("rankedCount"),
-    step2CountRow: document.getElementById("step2CountRow"),
-    selectionOverlay: document.getElementById("selectionOverlay"),
-    overlaySummary: document.getElementById("overlaySummary"),
-    monthBar: document.getElementById("monthBar"),
-    overlayPrevStep: document.getElementById("overlayPrevStep"),
-    overlayScrollTop: document.getElementById("overlayScrollTop"),
-    overlayNextStep: document.getElementById("overlayNextStep"),
-    skipToReviewBtn: document.getElementById("skipToReviewBtn"),
-    weekGrid: document.getElementById("weekGrid"),
-    rankRows: document.getElementById("rankRows"),
-    rankNote: document.getElementById("rankNote"),
-    reviewList: document.getElementById("reviewList"),
-    resultsLocked: document.getElementById("resultsLocked"),
-    resultsSection: document.getElementById("resultsSection"),
-    scoreChips: document.getElementById("scoreChips"),
-    heatmap: document.getElementById("heatmap"),
-    participantList: document.getElementById("participantList"),
-    leaderboard: document.getElementById("leaderboard"),
-    weekDetail: document.getElementById("weekDetail"),
-    resultsSummary: document.getElementById("resultsSummary"),
-    participantSummary: document.getElementById("participantSummary"),
-    weekContextMenu: document.getElementById("weekContextMenu"),
-    toastArea: document.getElementById("toastArea"),
-    panels: {
-      1: document.getElementById("step-1"),
-      2: document.getElementById("step-2"),
-      3: document.getElementById("step-3"),
-      4: document.getElementById("step-4")
+  let els = {};
+  let _docListeners = [];
+  let _mountRoot = null;
+
+  function initEls(root) {
+    var r = root || document;
+    var byId = function (id) { return r.getElementById ? r.getElementById(id) : document.getElementById(id); };
+    els = {
+      connectionBadge: byId("connectionBadge"),
+      themeSelect: byId("themeSelect"),
+      stepper: byId("stepper"),
+      stepButtons: Array.from((r.querySelectorAll ? r : document).querySelectorAll("#stepper .stepper-btn")),
+      joinState: byId("joinState"),
+      tripCodeInput: byId("tripCodeInput"),
+      nameInput: byId("nameInput"),
+      windowStartInput: byId("windowStartInput"),
+      windowDaysInput: byId("windowDaysInput"),
+      windowConfigDetails: byId("windowConfigDetails"),
+      windowConfigState: byId("windowConfigState"),
+      joinButton: byId("joinButton"),
+      submitButton: byId("submitButton"),
+      exportButton: byId("exportButton"),
+      clearButton: byId("clearButton"),
+      saveState: byId("saveState"),
+      availableCount: byId("availableCount"),
+      maybeCount: byId("maybeCount"),
+      rankedCount: byId("rankedCount"),
+      step2CountRow: byId("step2CountRow"),
+      selectionOverlay: byId("selectionOverlay"),
+      overlaySummary: byId("overlaySummary"),
+      monthBar: byId("monthBar"),
+      overlayPrevStep: byId("overlayPrevStep"),
+      overlayScrollTop: byId("overlayScrollTop"),
+      overlayNextStep: byId("overlayNextStep"),
+      skipToReviewBtn: byId("skipToReviewBtn"),
+      weekGrid: byId("weekGrid"),
+      rankRows: byId("rankRows"),
+      rankNote: byId("rankNote"),
+      reviewList: byId("reviewList"),
+      resultsLocked: byId("resultsLocked"),
+      resultsSection: byId("resultsSection"),
+      scoreChips: byId("scoreChips"),
+      heatmap: byId("heatmap"),
+      participantList: byId("participantList"),
+      leaderboard: byId("leaderboard"),
+      weekDetail: byId("weekDetail"),
+      resultsSummary: byId("resultsSummary"),
+      participantSummary: byId("participantSummary"),
+      weekContextMenu: byId("weekContextMenu"),
+      toastArea: byId("toastArea"),
+      panels: {
+        1: byId("step-1"),
+        2: byId("step-2"),
+        3: byId("step-3"),
+        4: byId("step-4")
+      }
+    };
+  }
+
+  function addDocListener(event, handler) {
+    document.addEventListener(event, handler);
+    _docListeners.push({ event: event, handler: handler });
+  }
+
+  function cleanupDocListeners() {
+    for (var i = 0; i < _docListeners.length; i++) {
+      document.removeEventListener(_docListeners[i].event, _docListeners[i].handler);
+    }
+    _docListeners = [];
+  }
+
+  /* Auto-mount when loaded on planner.html (backward compat) */
+  if (document.getElementById("stepper")) {
+    try {
+      initEls(document);
+      init();
+    } catch (e) {
+      console.error("Init failed:", e);
+    }
+  }
+
+  /* Expose WhenModule for mounting from trip.html dashboard */
+  global.WhenModule = {
+    mount: function (container, config) {
+      _mountRoot = container;
+      if (config && config.tripCode) {
+        container.querySelector("#tripCodeInput").value = config.tripCode;
+      }
+      initEls(document);
+      try { init(); } catch (e) { console.error("WhenModule init failed:", e); }
+    },
+    unmount: function () {
+      if (state.realtimeChannel && state.backend) {
+        state.backend.removeSubscription(state.realtimeChannel);
+        state.realtimeChannel = null;
+      }
+      if (state.autoSaveTimer) {
+        clearTimeout(state.autoSaveTimer);
+        state.autoSaveTimer = null;
+      }
+      cleanupDocListeners();
+      if (_mountRoot) {
+        _mountRoot.innerHTML = "";
+        _mountRoot = null;
+      }
+      state.isJoined = false;
+      state.syncing = false;
     }
   };
-
-  try { init(); } catch (e) { console.error("Init failed:", e); }
 
   function init() {
     state.weeks = buildWeeks(YEAR, state.windowConfig);
@@ -498,12 +555,12 @@
     els.weekContextMenu.querySelectorAll("button").forEach((btn) => {
       btn.addEventListener("click", () => handleContextMenuSelection(btn.dataset.status));
     });
-    document.addEventListener("click", (event) => {
+    addDocListener("click", (event) => {
       if (!els.weekContextMenu.hidden && !els.weekContextMenu.contains(event.target)) {
         hideWeekContextMenu();
       }
     });
-    document.addEventListener("keydown", (event) => {
+    addDocListener("keydown", (event) => {
       if (event.key === "Escape" && !els.weekContextMenu.hidden) {
         hideWeekContextMenu();
       }
@@ -2676,4 +2733,4 @@
       toast.remove();
     }, 2500);
   }
-})();
+})(window);
