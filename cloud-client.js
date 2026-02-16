@@ -166,6 +166,36 @@
       }
     }
 
+    async fetchModules(tripId) {
+      this.assertEnabled();
+      const response = await this.request(`/modules?tripId=${encodeURIComponent(tripId)}`);
+      return {
+        modules: response.modules || [],
+        participantCount: response.participantCount || 0
+      };
+    }
+
+    async fetchModule(moduleId) {
+      this.assertEnabled();
+      const response = await this.request(`/module?moduleId=${encodeURIComponent(moduleId)}`);
+      return {
+        module: response.module,
+        submissions: response.submissions || []
+      };
+    }
+
+    async submitModule(moduleId, participantId, payload) {
+      this.assertEnabled();
+      await this.request("/module-submit", {
+        method: "POST",
+        body: { moduleId, participantId, payload }
+      });
+    }
+
+    subscribeToModules(tripId, onChange) {
+      return this.subscribeToTrip(tripId, onChange);
+    }
+
     assertEnabled() {
       if (!this.enabled) {
         throw new Error("Cloud API is not configured.");

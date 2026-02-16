@@ -7,7 +7,8 @@ import {
   normalizeName,
   normalizeShareCode,
   nowIso,
-  readJson
+  readJson,
+  seedTripModules
 } from "./_lib.js";
 
 export async function onRequestPost(context) {
@@ -86,6 +87,8 @@ export async function onRequestPost(context) {
       throw new HttpError("Could not create or load participant.", 500);
     }
 
+    await seedTripModules(db, trip.id, now);
+
     const selectionsResult = await db
       .prepare(
         `SELECT week_number, status, rank
@@ -96,10 +99,21 @@ export async function onRequestPost(context) {
       .bind(participant.id)
       .all();
 
+    const modulesResult = await db
+      .prepare(
+        `SELECT id, type, status, sort_order
+         FROM modules
+         WHERE trip_id = ?
+         ORDER BY sort_order ASC`
+      )
+      .bind(trip.id)
+      .all();
+
     return json({
       trip,
       participant,
       selections: selectionsResult.results || [],
+      modules: modulesResult.results || [],
       created: false
     });
   } catch (error) {

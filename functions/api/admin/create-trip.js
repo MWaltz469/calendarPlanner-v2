@@ -9,7 +9,8 @@ import {
   normalizeTripLength,
   normalizeYear,
   nowIso,
-  readJson
+  readJson,
+  seedTripModules
 } from "../_lib.js";
 
 export async function onRequestPost(context) {
@@ -47,6 +48,8 @@ export async function onRequestPost(context) {
       )
       .bind(tripId, name, shareCode, year, `${startDay}_start`, tripLength, "UTC", now)
       .run();
+
+    await seedTripModules(db, tripId, now);
 
     const trip = await db
       .prepare(`SELECT * FROM trips WHERE id = ? LIMIT 1`)

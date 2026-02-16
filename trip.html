@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="TripWeek Dashboard — coordinate your group trip across modules: timing, budget, preferences, destinations, and more." />
+  <title>TripWeek — Trip Dashboard</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="/theme-init.js?v=20260216a"></script>
+</head>
+<body>
+  <nav id="tripNav" class="sticky top-0 z-50 flex items-center justify-between h-[52px] px-4 bg-white dark:bg-[#122130] border-b border-[var(--border)]">
+    <a href="/" class="flex items-center gap-2 no-underline text-[var(--ink)]">
+      <span class="text-xl leading-none" aria-hidden="true">📅</span>
+      <span class="font-display font-extrabold text-base tracking-tight">TripWeek</span>
+    </a>
+    <div class="flex items-center gap-2">
+      <a id="backToDashboard" href="#" class="text-sm font-bold text-[var(--ink-soft)] hover:text-[var(--accent-text)] hover:bg-[var(--accent-bg)] px-2 py-1 rounded-lg no-underline transition-colors duration-100" hidden>Dashboard</a>
+      <span id="connectionBadge" class="inline-flex items-center min-h-9 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] text-sm font-bold px-3 whitespace-nowrap" role="status" aria-live="polite" hidden>Connecting...</span>
+      <button id="themeToggle" class="w-9 h-9 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] text-lg leading-none grid place-items-center cursor-pointer hover:bg-[var(--accent-bg)] hover:text-[var(--accent-text)] transition-colors duration-100" type="button" aria-label="Theme: Auto">&#9681;</button>
+    </div>
+  </nav>
+
+  <main id="app-root" class="app-shell">
+    <!-- Router renders views here -->
+  </main>
+
+  <div id="toastArea" class="fixed right-3 bottom-3 w-[min(320px,calc(100vw-1.5rem))] grid gap-1.5 z-20" aria-live="polite" aria-atomic="true"></div>
+
+  <script defer src="/config.js?v=20260216a"></script>
+  <script defer src="/cloud-client.js?v=20260216a"></script>
+  <script defer src="/router.js?v=20260216a"></script>
+  <script defer src="/modules/shared.js?v=20260216a"></script>
+  <script defer src="/modules/dashboard.js?v=20260216a"></script>
+  <script defer src="/app.js?v=20260216a"></script>
+  <script defer src="/modules/when.js?v=20260216a"></script>
+  <script defer src="/modules/budget.js?v=20260216a"></script>
+  <script defer src="/modules/trip-app.js?v=20260216a"></script>
+</body>
+</html>

@@ -34,6 +34,20 @@
   </nav>
 
   <main class="app-shell">
+    <div id="dashboardBanner" class="rounded-xl bg-[var(--accent-bg)] border border-[var(--accent-border)] p-3 flex items-center justify-between gap-3 flex-wrap">
+      <span class="text-sm font-semibold text-[var(--accent-text)]">New! The Trip Dashboard is here &mdash; manage timing, budget, and more in one place.</span>
+      <a id="dashboardBannerLink" href="/trip.html" class="inline-flex items-center min-h-9 px-3 py-1 rounded-full bg-[var(--accent)] text-white text-sm font-bold no-underline hover:bg-[var(--accent-strong)] shrink-0">Try Dashboard &rarr;</a>
+    </div>
+    <script>
+      (function() {
+        var params = new URLSearchParams(window.location.search);
+        var code = (params.get("trip") || "").trim().toUpperCase();
+        if (code) {
+          var link = document.getElementById("dashboardBannerLink");
+          if (link) link.href = "/trip.html#/" + encodeURIComponent(code);
+        }
+      })();
+    </script>
     <header class="card p-4">
       <h2 class="m-0 font-display font-extrabold text-[clamp(1.1rem,2vw,1.5rem)]">2026 Trip Week Planner</h2>
       <p class="mt-2 mb-0 text-[var(--ink-soft)]">Follow the guided steps so your organizer gets complete, consistent availability in one pass.</p>

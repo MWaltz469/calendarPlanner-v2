@@ -33,7 +33,7 @@
       <h1 class="m-0 font-display font-extrabold text-[clamp(1.8rem,5vw,2.8rem)] leading-[1.1] tracking-tight">Find the week that<br>works for <span class="text-[var(--accent)]">everyone</span></h1>
       <p class="mt-3 mx-auto mb-0 text-[var(--ink-soft)] text-base max-w-[500px] leading-relaxed">Share a code. Pick your weeks. See the overlap. Book with confidence.<br>No accounts, no apps, no meetings about meetings.</p>
       <div class="flex justify-center gap-2 mt-5 flex-wrap">
-        <a href="/planner.html" class="inline-flex items-center justify-center min-h-[50px] px-5 py-3 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer text-base hover:bg-[var(--accent-strong)] no-underline">Start Planning &rarr;</a>
+        <a href="/trip.html" class="inline-flex items-center justify-center min-h-[50px] px-5 py-3 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer text-base hover:bg-[var(--accent-strong)] no-underline">Start Planning &rarr;</a>
         <a href="/admin.html" class="inline-flex items-center justify-center min-h-[50px] px-5 py-3 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer text-base dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2] no-underline">I&rsquo;m the Organizer</a>
       </div>
       <div class="mt-5 flex items-center justify-center gap-2 flex-wrap">
@@ -153,7 +153,7 @@
       <h2 class="m-0 font-display text-[clamp(1.2rem,3vw,1.8rem)] font-extrabold tracking-tight">Stop arguing about dates.</h2>
       <p class="mt-2 mb-0 text-[var(--ink-soft)] text-sm">It takes 30 seconds to join a trip. Less time than it took to read that last testimonial.</p>
       <div class="flex justify-center gap-2 mt-5 flex-wrap">
-        <a href="/planner.html" class="inline-flex items-center justify-center min-h-[50px] px-5 py-3 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer text-base hover:bg-[var(--accent-strong)] no-underline">Start Planning &rarr;</a>
+        <a href="/trip.html" class="inline-flex items-center justify-center min-h-[50px] px-5 py-3 rounded-full border border-transparent bg-[var(--accent)] text-white font-bold cursor-pointer text-base hover:bg-[var(--accent-strong)] no-underline">Start Planning &rarr;</a>
         <a href="/about.html" class="inline-flex items-center justify-center min-h-[50px] px-5 py-3 rounded-full border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--ink-soft)] font-bold cursor-pointer text-base dark:bg-[#1a2b3b] dark:border-[#34506a] dark:text-[#d7e6f2] no-underline">How is this free?</a>
       </div>
     </section>
@@ -176,7 +176,7 @@
     function goToTrip() {
       var code = document.getElementById("landingTripCode").value.trim().toUpperCase().replace(/[^A-Z0-9_-]/g, "");
       if (!code) return;
-      window.location.href = "./planner.html?trip=" + encodeURIComponent(code);
+      window.location.href = "/trip.html#/" + encodeURIComponent(code);
     }
   </script>
 </body>
